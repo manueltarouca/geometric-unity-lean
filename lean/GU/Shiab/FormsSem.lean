@@ -4,7 +4,9 @@ import GU.Shiab.FormsEinsteinAll
 # Track 2, F1 (foundation): semantics of the computable forms layer
 
 `semF A I = Σ_{(J, c) ∈ A, J = I} toMat c` is the 128 × 128 coefficient matrix of the basis form
-`e^I` in the list-based `Form` of `FormsWitness.lean`. Lemmas: `semF` is additive under
+`e^I` in the list-based `Form` of `FormsWitness.lean`. It compares raw index lists, so `semF`-equality
+is form equality only for canonical forms (`Canon`: sorted index lists); every theorem here is
+stated for canonical forms. Lemmas: `semF` is additive under
 `++` (`semF_append`) and turns `flatMap` into sums (`semF_flatMap`). On canonical forms (all index
 lists in `allIdx`), sums over the entries of `A` regroup into sums over the 16 index sets
 (`sum_regroup`). These are the tools for proving that `twoShiab` is linear in semantics, which

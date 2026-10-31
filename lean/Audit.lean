@@ -271,3 +271,4 @@ open GU
 #print axioms GU.FormsW.semF_of_formEq
 #print axioms GU.FormsW.sum_regroup
 #print axioms GU.FormsW.semF_twoShiab
+#print axioms GU.FormsW.einstein_span

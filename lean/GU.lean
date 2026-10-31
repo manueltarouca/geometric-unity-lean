@@ -46,6 +46,7 @@ import GU.Shiab.EinsteinEquation
 import GU.Shiab.FormsEinsteinAll
 import GU.Shiab.FormsSem
 import GU.Shiab.FormsSemOps
+import GU.Shiab.FormsSpan
 import GU.Spinor.CentralizerMain
 import GU.Spinor.SpanFull
 import GU.Observerse.Global
