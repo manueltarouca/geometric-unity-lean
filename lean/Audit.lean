@@ -125,3 +125,6 @@ open GU
 #print axioms frameBundle
 #print axioms orthoFrameBundle
 #print axioms TP_isometry
+#print axioms Spinor.vecRep_isometry
+#print axioms Spinor.vecRep_neg_one
+#print axioms Spinor.neg_one_mem_spin
