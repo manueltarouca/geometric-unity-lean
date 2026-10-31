@@ -18,8 +18,8 @@ chart-`i` coordinates → chart-`j` coordinates):
 CAVEATS. `frameCore` is built from the cocycle `gX` directly; it is not yet proved isomorphic to
 `Hom(Y × ℝ¹⁴, Cb)` for the bundle `Cb` of `ChimericBundle.lean` (whose trivialisations are indexed by
 pairs of charts), so "frames of C" holds by construction of the transitions. The right
-action `A ↦ A ∘ g` is free and fibre-transitive (`frYBundle`) and smooth for each fixed `g`
-(`contMDiff_ract`); joint smoothness in `(A, g)` and the comparison with the set-level
+action `A ↦ A ∘ g` is free and fibre-transitive (`frYBundle`) and smooth, jointly in `(A, g)`
+(`contMDiff_ract_joint`); the comparison with the set-level
 `frameBundle` are not formalised.
 
 This replaces the set-level product of `FrameBundle.lean` with a topological and smooth object.
@@ -270,6 +270,28 @@ theorem contMDiff_ract (g : EndC) :
   have hR : ContDiff ℝ ∞ (fun A : EndC => A.comp g) :=
     ((ContinuousLinearMap.compL ℝ CFib CFib CFib).flip g).contDiff
   convert hR.contMDiff.contMDiffAt.comp p₀ hid.2 using 1
+  funext x
+  simp only [Function.comp, ract_proj, FiberBundle.trivializationAt, VectorBundleCore.localTriv_apply]
+  rfl
+
+/-- **The action map `(A, g) ↦ A ∘ g` is jointly smooth** on `Hom(ℝ¹⁴, C) × End(ℝ¹⁴)`. -/
+theorem contMDiff_ract_joint :
+    ContMDiff ((((modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod (modelWithCornersSelf ℝ (Fin 10 → ℝ))).prod
+      (modelWithCornersSelf ℝ EndC)).prod (modelWithCornersSelf ℝ EndC))
+      (((modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod (modelWithCornersSelf ℝ (Fin 10 → ℝ))).prod
+      (modelWithCornersSelf ℝ EndC)) ∞ (fun q : HomTot X × EndC => ract q.1 q.2) := by
+  intro q₀
+  have hid := (contMDiffAt_totalSpace (n := ∞)
+    (IM := ((modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod (modelWithCornersSelf ℝ (Fin 10 → ℝ))).prod
+      (modelWithCornersSelf ℝ EndC))
+    (IB := (modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod (modelWithCornersSelf ℝ (Fin 10 → ℝ)))
+    (E := (frameCore (X := X)).Fiber) (F := EndC)
+    (f := fun p : HomTot X => p) (x₀ := q₀.1)).mp contMDiffAt_id
+  rw [contMDiffAt_totalSpace (IB := (modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod
+    (modelWithCornersSelf ℝ (Fin 10 → ℝ)))]
+  refine ⟨hid.1.comp q₀ contMDiffAt_fst, ?_⟩
+  have h := (hid.2.comp q₀ contMDiffAt_fst).clm_comp (contMDiffAt_snd (p := q₀))
+  convert h using 1
   funext x
   simp only [Function.comp, ract_proj, FiberBundle.trivializationAt, VectorBundleCore.localTriv_apply]
   rfl

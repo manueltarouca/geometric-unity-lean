@@ -141,3 +141,4 @@ open GU
 #print axioms GU.Observerse.ract_transitive
 #print axioms GU.Observerse.contMDiff_ract
 #print axioms GU.Observerse.frYBundle
+#print axioms GU.Observerse.contMDiff_ract_joint
