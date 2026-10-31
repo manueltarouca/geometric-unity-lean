@@ -375,3 +375,10 @@ open GU
 #print axioms GU.Library.contMDiffOn_levelSet_iff
 #print axioms GU.Library.contMDiffOn_modelProd_iff
 #print axioms GU.Library.exists_smooth_local_section_Y
+#print axioms GU.Library.PS6_PS4_commute
+#print axioms GU.Library.PS6_le_SO0
+#print axioms GU.Library.PS6_fixes
+#print axioms GU.Library.PS4_fixes
+#print axioms GU.Library.PS6_preserves_base_legs
+#print axioms GU.Library.PS4_preserves_base_legs
+#print axioms GU.Library.PS4_le_SO0
