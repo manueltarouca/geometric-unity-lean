@@ -319,3 +319,5 @@ open GU
 #print axioms GU.Spinor.negOne_joined
 #print axioms GU.Spinor.spin_pathConnected
 #print axioms GU.Spinor.ker_spinToSO0_eq
+#print axioms GU.Library.isManifold_levelOn
+#print axioms GU.Library.smoothSubmersiveOn_extend

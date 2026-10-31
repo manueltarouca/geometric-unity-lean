@@ -53,6 +53,7 @@ import GU.Shiab.FormsRealCoords
 import GU.Library.LevelSet
 import GU.Library.LevelManifold
 import GU.Library.LevelInclusion
+import GU.Library.LevelOpen
 import GU.Library.Orthogonal
 import GU.Spinor.CentralizerMain
 import GU.Spinor.SpanFull
