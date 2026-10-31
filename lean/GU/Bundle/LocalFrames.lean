@@ -11,6 +11,11 @@ frames `N(b)` (`N(b)ᵀ H(b) N(b) = η`), by the implicit function theorem on
 function is regular only at the base point, and `C^ω` at a point spreads to a neighbourhood
 (`ContDiffAt.contDiffOn`); `Gchim` is rational, so this suffices here. With `H = q₀ᵀ G q₀` this gives
 smooth local orthonormal frames `q₀ N(b)` (`bil_mulM`).
+
+**`exists_local_section`**: smooth local sections of the orthonormal frame bundle `OFr` in the base
+chart coordinates of a frame `q₀` (`σ e ∈ OFr`, base coordinate `e`, i.e. `proj (σ e) = chartY⁻¹ e`).
+Composing with the base chart gives a section over `Yobs` (a short corollary, not yet stated);
+smoothness is into the ambient `HomTotM`.
 -/
 
 namespace GU.Library
@@ -200,5 +205,110 @@ theorem exists_local_frames (H : B → Mat 14) (b0 : B) (hH : ContDiffAt ℝ ω 
     simp only [Set.mem_setOf_eq, hfdef, h0] at this
     rw [this, orthF_Nf_zero η hη]
   exact bil_of_orthF_eq (hsym b) hη hb'
+
+/-! ### Local sections of the orthonormal frame bundle (chart coordinates) -/
+
+section Section
+
+open Bundle
+open scoped Manifold
+
+variable {X : Type} [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
+  [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X]
+
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+/-- Chart-target membership of `HomTotM` only depends on the base coordinate. -/
+lemma mem_chart_target_iff (a : HomTotM X) (e : (Fin 4 → ℝ) × (Fin 10 → ℝ)) (h h' : HomF) :
+    ((e, h) : HomModel) ∈ (chartAt HomModel a).target ↔ ((e, h') : HomModel) ∈ (chartAt HomModel a).target := by
+  rw [show chartAt HomModel a = _ from FiberBundle.chartedSpace_chartAt a]
+  simp only [OpenPartialHomeomorph.trans_target, OpenPartialHomeomorph.prod_target,
+    OpenPartialHomeomorph.refl_target, Set.mem_inter_iff, Set.mem_prod, Set.mem_univ, and_true,
+    Set.mem_preimage, OpenPartialHomeomorph.prod_symm, OpenPartialHomeomorph.refl_symm,
+    OpenPartialHomeomorph.prod_apply, OpenPartialHomeomorph.refl_apply, id,
+    Trivialization.target_eq, Set.mem_prod, Set.mem_univ, and_true]
+  exact Iff.rfl
+
+/-- Pairing into the total-space model. -/
+def pairHM (e : (Fin 4 → ℝ) × (Fin 10 → ℝ)) (h : HomF) : HomModel := (e, h)
+
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+/-- **Smooth local sections of the orthonormal frame bundle** (in the base coordinate of the chart
+at a frame `q₀`): near `e₀ = (chart q₀).1` there is a smooth `σ` with values in `OFr` whose base
+coordinate is `e`. -/
+theorem exists_local_section (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
+    ∃ U ∈ nhds (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from (chartAt HomModel q0 q0).1),
+      ∃ σ : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) → HomTotM X,
+        ContMDiffOn 𝓘(ℝ, (Fin 4 → ℝ) × (Fin 10 → ℝ)) 𝓘(ℝ, HomModel) ∞ σ U ∧
+        ∀ e ∈ U, σ e ∈ OFr X ∧ (chartAt HomModel q0 (σ e)).1 = e := by
+  set c := chartAt HomModel q0
+  set p0 := c q0
+  set e0 : (Fin 4 → ℝ) × (Fin 10 → ℝ) := (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from p0.1)
+  set M0 := homMat.symm (p0.2 : HomF)
+  have hp0 : p0 ∈ c.target := c.map_source (mem_chart_source _ q0)
+  have hq0' : c.symm p0 = q0 := c.left_inv (mem_chart_source _ q0)
+  -- the frame condition at the base point
+  have hF0 : bil (Gchim e0.2) M0 M0 = η77 := by
+    have h1 : Fframe (c.symm p0) = ⟨η77, ηSig_mem 7 7⟩ := by rw [hq0']; exact hq0
+    rw [Fframe_chart q0 hp0] at h1
+    exact bil_of_orthF_eq (Gchim_mem _) (ηSig_mem 7 7) h1
+  have hnd : e0.2 ∈ nondeg := chart_target_nondeg q0 hp0
+  set H : (Fin 4 → ℝ) × (Fin 10 → ℝ) → Mat 14 := fun e => bil (Gchim e.2) M0 M0
+  have hH : ContDiffAt ℝ ω H e0 := by
+    have hG : ContDiffAt ℝ ω (fun e : (Fin 4 → ℝ) × (Fin 10 → ℝ) => Gchim e.2) e0 :=
+      (contDiffOn_Gchim_omega.contDiffAt (isOpen_nondeg.mem_nhds hnd)).comp _ contDiffAt_snd
+    have : H = bilFull ∘ fun e => (Gchim e.2, M0) := rfl
+    rw [this]
+    exact contDiff_bilFull.contDiffAt.comp _ (hG.prodMk contDiffAt_const)
+  obtain ⟨U1, hU1, N, hN, hNe⟩ := exists_local_frames H e0 hH (fun e => bil_mem _ (Gchim_mem _) _)
+    η77 (ηSig_mem 7 7) (ηSig_sq 7 7) hF0
+  set ν : (Fin 4 → ℝ) × (Fin 10 → ℝ) → HomF := fun e => homMat (mulM M0 (N e))
+  set T : Set ((Fin 4 → ℝ) × (Fin 10 → ℝ)) := {e | pairHM e (p0.2 : HomF) ∈ c.target}
+  have hT : T ∈ nhds e0 := by
+    have hc : Continuous fun e : (Fin 4 → ℝ) × (Fin 10 → ℝ) => pairHM e (p0.2 : HomF) :=
+      continuous_id.prodMk continuous_const
+    exact (c.open_target.preimage hc).mem_nhds hp0
+  have hTν : ∀ e ∈ T, pairHM e (ν e) ∈ c.target := fun e he =>
+    (mem_chart_target_iff q0 e _ _).mp he
+  refine ⟨U1 ∩ T, Filter.inter_mem hU1 hT, fun e => c.symm (pairHM e (ν e)), ?_, ?_⟩
+  · have hpair : ContMDiffOn 𝓘(ℝ, (Fin 4 → ℝ) × (Fin 10 → ℝ)) 𝓘(ℝ, HomModel) ∞
+        (fun e => pairHM e (ν e)) (U1 ∩ T) := by
+      have h : ContDiffOn ℝ ∞ (fun e : (Fin 4 → ℝ) × (Fin 10 → ℝ) =>
+          ((e, ν e) : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) × HomF)) (U1 ∩ T) := by
+        refine contDiffOn_id.prodMk ?_
+        have hm : ContDiffOn ℝ ∞ (fun e => mulM M0 (N e)) (U1 ∩ T) := by
+          have hN' : ContDiffOn ℝ ∞ N (U1 ∩ T) :=
+            ((hN.of_le (by exact le_top)) : ContDiffOn ℝ ∞ N U1).mono Set.inter_subset_left
+          have : (fun e => mulM M0 (N e)) = fun e => mulCL 14 M0 (N e) := by
+            funext e; exact mulM_eq _ _
+          rw [this]
+          exact ((mulCL 14 M0).contDiff.comp_contDiffOn hN')
+        have hL : ContDiff ℝ ∞ (fun M : Mat 14 => homMat M) := by
+          have : (fun M : Mat 14 => homMat M) = fun M => (ΦL : R14 →L[ℝ] CFib).comp (matL M) :=
+            funext fun M => ContinuousLinearMap.ext fun x => rfl
+          rw [this]
+          exact contDiff_const.clm_comp matL.contDiff
+        exact hL.comp_contDiffOn hm
+      exact (show ContDiffOn ℝ ∞ (fun e => pairHM e (ν e)) (U1 ∩ T) from h).contMDiffOn
+    exact (contMDiffOn_chart_symm (x := q0)).comp hpair fun e he => hTν e he.2
+  · rintro e ⟨he1, he2⟩
+    have hmem := hTν e he2
+    refine ⟨?_, ?_⟩
+    · show Fframe (c.symm (pairHM e (ν e))) = ⟨η77, ηSig_mem 7 7⟩
+      rw [Fframe_chart q0 hmem]
+      apply Subtype.ext
+      show (symP 14 (bil (Gchim e.2) (homMat.symm (ν e)) (homMat.symm (ν e))) : Mat 14) = η77
+      have hb : bil (Gchim e.2) (homMat.symm (ν e)) (homMat.symm (ν e)) = η77 := by
+        rw [show homMat.symm (ν e) = mulM M0 (N e) from homMat.symm_apply_apply _]
+        apply Matrix.of.injective
+        rw [bil_mulM]
+        have := congrArg Matrix.of (hNe e he1)
+        rw [bil_eq_mat] at this
+        exact this
+      rw [hb, symP_of_mem (ηSig_mem 7 7)]
+    · rw [c.right_inv hmem]; rfl
+
+end Section
 
 end GU.Library

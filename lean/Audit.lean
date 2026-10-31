@@ -365,3 +365,5 @@ open GU
 #print axioms GU.Library.contMDiff_OFr_proj
 #print axioms GU.Library.contDiffOn_Gchim_omega
 #print axioms GU.Library.exists_local_frames
+#print axioms GU.Library.exists_local_section
+#print axioms GU.Library.mem_chart_target_iff
