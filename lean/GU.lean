@@ -52,3 +52,4 @@ import GU.Observerse.BilinearBundle
 import GU.Observerse.SymSquare
 import GU.Observerse.GlobalSmooth
 import GU.Observerse.ChimericBundle
+import GU.Observerse.ChimericMetricY
