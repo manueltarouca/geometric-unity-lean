@@ -282,3 +282,4 @@ open GU
 #print axioms GU.FormsW.isCurvR_cast
 #print axioms GU.Library.sliceChart
 #print axioms GU.Library.levelChartedSpace
+#print axioms GU.Library.contDiffAt_smoothChart_symm

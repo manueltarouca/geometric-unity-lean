@@ -51,6 +51,7 @@ import GU.Shiab.FormsCurvSpan
 import GU.Shiab.FormsReal
 import GU.Shiab.FormsRealCoords
 import GU.Library.LevelSet
+import GU.Library.LevelManifold
 import GU.Spinor.CentralizerMain
 import GU.Spinor.SpanFull
 import GU.Observerse.Global
