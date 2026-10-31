@@ -96,3 +96,6 @@ open GU
 #print axioms Spinor.so6_so4_commute
 #print axioms InternalDim.dirac_eq
 #print axioms localPH
+#print axioms Spinor.sm_commutes_center
+#print axioms Spinor.su3_linIndep
+#print axioms Spinor.cartan_relation
