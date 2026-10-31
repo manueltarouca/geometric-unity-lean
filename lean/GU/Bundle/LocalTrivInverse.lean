@@ -161,7 +161,10 @@ theorem localTriv_diffeo (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
         (∀ q ∈ W, Ψinv q ∈ U ×ˢ (Set.univ : Set O77) ∧ Ψ (Ψinv q) = q) ∧
         IsOpen U ∧ IsOpen W ∧ (⟨q0, hq0⟩ : OFr X) ∈ W ∧
         (∀ eg ∈ U ×ˢ (Set.univ : Set O77),
-          (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from (chartAt HomModel q0 (Ψ eg : HomTotM X)).1) = eg.1) := by
+          (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from (chartAt HomModel q0 (Ψ eg : HomTotM X)).1) = eg.1) ∧
+        (∀ e ∈ U, ∀ g h : O77, ((Ψ (e, g * h) : OFr X) : HomTotM X) = ractM (Ψ (e, g) : HomTotM X) h) ∧
+        (∀ q : OFr X, q ∈ W ↔ (q : HomTotM X) ∈ (chartAt HomModel q0).source ∧
+          (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from (chartAt HomModel q0 (q : HomTotM X)).1) ∈ U) := by
   let _ := regCharted (Fframe_regular (X := X))
   have _ := isManifold_regularLevel (Fframe_regular (X := X))
   obtain ⟨U0, hU0, σ, hσ0, hσp0⟩ := exists_local_section q0 hq0
@@ -201,7 +204,7 @@ theorem localTriv_diffeo (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
       (c.isOpen_inter_preimage (hUo.preimage hfst))
   have hq0W : (⟨q0, hq0⟩ : OFr X) ∈ W :=
     ⟨mem_chart_source _ q0, mem_of_mem_nhds hU⟩
-  refine ⟨U, hU, Ψ, Ψinv, W, ?_, ?_, ?_, ?_, hUo, hWo, hq0W, ?_⟩
+  refine ⟨U, hU, Ψ, Ψinv, W, ?_, ?_, ?_, ?_, hUo, hWo, hq0W, ?_, ?_, fun q => Iff.rfl⟩
   · -- Ψ smooth
     rw [contMDiffOn_regularLevel_iff]
     have hpair := (hσ.comp contMDiffOn_fst (fun (eg : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) × O77)
@@ -254,5 +257,8 @@ theorem localTriv_diffeo (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
     have hΨ : ((Ψ (e, g) : OFr X) : HomTotM X) = ractM (σ e) g := by simp only [Ψ, dif_pos he]
     show (c (Ψ (e, g) : HomTotM X)).1 = e
     rw [hΨ, chart_fst_ractM q0 _ hsrc, (hσp e he).2.1]
+  · intro e he g h
+    simp only [Ψ, dif_pos he]
+    exact (ractM_mul _ g h).symm
 
 end GU.Library

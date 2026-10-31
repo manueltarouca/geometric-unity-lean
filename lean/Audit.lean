@@ -397,3 +397,5 @@ open GU
 #print axioms GU.Library.contDiffOn_Fg
 #print axioms GU.Library.Fg_ractM
 #print axioms GU.Library.localTriv_diffeo
+#print axioms GU.Library.frame_locTriv
+#print axioms GU.Library.frameBundle
