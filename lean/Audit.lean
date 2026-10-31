@@ -117,3 +117,6 @@ open GU
 #print axioms FormsW.not_in_image
 #print axioms Observerse.bil_isManifold
 #print axioms Observerse.contMDiff_bil_proj
+#print axioms Observerse.Yobs_isManifold
+#print axioms Observerse.contMDiff_Yobs_proj
+#print axioms Observerse.isOpen_lorSet

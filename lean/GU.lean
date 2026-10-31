@@ -49,3 +49,5 @@ import GU.Spinor.SpanFull
 import GU.Observerse.Global
 import GU.Shiab.DeformationWitness
 import GU.Observerse.BilinearBundle
+import GU.Observerse.SymSquare
+import GU.Observerse.GlobalSmooth
