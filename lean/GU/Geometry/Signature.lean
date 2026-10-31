@@ -71,7 +71,7 @@ abbrev Cl77 := CliffordAlgebra Q77
 
 /-- `Spin(7,7)` as Mathlib's algebraic spin group (no topology: roadblock R4). Mathlib's
 `spinGroup` requires spinor norm `x* x = 1`; its image in `SO(7,7)` is the spinor-norm kernel
-`SO⁺(7,7)` (`range_vecRep`). Classically this is the identity component (not proved here). -/
+`SO⁺(7,7)` (`range_vecRep`). This is the identity component `SO₀(7,7)` of the matrix group `O(7,7)` (`cc_iff_spin`). -/
 abbrev Spin77 := spinGroup Q77
 
 

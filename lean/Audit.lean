@@ -229,3 +229,10 @@ open GU
 #print axioms GU.Spinor.spin4_iff
 #print axioms GU.Spinor.spin6_nonsplit
 #print axioms GU.Spinor.spin4_nonsplit
+#print axioms GU.Spinor.joined_rep
+#print axioms GU.Spinor.spin_joined
+#print axioms GU.Spinor.g0_not_joined
+#print axioms GU.Spinor.det_eq_one_of_joined
+#print axioms GU.Spinor.joined_iff_spin
+#print axioms GU.Spinor.cc_iff_spin
+#print axioms GU.Spinor.joined_iff_spin_mat

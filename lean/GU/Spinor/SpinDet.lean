@@ -9,7 +9,7 @@ and, by closure induction, `det (A u|_V) = ±1` with the sign equal to the parit
 (`involute u = ±u`): generators `ι m` act by reflections (`det = −1`, `involute = −1`).
 For `x ∈ Spin(7,7)` (even), `A x|_V` is `vecRep x`, so **`det_vecRep : det (vecRep x) = 1`**:
 the image of `Spin(7,7)` lies in `SO(7,7)`. The exact image is the spinor-norm kernel `SO⁺(7,7)`, of index 2
-(`range_vecRep`, `SpinImage.lean`). Not proved: `SO⁺(7,7) = SO₀(7,7)` (identity component; topology).
+(`range_vecRep`, `SpinImage.lean`). It equals the identity component `SO₀(7,7)` (`cc_iff_spin`, `SpinComponent.lean`).
 -/
 
 namespace GU.Spinor

@@ -29,7 +29,8 @@ Written from scratch for `Q77`. TauCeti (`TauCeti/LinearAlgebra/QuadraticForm/Ca
      the image (`mem_or_g0_mul_mem`), and never both (`not_both`). (Informal index: no
      `Subgroup.index` is computed.)
 
-Not proved: that `SO⁺(7,7)` is the identity component `SO₀(7,7)` (topology).
+`SO⁺(7,7)` is the identity component `SO₀(7,7)` of the matrix group `O(7,7)`, both connected and path
+component (`cc_iff_spin`, `joined_iff_spin_mat`, `SpinComponent.lean`).
 -/
 
 namespace GU.Spinor
