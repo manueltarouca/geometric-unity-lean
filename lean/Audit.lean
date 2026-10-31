@@ -180,3 +180,5 @@ open GU
 #print axioms GU.Spinor.product_kernel
 #print axioms GU.Spinor.spin6_preserves_W6
 #print axioms GU.Spinor.spin4_preserves_W4
+#print axioms GU.Predictions.particle_allocation
+#print axioms GU.Predictions.gauge_embedding

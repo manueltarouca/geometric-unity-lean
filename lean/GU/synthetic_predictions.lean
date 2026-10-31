@@ -3,6 +3,8 @@ import GU.Spinor.Branching
 import GU.Shiab.Einstein
 import GU.Observerse.Chimeric
 import GU.Bundle.NoOrtho31
+import GU.Spinor.Anomaly
+import GU.Spinor.PatiSalamGroup
 
 /-!
 # Synthetic predictions: what the compiled model forces
@@ -32,6 +34,17 @@ under the draft's dictionary. None of them is a claim that nature behaves this w
    `η = diag(1,−1,−1,−1)` labelling (mostly-minus: one time, three space). Contingent on the relative
    sign `+DeWitt ⊕ +g⁻¹` (`Chimeric.lean`): the opposite sign selects (3,1) instead. Either way,
    the theory selects exactly one of the two Lorentzian signatures, never both.
+6. **Particle allocation and gauge embedding.** One chirality of `N^{6,4}` carries 16 weights whose
+   `12Y` multiset is one SM generation plus `ν^c` (`hypercharge_table`), with charges
+   `{2/3, −1/3, −2/3, 1/3, 0, −1, 1, 0}` (`charge_table`), 12 coloured and 8 doublet states
+   (`multiplet_counts`), and vanishing `U(1)_Y³` and gravitational anomalies (`anomaly_free`).
+   The other chirality carries the conjugates (`hypercharge_table_conj`). The Pati–Salam group
+   acts inside `Spin(7,7)` as `(Spin(6) × Spin(4))/ℤ₂`: the factors commute, intersect in `±1`,
+   act only on the fibre directions `W6 ⊕ W4`, and fix the base (1,3) (`gauge_embedding`).
+   So the internal symmetry does not mix with spacetime (compatible with Coleman–Mandula). Caveats: the
+   reading of weights as one left-handed generation needs the Majorana reality and a chirality
+   convention (`Anomaly.lean`); identifying the subgroups with abstract `Spin(6)`, `Spin(4)` is not
+   formalised.
 -/
 
 namespace GU.Predictions
@@ -125,5 +138,36 @@ theorem signature_selected (y : Yobs X) :
   · exact Or.inr ⟨h, fun h' => not_13_and_31 y ⟨h', h⟩⟩
 
 end Signature
+
+/-- (6a) **Particle allocation of one chirality.** -/
+theorem particle_allocation :
+    (GU.Spinor.oddWeights.map GU.Spinor.twelveY).Perm [2, 2, 2, 2, 2, 2, -8, -8, -8, 4, 4, 4, -6, -6, 12, 0] ∧
+    (GU.Spinor.oddWeights.map GU.Spinor.twelveQ).Perm [8, 8, 8, -4, -4, -4, -8, -8, -8, 4, 4, 4, 0, -12, 12, 0] ∧
+    (GU.Spinor.oddWeights.filter GU.Spinor.colored).length = 12 ∧
+    (GU.Spinor.oddWeights.filter GU.Spinor.doublet).length = 8 ∧
+    GU.Spinor.sumOver GU.Spinor.oddWeights (fun s => GU.Spinor.twelveY s ^ 3) = 0 ∧
+    GU.Spinor.sumOver GU.Spinor.oddWeights GU.Spinor.twelveY = 0 :=
+  ⟨GU.Spinor.hypercharge_table, GU.Spinor.charge_table, GU.Spinor.multiplet_counts.1,
+    GU.Spinor.multiplet_counts.2, GU.Spinor.anomaly_free.1, GU.Spinor.anomaly_free.2.1⟩
+
+/-- (6b) **Gauge embedding into the observerse fibre**: Pati–Salam `(Spin6 × Spin4)/ℤ₂ ⊂ Spin(7,7)`,
+commuting factors, kernel exactly `±(1,1)`, base (1,3) directions fixed, fibre blocks preserved. -/
+theorem gauge_embedding :
+    (∀ x ∈ GU.Spinor.Spin6, ∀ y ∈ GU.Spinor.Spin4, x * y = y * x) ∧
+    (∀ x ∈ GU.Spinor.Spin6, ∀ y ∈ GU.Spinor.Spin4, x * y = 1 →
+      ((x : GU.Cl77) = 1 ∧ (y : GU.Cl77) = 1) ∨ ((x : GU.Cl77) = -1 ∧ (y : GU.Cl77) = -1)) ∧
+    (∃ x ∈ GU.Spinor.Spin6, ∃ y ∈ GU.Spinor.Spin4, x ≠ 1 ∧ x * y = 1) ∧
+    (∀ x, (x ∈ GU.Spinor.Spin6 ∨ x ∈ GU.Spinor.Spin4) → ∀ c, GU.Spinor.SuppIn GU.Spinor.SB c →
+      GU.Spinor.vecRep x c = c) ∧
+    (∀ x ∈ GU.Spinor.Spin6, ∀ v, GU.Spinor.SuppIn GU.Spinor.S6 v →
+      GU.Spinor.SuppIn GU.Spinor.S6 (GU.Spinor.vecRep x v)) ∧
+    (∀ x ∈ GU.Spinor.Spin4, ∀ v, GU.Spinor.SuppIn GU.Spinor.S4 v →
+      GU.Spinor.SuppIn GU.Spinor.S4 (GU.Spinor.vecRep x v)) :=
+  ⟨fun _ hx _ hy => GU.Spinor.spin6_spin4_commute hx hy,
+   fun _ hx _ hy h => GU.Spinor.product_kernel hx hy h,
+   GU.Spinor.product_not_injective,
+   fun _ hx _ hc => GU.Spinor.base_fixed hx hc,
+   fun _ hx _ hv => GU.Spinor.spin6_preserves_W6 hx hv,
+   fun _ hx _ hv => GU.Spinor.spin4_preserves_W4 hx hv⟩
 
 end GU.Predictions
