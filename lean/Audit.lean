@@ -99,3 +99,4 @@ open GU
 #print axioms Spinor.sm_commutes_center
 #print axioms Spinor.su3_linIndep
 #print axioms Spinor.cartan_relation
+#print axioms Observerse.contMDiff_observe
