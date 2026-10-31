@@ -123,3 +123,5 @@ open GU
 #print axioms Observerse.chimeric_smooth
 #print axioms Chimeric.chimY_signature
 #print axioms frameBundle
+#print axioms orthoFrameBundle
+#print axioms TP_isometry
