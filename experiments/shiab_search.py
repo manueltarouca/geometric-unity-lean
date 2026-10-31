@@ -25,6 +25,8 @@ def Phi(gam, r):
     return out
 
 TWIST = False
+CUBIC = False
+KCUB = 2.0
 
 def candidates(eta, gam):
     n = len(eta); P = [Phi(gam, r) for r in range(n + 1)]
@@ -95,6 +97,18 @@ def search(eta, mode):
                 Sm = np.array([[np.trace(S.wedge(a, im, plain).get(top, np.zeros((d, d)))) for im in imgs] for a in E])
                 cols.append((Sm - Sm.T if mode == 'sym' else Sm + Sm.T).ravel())
             add(cols, np.zeros(len(cols[0])))
+    if CUBIC:  # cubic CS identity with k = 2: Tr(T∧⧉(α∧T+T∧α)) = 2 Tr(α∧⧉(T∧T))
+        top = tuple(range(n))
+        for _ in range(12):
+            T = {(i,): rng.normal(size=(d, d)) + 1j * rng.normal(size=(d, d)) for i in range(n)}
+            al = {(i,): rng.normal(size=(d, d)) + 1j * rng.normal(size=(d, d)) for i in range(n)}
+            X1 = S.add(S.wedge(al, T, S.comm), S.wedge(T, al, S.comm)); X2 = S.wedge(T, T, S.comm)
+            cols = []
+            for _, op in ops:
+                l = np.trace(S.wedge(T, op(X1), plain).get(top, np.zeros((d, d))))
+                r = np.trace(S.wedge(al, op(X2), plain).get(top, np.zeros((d, d))))
+                cols.append(np.array([l - KCUB * r]))
+            add(cols, np.zeros(1))
     A = np.concatenate(rows, 0); bvec = np.concatenate(rhs, 0)
     global LAST
     LAST = (A, bvec, ops)
@@ -142,3 +156,17 @@ def nullity_and_check(eta):
 if len(sys.argv) > 1 and sys.argv[1] == 'check':
     for eta in ([1, 1, 1, 1], [1, -1, -1, -1], [1, 1, 1, 1, 1, 1], [1, -1, -1, -1, 1, 1]):
         nullity_and_check(eta)
+
+if len(sys.argv) > 1 and sys.argv[1] == 'full':
+    TWIST = True
+    for cub in (False, True):
+        CUBIC = cub
+        print("cubic constraint:", cub)
+        search([1, 1, 1, 1], 'antisym')
+
+if len(sys.argv) > 1 and sys.argv[1] == 'kscan':
+    TWIST = True; CUBIC = True
+    for k in (-2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0):
+        KCUB = k
+        print("k =", k)
+        search([1, 1, 1, 1], 'antisym')
