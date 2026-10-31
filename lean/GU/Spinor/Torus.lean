@@ -1,5 +1,6 @@
 import GU.Spinor.PatiSalamGroup
 import GU.Spinor.Pauli
+import GU.Spinor.Reductions
 
 /-!
 # A maximal torus of (the double cover of) `U(3,2)` in `Spin(7,7)`, and hypercharge `U(1)_Y`
@@ -18,8 +19,7 @@ The five complex planes of `N^{6,4} ≅ ℂ^{3,2}` (`planes` in `Reductions.lean
   The centraliser of `J` alone (`centJ`) also contains the base `Spin(1,3)`; `centJfib = centJ ∩
   (fixes the base)` is the group-level counterpart of `u(3,2) = centraliser of J in spin(6,4)`
   (`centralizer_spin64`), i.e. the preimage of `U(3,2)` in `Spin(6,4)` (a double cover).
-  `cliffordRep Jt = toMat Jc` (same planes and orientation as `Reductions.lean`) is checked by hand,
-  not stated.
+  `cliffordRep_Jt : cliffordRep Jt = toMat Jc`: the same `J` as `Reductions.lean`.
 * **`U1Y : Multiplicative ℝ →* Spin(7,7)`**: the hypercharge one-parameter subgroup
   `t ↦ torus(−2t,−2t,−2t,3t,3t)` (direction forced by `hypercharge_forced`), inside `centJfib`. By
   `U1Y_pi : U1Y π = 1` and `U1Y_half_ne : U1Y (π/2) ≠ 1` (by traces in `ℝ(128)`): it is periodic,
@@ -273,5 +273,19 @@ theorem U1Y_half_ne : ((U1Y (Multiplicative.ofAdd (π / 2)) : Spin77) : Cl77) �
   have := congrArg (fun z => Matrix.trace (cliffordRep z)) h'
   simp only [hrep, PString.trace_toMat, htr, map_neg, map_one, Matrix.trace_neg, Matrix.trace_one] at this
   norm_num [Idx] at this
+
+/-- **Same `J` as `Reductions.lean`**: `cliffordRep Jt = toMat Jc` (same planes and orientation). -/
+theorem cliffordRep_Jt : cliffordRep Jt = CSum.toMat Jc := by
+  have hg : ∀ i, gammaMap (eb i) = gamma (gen i) := fun i => by
+    simp [gammaMap, eb, Pi.single_apply]
+  have hb : ∀ a b : Gen, CSum.toMat (biv a b) = gamma a * gamma b := fun a b => by
+    simp [biv, CSum.toMat, PString.toMat_mul, toMat_gammaP]
+  have hr : ∀ k, cliffordRep (planeP k) = gamma (gen (pa k)) * gamma (gen (pb k)) := fun k => by
+    rw [planeP, map_mul, cliffordRep_ι, cliffordRep_ι, hg, hg]
+  rw [Jt, map_sum, Fin.sum_univ_five, hr, hr, hr, hr, hr]
+  simp only [Jc, planes, List.flatMap_cons, List.flatMap_nil, CSum.toMat_append, hb]
+  simp only [CSum.toMat, List.map_nil, List.sum_nil, add_zero]
+  simp only [add_assoc]
+  rfl
 
 end GU.Spinor
