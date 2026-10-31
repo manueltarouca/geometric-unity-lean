@@ -55,3 +55,5 @@ open GU
 #print axioms Spinor.hypercharge_table
 #print axioms Spinor.charge_table
 #print axioms Spinor.ω10_planes
+#print axioms Decoupling.decouple_iff
+#print axioms Decoupling.second_order
