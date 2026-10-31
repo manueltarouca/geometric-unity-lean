@@ -84,12 +84,17 @@ Status of our items relative to it:
   exact), B3 (Einstein only with mixed brackets), B4, C1 (signature selection: (1,3) points only),
   C2–C4 (group-level structure).
 - A search for detailed technical critiques of the April 2021 draft itself found none (only
-  popular-press summaries). This is a weak negative; a proper search of arXiv, MathOverflow and
-  Physics StackExchange is still needed.
+  popular-press summaries). This is a weak negative.
+- Second pass (web search, arXiv / MathOverflow / Physics StackExchange): no technical analysis of
+  the April 2021 draft found. Hits are forum threads (r/ThePortal, scienceforums.net, Physics
+  Forums), Substack explainers, and unreliable "rescue" papers (academia.edu, gsjournal). One search
+  summary claimed Nguyen–Polya is arXiv:2106.07852; **checked: false** (that ID is an unrelated CV
+  paper), so cite the PDF URL instead. Still recommended before posting: ask a GU-literate
+  physicist and check Weinstein's own later responses or talks.
 
 ## Before any publication
 
-1. ~~Read Nguyen–Polya (2021)~~ done (first pass above). Still to do: a wider literature search for critiques of the April 2021 draft.
+1. ~~Read Nguyen–Polya (2021)~~ done. ~~Wider web search~~ done (nothing found). Remaining: an expert who follows GU confirms nothing is missed.
 2. Get an independent read by a mathematician or physicist, to check that each formal statement
    matches the intended reading of the draft. That matters most for A1, A4–A6 and B3, which depend
    on bracket and sign conventions.
