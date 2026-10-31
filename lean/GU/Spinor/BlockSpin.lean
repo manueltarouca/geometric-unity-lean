@@ -24,7 +24,8 @@ of two distinct elements (`negOne_ne_one`), and not isomorphic to `SO(n) × ℤ/
 split extension every lift of an involution can be chosen to square to `1`; here `x² = −1`). This is
 the algebraic shape of `Spin(6)`, `Spin(4)`. Both are identified with Mathlib's `spinGroup` directly
 (`spin4Equiv`, `SpinIso.lean`; `spin6Equiv`, `SpinIso6.lean`). `Spin4 ≃* Sp(1) × Sp(1)` is `spin4QuatEquiv`
-(`SpinQuat.lean`). Not proved: topology or connectedness, and `Spin(6) ≅ SU(4)`
+(`SpinQuat.lean`). Not proved: topology or connectedness, and surjectivity of
+`Spin(6) ↪ SU(4)` (`spinSU4_injective`, `SpinSU4.lean`)
 (`Spin4 ≃* SU(2) × SU(2)` is `spin4SU2Equiv`, `SpinSU2.lean`).
 -/
 
