@@ -4,16 +4,16 @@ import GU.Library.Orthogonal
 /-!
 # Track 3, L4d: orthonormal frames of a smooth metric family form a smooth manifold
 
-Let `G : ℝⁿ → Mat m` be `C^∞` on an open `U`, with `G y` symmetric, and fix a symmetric `η` with
+Let `G : B → Mat m` (`B` finite-dimensional, e.g. Yobs's model `ℝ⁴ × ℝ¹⁰`) be `C^∞` on an open `U`, with `G y` symmetric, and fix a symmetric `η` with
 `η² = 1` (e.g. `ηSig 7 7`). The `G(y)`-orthonormal frames
 `{(y, q) | y ∈ U, qᵀ G(y) q = η}` are the level set of
 `F(y, q) = sym(qᵀ G(y) q)` (set to `0` outside `U`). Its derivative in `q` alone,
 `X ↦ Xᵀ G q + qᵀ G X`, is onto the symmetric matrices at every frame (`X = ½ q η S`;
 `orthF_surj_gen`), so by `isManifold_levelOn` the frames form a smooth manifold
-(**`isManifold_frames`**) of dimension `n + m(m−1)/2` (`fibreDim_frames`). Nondegeneracy of `G` is
+(**`isManifold_frames`**) of dimension `dim B + m(m−1)/2` (`fibreDim_frames`). Nondegeneracy of `G` is
 not assumed: fibres over degenerate or wrong-signature points are simply empty. For GU, `G` is
 the chimeric metric in fibre coordinates over a chart of `Y`, with `m = 14` and `η = η₇₇`. This is
-**chartwise**. Still open: generalising the base to Yobs's model, transporting the fibre along
+**chartwise**. Still open: transporting the fibre along
 `ΦL`, smoothness of the chimeric Gram matrix, and gluing the chart pieces (or a regular value
 theorem on manifold domains).
 -/
@@ -65,22 +65,23 @@ lemma orthF_surj_gen (Gm η : Mat m) (hG : Gm ∈ symS m) (hη : η ∈ symS m)
 
 section Family
 
-variable {n : ℕ} (G : (Fin n → ℝ) → Mat m) (U : Set (Fin n → ℝ))
+variable {B : Type*} [NormedAddCommGroup B] [NormedSpace ℝ B] [FiniteDimensional ℝ B]
+  (G : B → Mat m) (U : Set B)
 
 /-- `F₀(y, q) = sym(qᵀ G(y) q)`. -/
-noncomputable def frameF0 (p : (Fin n → ℝ) × Mat m) : symS m := orthF (G p.1) p.2
+noncomputable def frameF0 (p : B × Mat m) : symS m := orthF (G p.1) p.2
 
 variable {G U}
 
 lemma contDiffOn_frameF0 (hG : ContDiffOn ℝ ∞ G U) :
     ContDiffOn ℝ ∞ (frameF0 G) (Prod.fst ⁻¹' U) := by
-  have hb : ContDiffOn ℝ ∞ (fun p : (Fin n → ℝ) × Mat m => bil (G p.1) p.2 p.2) (Prod.fst ⁻¹' U) := by
+  have hb : ContDiffOn ℝ ∞ (fun p : B × Mat m => bil (G p.1) p.2 p.2) (Prod.fst ⁻¹' U) := by
     refine contDiffOn_pi.mpr fun i => contDiffOn_pi.mpr fun j => ?_
     simp only [bil_apply]
     refine ContDiffOn.sum fun k _ => ContDiffOn.sum fun l _ => ?_
-    have hq : ∀ a b : Fin m, ContDiff ℝ ∞ (fun p : (Fin n → ℝ) × Mat m => p.2 a b) := fun a b =>
+    have hq : ∀ a b : Fin m, ContDiff ℝ ∞ (fun p : B × Mat m => p.2 a b) := fun a b =>
       (contDiff_apply_apply (𝕜 := ℝ) (E := ℝ) a b).comp contDiff_snd
-    have hGkl : ContDiffOn ℝ ∞ (fun p : (Fin n → ℝ) × Mat m => G p.1 k l) (Prod.fst ⁻¹' U) :=
+    have hGkl : ContDiffOn ℝ ∞ (fun p : B × Mat m => G p.1 k l) (Prod.fst ⁻¹' U) :=
       (contDiffOn_pi.mp (contDiffOn_pi.mp hG k) l).comp contDiff_fst.contDiffOn fun _ hp => hp
     exact ((hq k i).contDiffOn.mul hGkl).mul (hq l j).contDiffOn
   exact (symP m).contDiff.comp_contDiffOn hb
@@ -88,17 +89,17 @@ lemma contDiffOn_frameF0 (hG : ContDiffOn ℝ ∞ G U) :
 /-- The derivative of `F₀` is onto at every frame. -/
 lemma frameF0_surj (hU : IsOpen U) (hG : ContDiffOn ℝ ∞ G U) (hsym : ∀ y ∈ U, G y ∈ symS m)
     {η : Mat m} (hη : η ∈ symS m) (hηη : Matrix.of η * Matrix.of η = 1)
-    {p : (Fin n → ℝ) × Mat m} (hp : p.1 ∈ U) (hq : bil (G p.1) p.2 p.2 = η) :
+    {p : B × Mat m} (hp : p.1 ∈ U) (hq : bil (G p.1) p.2 p.2 = η) :
     (fderiv ℝ (frameF0 G) p).range = ⊤ := by
-  have hU' : IsOpen (Prod.fst ⁻¹' U : Set ((Fin n → ℝ) × Mat m)) := hU.preimage continuous_fst
+  have hU' : IsOpen (Prod.fst ⁻¹' U : Set (B × Mat m)) := hU.preimage continuous_fst
   have hD : HasFDerivAt (frameF0 G) (fderiv ℝ (frameF0 G) p) p :=
     (((contDiffOn_frameF0 hG).contDiffAt (hU'.mem_nhds hp)).differentiableAt (by simp)).hasFDerivAt
   have hinc : HasFDerivAt (fun q : Mat m => (p.1, q))
-      ((0 : Mat m →L[ℝ] (Fin n → ℝ)).prod (ContinuousLinearMap.id ℝ (Mat m))) p.2 :=
+      ((0 : Mat m →L[ℝ] B).prod (ContinuousLinearMap.id ℝ (Mat m))) p.2 :=
     (hasFDerivAt_const p.1 p.2).prodMk (hasFDerivAt_id p.2)
   have hcomp := hD.comp p.2 (by simpa using hinc)
   have hfd : fderiv ℝ (orthF (G p.1)) p.2 = (fderiv ℝ (frameF0 G) p).comp
-      ((0 : Mat m →L[ℝ] (Fin n → ℝ)).prod (ContinuousLinearMap.id ℝ (Mat m))) := hcomp.fderiv
+      ((0 : Mat m →L[ℝ] B).prod (ContinuousLinearMap.id ℝ (Mat m))) := hcomp.fderiv
   have htop := orthF_surj_gen (G p.1) η (hsym _ hp) hη hηη p.2 hq
   rw [hfd] at htop
   exact top_le_iff.mp (htop ▸ LinearMap.range_comp_le_range _ _)
@@ -107,7 +108,8 @@ end Family
 
 section Frames
 
-variable {n : ℕ} {G : (Fin n → ℝ) → Mat m} {U : Set (Fin n → ℝ)} {η : Mat m}
+variable {B : Type*} [NormedAddCommGroup B] [NormedSpace ℝ B] [FiniteDimensional ℝ B]
+  {G : B → Mat m} {U : Set B} {η : Mat m}
 
 lemma bil_of_orthF_eq {Gm q : Mat m} (hG : Gm ∈ symS m) (hη : η ∈ symS m)
     (h : orthF Gm q = ⟨η, hη⟩) : bil Gm q q = η := by
@@ -116,9 +118,9 @@ lemma bil_of_orthF_eq {Gm q : Mat m} (hG : Gm ∈ symS m) (hη : η ∈ symS m)
 
 open Classical in
 /-- `F(y, q) = sym(qᵀ G(y) q)` on `U × Mat m`, and `0` elsewhere. -/
-noncomputable def frameF (G : (Fin n → ℝ) → Mat m) (U : Set (Fin n → ℝ)) :
-    (Fin n → ℝ) × Mat m → symS m :=
-  fun p => if p ∈ (Prod.fst ⁻¹' U : Set ((Fin n → ℝ) × Mat m)) then frameF0 G p else 0
+noncomputable def frameF (G : B → Mat m) (U : Set B) :
+    B × Mat m → symS m :=
+  fun p => if p ∈ (Prod.fst ⁻¹' U : Set (B × Mat m)) then frameF0 G p else 0
 
 open Classical in
 /-- The `G(y)`-orthonormal frames form a regular level set. -/
@@ -131,10 +133,10 @@ lemma frames_submersive (hU : IsOpen U) (hG : ContDiffOn ℝ ∞ G U) (hsym : �
 
 open Classical in
 lemma mem_frames_iff (hη : η ∈ symS m) (hη0 : (⟨η, hη⟩ : symS m) ≠ 0)
-    (hsym : ∀ y ∈ U, G y ∈ symS m) (p : (Fin n → ℝ) × Mat m) :
+    (hsym : ∀ y ∈ U, G y ∈ symS m) (p : B × Mat m) :
     p ∈ levelSet (frameF G U) ⟨η, hη⟩ ↔ p.1 ∈ U ∧ bil (G p.1) p.2 p.2 = η := by
   rw [show levelSet (frameF G U) ⟨η, hη⟩ = levelSet (fun p => if p ∈ (Prod.fst ⁻¹' U :
-    Set ((Fin n → ℝ) × Mat m)) then frameF0 G p else 0) ⟨η, hη⟩ from rfl,
+    Set (B × Mat m)) then frameF0 G p else 0) ⟨η, hη⟩ from rfl,
     mem_levelSet_extend_iff 0 hη0.symm]
   refine ⟨fun ⟨h1, h2⟩ => ⟨h1, bil_of_orthF_eq (hsym _ h1) hη h2⟩, fun ⟨h1, h2⟩ => ⟨h1, ?_⟩⟩
   apply Subtype.ext
@@ -145,16 +147,17 @@ lemma mem_frames_iff (hη : η ∈ symS m) (hη0 : (⟨η, hη⟩ : symS m) ≠ 
 theorem isManifold_frames (hU : IsOpen U) (hG : ContDiffOn ℝ ∞ G U) (hsym : ∀ y ∈ U, G y ∈ symS m)
     (hη : η ∈ symS m) (hηη : Matrix.of η * Matrix.of η = 1) (hη0 : (⟨η, hη⟩ : symS m) ≠ 0) :
     letI := smoothLevelChartedOn (frames_submersive hU hG hsym hη hηη hη0)
-    IsManifold 𝓘(ℝ, Fin (fibreDim ((Fin n → ℝ) × Mat m) (symS m)) → ℝ) ∞
+    IsManifold 𝓘(ℝ, Fin (fibreDim (B × Mat m) (symS m)) → ℝ) ∞
       (levelSet (frameF G U) ⟨η, hη⟩) :=
   isManifold_levelOn _
 
-/-- **Dimension**: `n + m(m−1)/2` (for `ℝ¹⁴`-frames: base dimension `+ 91`). -/
-lemma fibreDim_frames (n m : ℕ) : fibreDim ((Fin n → ℝ) × Mat m) (symS m) = n + m.choose 2 := by
+/-- **Dimension**: `dim B + m(m−1)/2` (for `ℝ¹⁴`-frames: base dimension `+ 91`). -/
+lemma fibreDim_frames (B : Type*) [NormedAddCommGroup B] [NormedSpace ℝ B] [FiniteDimensional ℝ B]
+    (m : ℕ) : fibreDim (B × Mat m) (symS m) = Module.finrank ℝ B + m.choose 2 := by
   have h1 := fibreDim_orth m
   have hle : Module.finrank ℝ (symS m) ≤ Module.finrank ℝ (Mat m) := Submodule.finrank_le _
   unfold fibreDim at h1 ⊢
-  rw [Module.finrank_prod, Module.finrank_fintype_fun_eq_card, Fintype.card_fin]
+  rw [Module.finrank_prod]
   omega
 
 end Frames
