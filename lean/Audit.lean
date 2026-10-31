@@ -195,3 +195,9 @@ open GU
 #print axioms GU.Observerse.Bη_Φ
 #print axioms GU.Observerse.toM_ortho_iff
 #print axioms GU.Observerse.orthoM_iff_13
+#print axioms GU.Spinor.R_mem
+#print axioms GU.Spinor.torus
+#print axioms GU.Spinor.torus_le_centJ
+#print axioms GU.Spinor.U1Y_le_centJ
+#print axioms GU.Spinor.torus_le_centJfib
+#print axioms GU.Spinor.U1Y_le_centJfib

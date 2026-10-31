@@ -72,3 +72,4 @@ import GU.Bundle.NoOrtho31
 import GU.Spinor.SpinKernel
 import GU.Spinor.SpinDet
 import GU.Spinor.PatiSalamGroup
+import GU.Spinor.Torus
