@@ -75,3 +75,5 @@ open GU
 #print axioms Observerse.proj_surjective
 #print axioms Chimeric.chimVec_basis
 #print axioms Chimeric.chimB_basis
+#print axioms Spinor.checkerboard
+#print axioms Spinor.eps_table
