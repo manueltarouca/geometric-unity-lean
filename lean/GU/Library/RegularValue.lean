@@ -342,6 +342,59 @@ theorem contMDiff_regularLevel_val (h : RegularLevel E f c) :
   · show chartAt E y (((regChart h a).symm v : levelSet f c) : M) = _
     rw [regChart_symm_val h a hvt]; rfl
 
+/-- The regular chart in formulas. -/
+lemma regChart_apply (h : RegularLevel E f c) (a s : levelSet f c)
+    (hs : (s : M) ∈ (chartAt E (a : M)).source) :
+    regChart h a s = kerEquiv ((gch_sub h (a : M)).surj _ (basePt E a).2)
+      (kerProj (fderiv ℝ (gch (E := E) f c (a : M)) (basePt E a))
+        (chartAt E (a : M) s - chartAt E (a : M) a)) := by
+  have hea : regChart h a = (restrA E a).trans (smoothLevelChartOn (gch_sub h (a : M)) (basePt E a)) := rfl
+  rw [hea, OpenPartialHomeomorph.coe_trans, Function.comp_apply]
+  show kerEquiv _ (kerProj _ ((((restrA E a) s : levelSet _ c) : E) - ((basePt E a : levelSet _ c) : E))) = _
+  rw [restrA, levelRestr_val hs]; rfl
+
+section Universal
+
+variable {EM HM N : Type*} [NormedAddCommGroup EM] [NormedSpace ℝ EM] [TopologicalSpace HM]
+  [TopologicalSpace N] [ChartedSpace HM N] {I : ModelWithCorners ℝ EM HM} [IsManifold I ∞ N]
+
+/-- **Universal property**: a map into a regular level set is smooth iff it is smooth into `M`. -/
+theorem contMDiff_regularLevel_iff (h : RegularLevel E f c) {g : N → levelSet f c} :
+    letI := regCharted h
+    haveI := isManifold_regularLevel h
+    ContMDiff I 𝓘(ℝ, Fin (fibreDim E F) → ℝ) ∞ g ↔ ContMDiff I 𝓘(ℝ, E) ∞ (fun x => (g x : M)) := by
+  let _ := regCharted h
+  have _ := isManifold_regularLevel h
+  refine ⟨fun hg => (contMDiff_regularLevel_val h).comp hg, fun hg => ?_⟩
+  rw [contMDiff_iff] at hg ⊢
+  refine ⟨Topology.IsInducing.subtypeVal.continuous_iff.mpr hg.1, fun x y => ?_⟩
+  have hx := hg.2 x (y : M)
+  have hL : ContDiff ℝ ∞ (fun z : E => kerEquiv ((gch_sub h (y : M)).surj _ (basePt E y).2)
+      (kerProj (fderiv ℝ (gch (E := E) f c (y : M)) (basePt E y)) (z - chartAt E (y : M) y))) :=
+    ((kerEquiv ((gch_sub h (y : M)).surj _ (basePt E y).2)).contDiff.comp
+      ((kerProj (fderiv ℝ (gch (E := E) f c (y : M)) (basePt E y))).contDiff.comp
+        (contDiff_id.sub contDiff_const)) :)
+  refine (hL.comp_contDiffOn (hx.mono ?_)).congr fun w hw => ?_
+  · intro w hw
+    refine ⟨hw.1, ?_⟩
+    have := hw.2
+    simp only [Set.mem_preimage, extChartAt, OpenPartialHomeomorph.extend, PartialEquiv.trans_source,
+      Set.mem_inter_iff, modelWithCornersSelf_partialEquiv, PartialEquiv.refl_source, Set.mem_univ,
+      and_true, OpenPartialHomeomorph.toFun_eq_coe] at this ⊢
+    have h2 : (g ((extChartAt I x).symm w) : M) ∈ (chartAt E (y : M)).source := by
+      have : g ((extChartAt I x).symm w) ∈ (chartAt (Fin (fibreDim E F) → ℝ) y).source := this
+      exact this.1
+    exact h2
+  · have hw2 := hw.2
+    have hsrc : g ((extChartAt I x).symm w) ∈ (chartAt (Fin (fibreDim E F) → ℝ) y).source := by
+      simpa [extChartAt, OpenPartialHomeomorph.extend] using hw2
+    have h2 : (g ((extChartAt I x).symm w) : M) ∈ (chartAt E (y : M)).source := hsrc.1
+    show regChart h y (g ((extChartAt I x).symm w)) = _
+    rw [regChart_apply h y _ h2]
+    rfl
+
+end Universal
+
 end RegularManifold
 
 end GU.Library
