@@ -204,3 +204,5 @@ open GU
 #print axioms GU.Spinor.U1Y_pi
 #print axioms GU.Spinor.U1Y_half_ne
 #print axioms GU.Spinor.cliffordRep_Jt
+#print axioms GU.Spinor.vecRep_circle
+#print axioms GU.Spinor.U1Y_eq_one_iff

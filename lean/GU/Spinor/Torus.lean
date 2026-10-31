@@ -23,7 +23,8 @@ The five complex planes of `N^{6,4} ≅ ℂ^{3,2}` (`planes` in `Reductions.lean
 * **`U1Y : Multiplicative ℝ →* Spin(7,7)`**: the hypercharge one-parameter subgroup
   `t ↦ torus(−2t,−2t,−2t,3t,3t)` (direction forced by `hypercharge_forced`), inside `centJfib`. By
   `U1Y_pi : U1Y π = 1` and `U1Y_half_ne : U1Y (π/2) ≠ 1` (by traces in `ℝ(128)`): it is periodic,
-  so a circle, and not of period `π/2`. That the minimal period is exactly `π` is by hand.
+  so a circle, and not of period `π/2`. Minimal period exactly `π`: `U1Y_eq_one_iff`
+  (`TorusPeriod.lean`).
 -/
 
 namespace GU.Spinor
