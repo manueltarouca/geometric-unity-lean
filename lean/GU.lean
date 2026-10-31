@@ -76,3 +76,4 @@ import GU.Spinor.Torus
 import GU.Spinor.TorusPeriod
 import GU.Spinor.TorusKernel
 import GU.Spinor.TorusKernelGroup
+import GU.Spinor.SpinImage

@@ -70,8 +70,8 @@ def Q77 : QuadraticForm ℝ (Fin 14 → ℝ) :=
 abbrev Cl77 := CliffordAlgebra Q77
 
 /-- `Spin(7,7)` as Mathlib's algebraic spin group (no topology: roadblock R4). Mathlib's
-`spinGroup` requires spinor norm `x* x = 1`, so for split signature this is the identity
-component `Spin₀(7,7)`. -/
+`spinGroup` requires spinor norm `x* x = 1`; its image in `SO(7,7)` is the spinor-norm kernel
+`SO⁺(7,7)` (`range_vecRep`). Classically this is the identity component (not proved here). -/
 abbrev Spin77 := spinGroup Q77
 
 

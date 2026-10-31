@@ -212,3 +212,10 @@ open GU
 #print axioms GU.Spinor.mem_ker_kpar
 #print axioms GU.Spinor.range_kpar
 #print axioms GU.Spinor.torusKer_quot_equiv_four
+#print axioms GU.Spinor.isom_eq_reflProd
+#print axioms GU.Spinor.vecRep_factor
+#print axioms GU.Spinor.range_vecRep
+#print axioms GU.Spinor.qProd_eq_of_reflProd_eq
+#print axioms GU.Spinor.g0_not_mem
+#print axioms GU.Spinor.mem_or_g0_mul_mem
+#print axioms GU.Spinor.not_both

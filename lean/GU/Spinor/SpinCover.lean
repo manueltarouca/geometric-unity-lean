@@ -10,7 +10,7 @@ For `x ∈ Spin(7,7)`, conjugation `v ↦ x·ι(v)·x*` preserves the vectors (`
 contains `±1` (`vecRep_neg_one`). This is the algebraic core of the spin double cover
 `P̃_Fr(C) → P_Fr(C)`: a spin structure is a lift of the orthonormal frame bundle along `vecRep`.
 `ker = {±1}` is proved in `SpinKernel.lean` and `det = 1` (image in `SO(7,7)`) in `SpinDet.lean`.
-Not proved: surjectivity onto `SO₀(7,7)`. Global existence of the lift (the `w₂` obstruction) is
+Image: the spinor-norm kernel `SO⁺(7,7)` (`range_vecRep`, `SpinImage.lean`); its identification with `SO₀(7,7)` is not proved. Global existence of the lift (the `w₂` obstruction) is
 outside Mathlib.
 -/
 

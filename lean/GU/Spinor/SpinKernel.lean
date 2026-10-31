@@ -8,7 +8,7 @@ Proof: `x ι(v) x* = ι(v)` and `x* x = 1` give `x ι(v) = ι(v) x`; the `ι(v)`
 (`adjoin_range_ι`), so `x` is central; under `Cl(7,7) ≅ ℝ(128)` (`cl77Equiv`) the centre is the
 scalars (`Matrix.center_eq_range`), so `x = c·1`, and `x* x = 1` gives `c² = 1`.
 With `vecRep_neg_one`: `ker_eq : ker vecRep = {1, −1}`, `negOne_ne_one`, and every fibre has exactly
-two elements (`fiber_ncard`). Surjectivity onto `SO₀(7,7)` is not proved.
+two elements (`fiber_ncard`). The image is `SO⁺(7,7)` (`range_vecRep`, `SpinImage.lean`).
 -/
 
 namespace GU.Spinor
