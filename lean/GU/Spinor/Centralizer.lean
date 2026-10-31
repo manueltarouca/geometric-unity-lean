@@ -1,5 +1,8 @@
 import GU.Spinor.Reductions
 
+/-! UNVERIFIED: this file's large `decide +kernel` checks were stopped (system low on memory)
+before completing. It is NOT imported by `GU.lean` and is not part of the audited build. -/
+
 /-!
 # The centraliser of `J` in `spin(6,4)` has dimension exactly 25 (`= dim u(3,2)`)
 

@@ -1,5 +1,8 @@
 import GU.Shiab.FormsWitness
 
+/-! UNVERIFIED: this file's large `decide +kernel` checks were stopped (system low on memory)
+before completing. It is NOT imported by `GU.lean` and is not part of the audited build. -/
+
 /-!
 # Einstein output of the printed (9.3) *with Hodge stars*, checked in Lean (n = 4, Euclidean)
 
