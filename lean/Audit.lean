@@ -50,3 +50,5 @@ open GU
 #print axioms Predictions.center_two_u1
 #print axioms Predictions.four_sectors_equal
 #print axioms Predictions.rs_kernel_dim
+#print axioms Chimeric.chimForm_transport
+#print axioms Chimeric.chim_signature_everywhere
