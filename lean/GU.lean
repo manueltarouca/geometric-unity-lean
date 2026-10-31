@@ -29,3 +29,4 @@ import GU.Spinor.DetOne
 import GU.Observerse.ChimericBasis
 import GU.Spinor.Checkerboard
 import GU.Spinor.Anomaly
+import GU.Shiab.ShiabGU

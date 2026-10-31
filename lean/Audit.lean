@@ -78,3 +78,4 @@ open GU
 #print axioms Spinor.checkerboard
 #print axioms Spinor.eps_table
 #print axioms Spinor.anomaly_free
+#print axioms CliffordBianchi.shiabGU_einstein
