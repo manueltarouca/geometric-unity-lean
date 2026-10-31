@@ -8,8 +8,14 @@ At the point `g = η` of `Y` the chimeric bundle is `C_η = Sym²(ℝ⁴) ⊕ �
 * on `H*`: the inverse metric `η⁻¹ = η`;
 with `V ⊥ H*`.
 
--- AI_BREAKTHROUGH_PATCH_V1 (synthetic choice closing M1): `λ = 1`, the classical DeWitt
-value. Then `V` has signature (6,4) with **no** extra sign flip, and `C` has signature (7,7).
+-- AI_BREAKTHROUGH_PATCH_V1 (synthetic choices narrowing M1): `λ = 1`, the classical DeWitt
+value, which makes the trace direction negative so `V` has signature (6,4); and the relative
+sign `+DeWitt ⊕ +g⁻¹` between `V` and `H*`, which remains a convention (the draft, p. 22:
+(7,7) vs (9,5) "not yet forced"). With these, `C` has signature (7,7) at (1,3) points. At
+(3,1) points the same formula gives (9,5) (the DeWitt part is even in `g`, the `H*` part odd).
+
+Lean gives a diagonal Gram matrix for 14 vectors; that they span the 14-dimensional
+`Sym² ⊕ ℝ⁴` and Sylvester's law are not formalised.
 
 Proved by an explicit orthogonal basis (`chimBasis`) whose Gram matrix is checked by `decide`
 over `ℤ` to be diagonal, with 7 positive and 7 negative entries.

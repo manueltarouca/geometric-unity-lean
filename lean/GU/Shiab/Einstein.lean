@@ -16,10 +16,15 @@ Caveats (see unbounded_discovery_log.md):
 * The brackets must be mixed: commutator in the Ricci term, anticommutator in the scalar term.
   With a uniform choice, one of the two terms vanishes identically (`ricci_term_anticomm`,
   `scalar_term_comm`).
-* Hodge stars are not modelled here. Numerically the relative sign of the two terms picks up
-  `sign(det η)` from `⋆⋆`, so at signature (7,7) the printed `−½` becomes `+½` for Einstein.
-* Sums here run over all ordered index pairs. The draft's `Φ₂`, `ξ` use `a<b`, which rescales
-  both terms by the same factor, so the relative `½` is the draft's.
+* Hodge stars, wedges, `ε`-conjugation and the passage from (9.3) to these index sums are
+  checked only numerically (experiments/shiab_weyl.py), not in Lean. The theorem covers
+  Riemann-type `ξ` (values in `Λ²`), not general `u(64,64)`-valued `ξ`.
+* The relative *sign* of the two terms is convention-dependent: it flips with `sign(det η)`
+  (from `⋆⋆`), with the Clifford convention `γ² = ±η` (cubic vs quintic in `γ`), and with the
+  draft's `i·{,}` anticommutator (8.1). So no conclusion about the printed `−½` is drawn.
+* Normalisation: the outer anticommutator `{γ_b, S} = 2Sγ_b` is replaced here by `S·γ_b`, which
+  compensates the factor 2 from the draft's `a<c` convention for `Φ₂`. That is how the
+  relative `½` matches.
 -/
 
 namespace GU.CliffordBianchi
@@ -78,8 +83,9 @@ theorem gamma77_isClifford : IsClifford w (fun i => gamma (gen i)) := by
 theorem w77_sq (a : Fin 14) : w a * w a = 1 := by
   unfold w; split_ifs <;> norm_num
 
-/-- **GR emergence on the observerse `Y^{7,7}`**: for every algebraic curvature tensor on
-`ℝ^{7,7}`, the Shiab core built from the draft's own gamma matrices is `4·G·γ`. -/
+/-- Clifford-algebra core of (9.3) at `ℝ^{7,7}` with the draft's own gamma matrices: for every
+algebraic curvature tensor, the (mixed-bracket) contraction sums give `4·G·γ`. See the module
+caveats: forms and Hodge stars are not modelled. -/
 theorem shiab_einstein_77 {R : Fin 14 → Fin 14 → Fin 14 → Fin 14 → ℝ} (hR : AlgCurv R)
     (b : Fin 14) :
     (∑ a, ∑ x, ∑ y, (w a * w x * w y * R a b x y) •

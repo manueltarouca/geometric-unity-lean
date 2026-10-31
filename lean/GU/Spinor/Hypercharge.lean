@@ -6,12 +6,15 @@ import GU.Spinor.Reductions
 The plane operators `π_k = γ_{a_k} γ_{b_k}` (`k = 0..4`, three colour planes in the positive
 block, two weak planes in the negative block):
 * square to `−1` and commute pairwise (`planes_sq`, `planes_comm`), so they have simultaneous
-  eigenvalues `i s_k`, `s_k = ±1` (weights `h_k = s_k/2`);
-* multiply to the (6,4) volume element: `ω₁₀ = ± π₀π₁π₂π₃π₄` (`ω10_planes`). So a fixed
+  eigenvalues `−i s_k`, `s_k = ±1` (convention of `WeightSpaces.lean`: on `range P_s`,
+  `π_k = −i s_k`);
+* multiply to the (6,4) volume element: `ω₁₀ = π₀π₁π₂π₃π₄` (`ω10_planes`). So a fixed
   `N`-chirality fixes the parity of the number of `s_k = −1`; each parity gives the 16 weights
   of a Weyl spinor of `Spin(6,4)`.
 
-Hypercharge as a combination of `J₊` (colour, `B−L`) and `J₋` (weak, `2T₃ᴿ`), in integer form:
+Hypercharge as a combination of `J₊` (colour, `B−L`) and `J₋` (weak, `J₋/i ∝ T₃ᴿ`), in integer form.
+It is the standard `Spin(10) ⊃ SU(5) ⊃ SM` branching of the 16; the direction is forced by
+`su(3,2)`-tracelessness (`GU.Predictions.hypercharge_forced`):
 `12 Y = −2(s₀+s₁+s₂) + 3(s₃+s₄)`. Over the 16 odd-parity weights (`hypercharge_table`) this
 takes exactly the values of one Standard Model generation plus `ν^c`:
 `Q (×6): 2`, `u^c (×3): −8`, `d^c (×3): 4`, `L (×2): −6`, `e^c (×1): 12`, `ν^c (×1): 0`,
@@ -33,11 +36,9 @@ theorem planes_sq : ∀ k : Fin 5, PString.beq (planeOp k * planeOp k) (PString.
 theorem planes_comm : ∀ k l : Fin 5, PString.beq (planeOp k * planeOp l) (planeOp l * planeOp k) = true := by
   decide
 
-/-- `ω₁₀` is (up to sign) the product of the five plane operators. -/
-theorem ω10_planes :
-    PString.beq ω10P (planeOp 0 * planeOp 1 * planeOp 2 * planeOp 3 * planeOp 4) = true ∨
-      PString.beq ω10P (PString.neg (planeOp 0 * planeOp 1 * planeOp 2 * planeOp 3 * planeOp 4)) = true := by
-  decide
+/-- `ω₁₀` is exactly the product of the five plane operators. -/
+theorem ω10_planes : ω10P = planeOp 0 * planeOp 1 * planeOp 2 * planeOp 3 * planeOp 4 :=
+  PString.eq_of_beq (by decide)
 
 /-- Weights `s ∈ {±1}⁵`, encoded by `Bool` (`true ↦ −1`). -/
 def sgn (b : Bool) : ℤ := if b then -1 else 1

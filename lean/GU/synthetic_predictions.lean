@@ -9,18 +9,18 @@ import GU.Observerse.Chimeric
 Each item is a *theorem about the formal model*. The "prediction" is its physical reading
 under the draft's dictionary. None of them is a claim that nature behaves this way.
 
-1. **Extra neutral gauge boson (Z′-type).** In `u(3) ⊕ u(2) ⊂ spin(6,4)` there are two
-   independent central `u(1)` generators, `J₊` (three positive planes) and `J₋` (two negative
-   planes). Hypercharge is one combination; the orthogonal one is an extra abelian gauge field.
-   (`center_two_u1`)
-2. **Mirror ("looking-glass") sector of equal size.** Each of the four joint chirality sectors
-   `(±,±)` of `S̸(Y)` has dimension 32 = 2·16. The dark sector is exactly as large as the
-   luminous one. (`four_sectors_equal`)
-3. **Spin-3/2 surplus.** Clifford multiplication `TY ⊗ S̸ → S̸` is onto. Its kernel (the
-   Rarita–Schwinger part of `ζ`) has dimension `13·128 = 1664`, and under `TY = TX ⊕ N` it
-   splits as `R(X)⊗S(N) ⊕ S(X)⊗R(N) ⊕ S(X)⊗S(N) = 384 + 1152 + 128` (draft (11.3)). The last
-   128 is the extra spin-½-looking copy, the draft's "imposter generation". (`rs_kernel_dim`,
-   `rs_branching_count`)
+1. **Extra neutral gauge boson (Z′-type), contingent.** `u(3) ⊕ u(2)` has two independent
+   central `u(1)`s, `J₊` and `J₋` (`center_two_u1`). Hypercharge `Y ∝ −2J₊ + 3J₋` is the unique
+   traceless (`su(3,2)`) direction (`hypercharge_forced`). The extra `u(1)` is the centre of
+   `U(3,2)`, so it exists only if `U(3,2)` rather than `SU(3,2)` is the structure group, a
+   choice the draft explicitly leaves open (p. 29, after (4.6)).
+2. **Mirror sector of equal size** (elementary): two commuting traceless involutions split
+   `ℂ¹²⁸` into four rank-32 sectors (`four_sectors_equal`). The "dark/looking-glass" reading is
+   the draft's (12.20), not something derived here.
+3. **Spin-3/2 count** (elementary): Clifford multiplication `TY ⊗ S̸ → S̸` is onto, so its kernel
+   has dimension `13·128 = 1664` (rank–nullity, `rs_kernel_dim`). `rs_branching_count` is only
+   the arithmetic of (11.3) (`384 + 1152 + 128`), not a representation-theoretic proof; the
+   "imposter generation" reading is the draft's.
 4. **Gravity constraints.** An Einstein tensor emerges from (9.3) only with *mixed* brackets
    (`shiab_einstein`), and the fiber metric must have DeWitt `λ > 1/4` (`trace_direction_neg_iff`).
    At `λ = 1` the chimeric signature is (7,7) (`chim_signature`).
@@ -88,5 +88,13 @@ theorem rs_kernel_dim : Module.finrank ℝ (LinearMap.ker cliffMul) = 13 * 128 :
 theorem rs_branching_count :
     (4 - 1) * 4 * 32 + 4 * ((10 - 1) * 32) + 4 * 32 = (14 - 1) * (4 * 32) ∧
       4 * 32 = 128 := by decide
+
+/-- The hypercharge direction is forced: among central combinations `a J₊ + b J₋`
+(coefficients `(a,a,a,b,b)` on the five planes), `su(3,2)`-tracelessness `3a + 2b = 0`
+holds exactly on the line through `(−2, 3)`, i.e. `12Y = −2Σs_colour + 3Σs_weak`. -/
+theorem hypercharge_forced (a b : ℚ) : 3 * a + 2 * b = 0 ↔ ∃ t : ℚ, a = -2 * t ∧ b = 3 * t := by
+  constructor
+  · intro h; exact ⟨b / 3, by linarith, by ring⟩
+  · rintro ⟨t, rfl, rfl⟩; ring
 
 end GU.Predictions

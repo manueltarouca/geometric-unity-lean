@@ -67,3 +67,9 @@ open GU
 #print axioms Spinor.mu_mem_u
 #print axioms Spinor.mu_equivariant
 #print axioms Spinor.det_rho_eq_one
+#print axioms Spinor.hypercharge_table_conj
+#print axioms Spinor.noncompact_anticomm
+#print axioms Predictions.rs_branching_count
+#print axioms Predictions.hypercharge_forced
+#print axioms Decoupling.mirror
+#print axioms Observerse.proj_surjective
