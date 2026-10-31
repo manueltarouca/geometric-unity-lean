@@ -1,7 +1,9 @@
 import GU.Spinor.Dirac
 
 /-!
-# Fermion bilinears valued in `ad = u(64,64)` (gap in (9.18))
+# Fermion pairings valued in `ad = u(64,64)` (gap in (9.18))
+
+Note: `μ` is sesquilinear (it uses `χᴴ`), not complex-bilinear.
 
 The draft writes `ν̄ζ + ζ̄ν + ⧉ζ̄ζ ∈ Ω^{d−1}(Y, ad)` but never defines the pairing
 `S̸ ⊗ S̸ → ad`.

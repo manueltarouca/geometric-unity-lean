@@ -97,3 +97,9 @@ if len(sys.argv) > 1 and sys.argv[1] == 'n6':
     for MODE in ('none', 'antisym'):
         print("mode", MODE)
         constrained_max_rank([1, 1, 1, 1, 1, 1], trials=2)
+
+if len(sys.argv) > 1 and sys.argv[1] == 'twisted':
+    SS.TWIST = True
+    MODE = 'antisym'
+    for eta in ([1, 1, 1, 1],):
+        constrained_max_rank(eta, trials=3)

@@ -85,3 +85,6 @@ open GU
 #print axioms Spinor.bminusL_table
 #print axioms FormsW.not_selfadjoint
 #print axioms FormsW.GU_witness_ok
+#print axioms Spinor.weinberg_angle
+#print axioms Spinor.Y_commutes_sm
+#print axioms MatrixModel.matrix_no_common_convention

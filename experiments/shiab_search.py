@@ -24,12 +24,33 @@ def Phi(gam, r):
         out[I] = M
     return out
 
+TWIST = False
+
 def candidates(eta, gam):
     n = len(eta); P = [Phi(gam, r) for r in range(n + 1)]
+    if TWIST:  # add Φ_r·ω (volume-element twisted invariants, Def. 8.1 allows all invariants)
+        om = np.eye(gam[0].shape[0], dtype=complex)
+        for g in gam: om = om @ g
+        P = P + [{k: v @ om for k, v in Pr.items()} for Pr in P]
     brs = [('[]', S.comm), ('{}', S.acomm)]
     ops = []
     for bn, b in brs:
         ops.append((f"A{bn}", lambda xi, b=b: S.wedge(P[1], S.star(xi, eta), b)))
+    m = len(P) // (n + 1)
+    idx = lambda i, t: P[i + t * (n + 1)]
+    for t1, t2 in itertools.product(range(m), range(m)):
+      for i in range(1, n + 1):
+        for (bn, b), (cn, c) in itertools.product(brs, brs):
+            ops.append(((f"B{i}{bn}{cn}" if t1 == t2 == 0 else f"B{i}t{t1}{t2}{bn}{cn}"), lambda xi, i=i, b=b, c=c, t1=t1, t2=t2:
+                        S.wedge(idx(i, t1), S.star(S.wedge(idx(i - 1, t2), S.star(xi, eta), c), eta), b)))
+      for i in range(0, n):
+        for (bn, b), (cn, c) in itertools.product(brs, brs):
+            ops.append(((f"C{i}{bn}{cn}" if t1 == t2 == 0 else f"C{i}t{t1}{t2}{bn}{cn}"), lambda xi, i=i, b=b, c=c, t1=t1, t2=t2:
+                        S.star(S.wedge(idx(i, t1), S.star(S.wedge(idx(i + 1, t2), S.star(xi, eta), c), eta), b), eta)))
+    if m > 1:
+        for bn, b in brs:
+            ops.append((f"At1{bn}", lambda xi, b=b: S.wedge(idx(1, 1), S.star(xi, eta), b)))
+    return ops
     for i in range(1, n + 1):
         for (bn, b), (cn, c) in itertools.product(brs, brs):
             ops.append((f"B{i}{bn}{cn}", lambda xi, i=i, b=b, c=c:

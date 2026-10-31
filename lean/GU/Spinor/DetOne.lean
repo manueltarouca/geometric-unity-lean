@@ -9,7 +9,8 @@ import GU.Spinor.Basis
 * `C` anticommutes with `Γ`, so it is block-off-diagonal `[[0, B], [B', 0]]`, and `C² = 1`
   gives `B B' = 1`.
 * `ρᵀ C ρ = C` gives `ρ_Lᵀ B ρ_R = B`, hence `det ρ_L · det ρ_R = 1` and `det ρ(x) = 1`
-  (`det_rho_eq_one`).
+  (`det_rho_eq_one`). This is the SO(64,64) step of (3.30); `det ρ_L = 1` (the SL(64,ℝ) step) is
+  not proved.
 -/
 
 namespace GU.Spinor

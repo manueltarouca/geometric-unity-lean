@@ -3,9 +3,11 @@ import GU.Spinor.Hypercharge
 /-!
 # Anomaly cancellation for the generation produced by `N^{6,4}` (Phase 1 gap: "anomaly")
 
-The draft gives no anomaly-cancellation mechanism. We check the perturbative gauge anomalies of
-the 16 left-handed Weyl states (odd chirality, `hypercharge_table`), labelled by plane weights
-`s`. Classification:
+The draft gives no anomaly-cancellation mechanism. We check the perturbative gauge anomaly
+coefficients of the 16 weights of one `N`-chirality (`hypercharge_table`), labelled by plane
+weights `s`. Reading them as one left-handed 16 needs the Majorana reality of the 128
+(`Cl(7,7) ≅ ℝ(128)`) plus a fixed chirality convention, neither formalised here; each weight space
+is rank 4 in `ℂ¹²⁸`. `X` here is the `J₊`/B−L direction, which spans the centre together with `Y`. Classification:
 * colour triplet iff the three colour signs are not all equal (singlet iff `s₀ = s₁ = s₂`);
 * weak doublet iff `s₃ ≠ s₄`.
 

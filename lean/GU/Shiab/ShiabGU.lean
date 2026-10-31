@@ -13,9 +13,12 @@ anticommutator–anticommutator versions. Numerically (n = 4, 6; Euclidean and L
 signatures; relative errors ~1e−16):
 * it annihilates Weyl curvature;
 * it maps Riemann curvature to the Einstein form;
-* its symbol pairing `Tr(α ∧ ⧉(ξ∧β))` is antisymmetric, i.e. `⧉∘d_B` is formally self-adjoint,
-  which is what the variational step (9.4) → (9.7) needs. The printed one-bracket (9.3) fails
-  this (experiments/shiab_adjoint.py).
+* its symbol pairing `Tr(α ∧ ⧉(ξ∧β))` is antisymmetric, i.e. `⧉∘d_B` is formally self-adjoint.
+  This is *necessary* for the quadratic part of the variation (9.4) → (9.7). The printed
+  one-bracket (9.3) fails it (`FormsWitness.not_selfadjoint`).
+* It is **not sufficient**: the cubic term `⅓Tr(T∧⧉[T,T])` still does not vary to
+  `⟨α, ⧉[T,T]⟩` (sample-dependent ratio, experiments/cubic_check.py). So (9.7) does not follow
+  from (9.4) with `⧉_GU` either (independent review 4).
 
 Formalised here (Clifford core, as in `Einstein.lean`): on Riemann-type curvature the added
 commutator–commutator piece vanishes (`scalar_term_comm`), so `⧉_GU` has the same Einstein

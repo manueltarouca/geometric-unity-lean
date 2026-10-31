@@ -22,7 +22,7 @@ Shell profiles are untouched.
 | Calculus | `GU/Spinor/Pauli.lean`, `PSum.lean` | exact Pauli-string and linear-combination calculus with certified zero test |
 | Reductions (§4) | `GU/Spinor/Branching, Reductions, Hypercharge, WeightSpaces, HyperchargeOp, SMAlgebra, Anomaly.lean` | Γ = ω₄ω₁₀; Pati–Salam 21/24; u(3,2) (≥25) ⊃ u(3)⊕u(2); one SM generation (+ν^c) as eigenspaces of Ŷ, Q̂; sin²θ_W = 3/8; anomaly-free |
 | Shiab (§8–9) | `GU/Shiab/Degrees, CliffordBianchi, Einstein, ShiabGU.lean` | 3-gamma and Lichnerowicz identities; Clifford core of (9.3) gives the Einstein tensor and kills Weyl; synthetic ⧉_GU |
-| Fermions (§9.3, §12.9) | `GU/Fermion/Decoupling, Bilinear.lean` | chirality decoupling theorem; Spin-equivariant bilinear S̸⊗S̸ → u(64,64) |
+| Fermions (§9.3, §12.9) | `GU/Fermion/Decoupling, Bilinear.lean` | chirality decoupling theorem; Spin-equivariant sesquilinear pairing S̸⊗S̸ → u(64,64) |
 | Bundles (§3.6) | `GU/Bundle/*.lean` | P_H as a principal U(64,64)-bundle with the explicit ρ_D (spin structure on C is a hypothesis) |
 | Predictions | `GU/synthetic_predictions.lean` | contingent Z′, sector counts, RS kernel, forced hypercharge direction |
 
@@ -38,6 +38,6 @@ Gaps are supplied as explicit hypothesis structures or definitions tagged `AI_BR
 
 **Defects in the draft (Lean):** the footnote-7 sign slip (Lemmas 6.3 vs 7.2; one-sign repair given); the literal Frobenius metric gives (7,3) (needs DeWitt λ > 1/4); the (9.4) integrand has a dropped ⋆.
 
-**Numerical (dims 4, 6):** the printed (9.3) needs mixed brackets for Einstein; it is not formally self-adjoint, so (9.7) does not follow; synthetic ⧉_GU (second term = sum of both bracket pairings) fixes that; but within the draft's operator family {Einstein + Weyl-kill + self-adjoint} is incompatible with an elliptic deformation complex (10.1) (trilemma, n = 4).
+**Numerical (n = 4; Einstein check also at n = 6):** the printed (9.3) needs mixed brackets for Einstein. It is not formally self-adjoint (also a Lean witness), so (9.7) does not follow. The synthetic ⧉_GU (second term = sum of both bracket pairings) fixes the quadratic part, but the cubic Chern–Simons term still blocks (9.7). Ellipticity of (10.1) is *achievable* (Euclidean, n = 4) once Def 8.1's twisted invariants Φ_r·ω are included. The earlier "trilemma" was an artefact of an incomplete family and is withdrawn.
 
 **Retracted after review:** the "(9.3) degree defect" (a misread outer ⋆) and the "Einstein needs +½ at (7,7)" claim (convention artefact).
