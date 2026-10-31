@@ -38,3 +38,7 @@ open GU
 #print axioms CliffordBianchi.lichnerowicz
 #print axioms CliffordBianchi.shiab_einstein
 #print axioms Spinor.shiab_einstein_77
+#print axioms Observerse.contMDiff_proj
+#print axioms Observerse.isOpen_LorFiber
+#print axioms Chimeric.chimBasis_gram
+#print axioms Chimeric.chim_signature
