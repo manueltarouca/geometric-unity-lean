@@ -182,3 +182,7 @@ open GU
 #print axioms GU.Spinor.spin4_preserves_W4
 #print axioms GU.Predictions.particle_allocation
 #print axioms GU.Predictions.gauge_embedding
+#print axioms GU.Observerse.homCb_smooth
+#print axioms GU.Observerse.isOpen_FrM
+#print axioms GU.Observerse.FrM_isManifold
+#print axioms GU.Observerse.frMBundle
