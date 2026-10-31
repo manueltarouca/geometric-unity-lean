@@ -115,3 +115,4 @@ import GU.Bundle.FrameRegular
 import GU.Bundle.FrameAction
 import GU.Observerse.Y13Open
 import GU.Bundle.FrameActionSmooth
+import GU.Bundle.LocalFrames
