@@ -89,3 +89,5 @@ open GU
 #print axioms Spinor.Y_commutes_sm
 #print axioms MatrixModel.matrix_no_common_convention
 #print axioms FormsW.cubic_fails
+#print axioms Spinor.anomaly_144
+#print axioms Spinor.count_144
