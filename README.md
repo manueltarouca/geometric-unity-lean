@@ -20,11 +20,11 @@ Shell profiles are untouched.
 | Signature (§3.1) | `GU/Geometry/Signature.lean` | DeWitt λ > 1/4 is needed for (6,4) |
 | Spinors (§3.5–3.6) | `GU/Spinor/Gamma, Dirac, Basis, Faithful, DetOne, Checkerboard.lean` | Cl(7,7) ≃ₐ ℝ(128); ρ_D : Spin(7,7) → SO(64,64) ⊂ U(64,64), faithful, det 1; checkerboard (3.26)/(3.27) proved for all monomials |
 | Calculus | `GU/Spinor/Pauli.lean`, `PSum.lean` | exact Pauli-string and linear-combination calculus with certified zero test |
-| Reductions (§4) | `GU/Spinor/Branching, Reductions, Hypercharge, WeightSpaces, HyperchargeOp, SMAlgebra, Anomaly.lean` | Γ = ω₄ω₁₀; Pati–Salam 21/24; u(3,2) = centraliser of J (exactly 25) ⊃ u(3)⊕u(2), su(3)/su(2) closure; one SM generation (+ν^c) as eigenspaces of Ŷ, Q̂; sin²θ_W = 3/8; anomaly-free |
+| Reductions (§4) | `GU/Spinor/Branching, Reductions, Hypercharge, WeightSpaces, HyperchargeOp, SMAlgebra, Anomaly.lean` | Γ = ω₄ω₁₀; Pati–Salam 21/24; u(3,2) = centraliser of J (exactly 25) ⊃ u(3)⊕u(2), su(3)/su(2) closure; one SM generation (+ν^c) as eigenspaces of Ŷ, Q̂; sin²θ_W = 3/8; anomaly-free; group-level Pati–Salam (Spin6×Spin4)/ℤ₂ ⊂ Spin(7,7) (`PatiSalamGroup.lean`) |
 | Shiab (§8–9) | `GU/Shiab/Degrees, CliffordBianchi, Einstein, ShiabGU.lean` | 3-gamma and Lichnerowicz identities; Clifford core of (9.3) gives the Einstein tensor and kills Weyl; synthetic ⧉_GU |
 | Fermions (§9.3, §12.9) | `GU/Fermion/Decoupling, Bilinear.lean` | chirality decoupling theorem; Spin-equivariant sesquilinear pairing S̸⊗S̸ → u(64,64) |
 | Bundles (§3.6) | `GU/Bundle/*.lean`, `GU/Spinor/SpinCover.lean` | P_H with explicit ρ_D; GL(14) frames and O(7,7) orthonormal frames of C (set level); smooth GL(14) frame bundle; orthonormal frames closed, existing exactly over (1,3) points; covering map Spin(7,7) → SO(7,7) with kernel exactly ±1. Open: surjectivity onto SO₀(7,7), global spin structure (w₂) |
-| Predictions | `GU/synthetic_predictions.lean` | contingent Z′, sector counts, RS kernel, forced hypercharge direction |
+| Predictions | `GU/synthetic_predictions.lean` | contingent Z′, sector counts, RS kernel, forced hypercharge direction, signature selection (orthonormal (7,7) frames exist iff (1,3)), particle allocation of one chirality, Pati–Salam (Spin6×Spin4)/ℤ₂ acting only on the fibre |
 
 Numerical experiments (`experiments/`, run with `uv run --with numpy python -I ...`): the Shiab/Einstein checks,
 the deformation-complex symbol, self-adjointness, the Shiab-family search, and the trilemma.
