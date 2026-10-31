@@ -347,3 +347,8 @@ open GU
 #print axioms GU.Library.contMDiff_orthoFrames_val
 #print axioms GU.Library.fibreDim_orthoFrames
 #print axioms GU.Library.contMDiff_regularLevel_iff
+#print axioms GU.Library.ractM_mem
+#print axioms GU.Library.ractM_transitive
+#print axioms GU.Library.ractM_free
+#print axioms GU.Library.ractM_one
+#print axioms GU.Library.ractM_mul
