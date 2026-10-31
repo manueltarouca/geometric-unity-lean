@@ -2,6 +2,7 @@ import GU.Spinor.Reductions
 import GU.Spinor.Branching
 import GU.Shiab.Einstein
 import GU.Observerse.Chimeric
+import GU.Bundle.NoOrtho31
 
 /-!
 # Synthetic predictions: what the compiled model forces
@@ -24,6 +25,13 @@ under the draft's dictionary. None of them is a claim that nature behaves this w
 4. **Gravity constraints.** An Einstein tensor emerges from (9.3) only with *mixed* brackets
    (`shiab_einstein`), and the fiber metric must have DeWitt `λ > 1/4` (`trace_direction_neg_iff`).
    At `λ = 1` the chimeric signature is (7,7) (`chim_signature`).
+5. **Spacetime signature selection, contingent.** Every Lorentzian point of `Y` is (1,3) or (3,1)
+   (`yobs_dichotomy`), and the chimeric bundle admits O(7,7)-orthonormal frames over `y` exactly when
+   `y` is (1,3) (`signature_selected`). So an O(7,7)/Spin(7,7) structure on `C`, needed for the
+   spinors `S̸ = S(C)` of (3.32), exists only over observations of signature (1,3) in the
+   `η = diag(1,−1,−1,−1)` labelling (mostly-minus: one time, three space). Contingent on the relative
+   sign `+DeWitt ⊕ +g⁻¹` (`Chimeric.lean`): the opposite sign selects (3,1) instead. Either way,
+   the theory selects exactly one of the two Lorentzian signatures, never both.
 -/
 
 namespace GU.Predictions
@@ -96,5 +104,26 @@ theorem hypercharge_forced (a b : ℚ) : 3 * a + 2 * b = 0 ↔ ∃ t : ℚ, a = 
   constructor
   · intro h; exact ⟨b / 3, by linarith, by ring⟩
   · rintro ⟨t, rfl, rfl⟩; ring
+
+section Signature
+open GU.Observerse Bundle Manifold
+open scoped ContDiff
+
+variable {X : Type} [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
+  [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X]
+
+/-- (5) **Signature selection**: orthonormal (7,7) frames of `C` exist over `y` iff `y` is a (1,3)
+point, and every point is exactly one of (1,3), (3,1). -/
+theorem signature_selected (y : Yobs X) :
+    ((∃ p : HomTot X, p.proj = y ∧ p ∈ orthoSet (X := X)) ↔
+      ∃ P : Matrix (Fin 4) (Fin 4) ℝ, IsUnit P ∧ Gpt y = P * GU.Chimeric.ηR * Pᵀ) ∧
+    (Xor' (∃ P : Matrix (Fin 4) (Fin 4) ℝ, IsUnit P ∧ Gpt y = P * GU.Chimeric.ηR * Pᵀ)
+      (∃ P : Matrix (Fin 4) (Fin 4) ℝ, IsUnit P ∧ Gpt y = P * (-GU.Chimeric.ηR) * Pᵀ)) := by
+  refine ⟨ortho_iff_13 y, ?_⟩
+  rcases yobs_dichotomy y with h | h
+  · exact Or.inl ⟨h, fun h' => not_13_and_31 y ⟨h, h'⟩⟩
+  · exact Or.inr ⟨h, fun h' => not_13_and_31 y ⟨h', h⟩⟩
+
+end Signature
 
 end GU.Predictions

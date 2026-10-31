@@ -166,3 +166,4 @@ open GU
 #print axioms GU.Observerse.yobs_dichotomy
 #print axioms GU.Observerse.ortho_iff_13
 #print axioms GU.Observerse.not_13_and_31
+#print axioms GU.Predictions.signature_selected
