@@ -243,3 +243,6 @@ open GU
 #print axioms GU.Spinor.finrank_Cl6
 #print axioms GU.Spinor.Φ6_injective
 #print axioms GU.Spinor.spin6Equiv
+#print axioms GU.Spinor.spinQ_injective
+#print axioms GU.Spinor.spinQ_surjective
+#print axioms GU.Spinor.spin4QuatEquiv

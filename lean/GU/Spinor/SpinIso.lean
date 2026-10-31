@@ -15,7 +15,8 @@ import GU.Spinor.SpinComponent
 
 **`spin4Equiv : spinGroup Q₄ ≃* Spin4`**. So the group-level Pati–Salam factor `Spin4` is
 isomorphic to Mathlib's `Spin(0,4)` (`spinGroup` of a negative-definite rank-4 form). The analogous
-`Spin6 ≃* spinGroup(Q₆)` is `SpinIso6.lean`. Not proved here: `Spin(4) ≅ SU(2) × SU(2)`.
+`Spin6 ≃* spinGroup(Q₆)` is `SpinIso6.lean`. `Spin4 ≃* Sp(1) × Sp(1)` (unit quaternions) is
+`spin4QuatEquiv`, `SpinQuat.lean`.
 -/
 
 namespace GU.Spinor

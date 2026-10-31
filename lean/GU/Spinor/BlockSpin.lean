@@ -23,8 +23,8 @@ So `Spin6 → SO(6)` and `Spin4 → SO(4)` are **non-split double covers**: surj
 of two distinct elements (`negOne_ne_one`), and not isomorphic to `SO(n) × ℤ/2` as extensions (in a
 split extension every lift of an involution can be chosen to square to `1`; here `x² = −1`). This is
 the algebraic shape of `Spin(6)`, `Spin(4)`. Both are identified with Mathlib's `spinGroup` directly
-(`spin4Equiv`, `SpinIso.lean`; `spin6Equiv`, `SpinIso6.lean`). Not proved: topology or connectedness, and the exceptional isomorphisms
-`Spin(6) ≅ SU(4)`, `Spin(4) ≅ SU(2) × SU(2)`.
+(`spin4Equiv`, `SpinIso.lean`; `spin6Equiv`, `SpinIso6.lean`). `Spin4 ≃* Sp(1) × Sp(1)` is `spin4QuatEquiv`
+(`SpinQuat.lean`). Not proved: topology or connectedness, `Spin(6) ≅ SU(4)`, and `Sp(1) ≅ SU(2)`.
 -/
 
 namespace GU.Spinor

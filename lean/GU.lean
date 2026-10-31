@@ -81,3 +81,4 @@ import GU.Spinor.BlockSpin
 import GU.Spinor.SpinComponent
 import GU.Spinor.SpinIso
 import GU.Spinor.SpinIso6
+import GU.Spinor.SpinQuat
