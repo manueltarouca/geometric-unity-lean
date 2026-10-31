@@ -56,6 +56,7 @@ import GU.Library.LevelInclusion
 import GU.Library.LevelOpen
 import GU.Library.LevelInclusionOn
 import GU.Library.FrameFamily
+import GU.Library.RegularValue
 import GU.Library.Orthogonal
 import GU.Spinor.CentralizerMain
 import GU.Spinor.SpanFull

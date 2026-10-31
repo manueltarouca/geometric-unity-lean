@@ -336,3 +336,5 @@ open GU
 #print axioms GU.Library.homMat
 #print axioms GU.Library.orthoM_cond_iff
 #print axioms GU.Library.mem_orthoSetM_iff_mat
+#print axioms GU.Library.isManifold_regularLevel
+#print axioms GU.Library.regTrans_eq
