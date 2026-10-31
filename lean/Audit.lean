@@ -321,3 +321,5 @@ open GU
 #print axioms GU.Spinor.ker_spinToSO0_eq
 #print axioms GU.Library.isManifold_levelOn
 #print axioms GU.Library.smoothSubmersiveOn_extend
+#print axioms GU.Library.contMDiff_levelSetOn_val
+#print axioms GU.Library.contMDiff_levelSetOn_iff
