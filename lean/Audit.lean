@@ -285,3 +285,12 @@ open GU
 #print axioms GU.Library.contDiffAt_smoothChart_symm
 #print axioms GU.Library.smoothLevelCharted
 #print axioms GU.Library.isManifold_level
+#print axioms GU.Library.contMDiff_levelSet_val
+#print axioms GU.Library.contMDiff_levelSet_iff
+#print axioms GU.Library.isManifold_orth
+#print axioms GU.Library.fibreDim_orth
+#print axioms GU.Library.lieGroup_orth
+#print axioms GU.Library.lieGroup_O77
+#print axioms GU.Library.dim_O77
+#print axioms GU.Library.mem_Orth_iff_Bm
+#print axioms GU.Library.orthOGEquiv

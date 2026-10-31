@@ -52,6 +52,8 @@ import GU.Shiab.FormsReal
 import GU.Shiab.FormsRealCoords
 import GU.Library.LevelSet
 import GU.Library.LevelManifold
+import GU.Library.LevelInclusion
+import GU.Library.Orthogonal
 import GU.Spinor.CentralizerMain
 import GU.Spinor.SpanFull
 import GU.Observerse.Global
@@ -95,3 +97,4 @@ import GU.Spinor.SpinSU4
 import GU.Spinor.Lambda2
 import GU.Spinor.SU4Det
 import GU.Spinor.SU4Onto
+import GU.Bundle.OrthoLie
