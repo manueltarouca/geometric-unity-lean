@@ -14,8 +14,8 @@ gamma-matrix `pos6`/`neg4` of `PatiSalam.lean` (via `gen i = (i % 7, 7 ≤ i)`, 
 * **`spin6_fixes`, `spin4_fixes`**: `Spin6` acts trivially (via `vecRep`) on every vector
   `Q`-orthogonal to `W6`, and `Spin4` on every vector orthogonal to `W4`; in particular both fix the
   base directions (`base_fixed`), `Spin6` fixes `W4` and `Spin4` fixes `W6` (`spin6_fixes_W4`,
-  `spin4_fixes_W6`). (Invariance of `W6` under `Spin6` then follows from `vecRep_isometry` and
-  nondegeneracy; not formalised.)
+  `spin4_fixes_W6`). `spin6_preserves_W6`, `spin4_preserves_W4`: each preserves its own block, so the
+  action is block-diagonal on `ℝ¹⁴ = base ⊕ W6 ⊕ W4`.
 * `neg_one_mem_Spin6`, `neg_one_mem_Spin4`, **`product_not_injective`**: `−1` lies in both, so the
   product map `Spin6 × Spin4 → Spin(7,7)` has kernel containing `(−1,−1)`: the embedded group is
   `(Spin(6) × Spin(4))/ℤ₂`, as usual. `spin6_nontrivial`: `e₁e₂` acts as `−1` on `e₁`.
@@ -314,5 +314,40 @@ theorem product_kernel {x y : Spin77} (hx : x ∈ Spin6) (hy : y ∈ Spin4) (h :
     refine ⟨e, ?_⟩
     have hxx : x * x = 1 := Subtype.ext (by rw [Submonoid.coe_mul, e, neg_one_mul, neg_neg]; rfl)
     rw [hyx, inv_eq_of_mul_eq_one_right hxx]; exact e
+
+
+/-- `vecRep` preserves the polar form. -/
+lemma vecRep_polar (x : Spin77) (v w : Fin 14 → ℝ) :
+    QuadraticMap.polar Q77 (vecRep x v) (vecRep x w) = QuadraticMap.polar Q77 v w := by
+  simp only [QuadraticMap.polar, ← map_add, vecRep_isometry]
+
+/-- Elements fixing `S`'s orthogonal complement map vectors supported in `S` to vectors supported
+in `S`. -/
+lemma preserves_block {S : Finset (Fin 14)} {x : Spin77} (hx : x ∈ fixSub (perpOf S))
+    {v : Fin 14 → ℝ} (hv : SuppIn S v) : SuppIn S (vecRep x v) := by
+  intro k hk
+  have hek : (Pi.single k (1 : ℝ) : Fin 14 → ℝ) ∈ perpOf S :=
+    off_perp fun i hi => by
+      have : i ≠ k := fun h => hk (h ▸ hi)
+      simp [this]
+  have h1 : QuadraticMap.polar Q77 (vecRep x v) (Pi.single k 1) = 0 := by
+    rw [← hx _ hek, vecRep_polar]; exact hek v hv
+  rw [polar_Q77] at h1
+  simp only [Pi.single_apply, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
+    ite_true] at h1
+  split_ifs at h1 with hw <;> linarith
+
+lemma Spin6_le : Spin6 ≤ fixSub (perpOf S6) :=
+  (Subgroup.closure_le _).mpr fun _ hg => gens_fix hg
+lemma Spin4_le : Spin4 ≤ fixSub (perpOf S4) :=
+  (Subgroup.closure_le _).mpr fun _ hg => gens_fix hg
+
+/-- **`Spin6` preserves `W6`, `Spin4` preserves `W4`**: with the fixing statements, both act
+block-diagonally on `ℝ¹⁴ = base ⊕ W6 ⊕ W4`. -/
+theorem spin6_preserves_W6 {x : Spin77} (hx : x ∈ Spin6) {v : Fin 14 → ℝ} (hv : SuppIn S6 v) :
+    SuppIn S6 (vecRep x v) := preserves_block (Spin6_le hx) hv
+
+theorem spin4_preserves_W4 {x : Spin77} (hx : x ∈ Spin4) {v : Fin 14 → ℝ} (hv : SuppIn S4 v) :
+    SuppIn S4 (vecRep x v) := preserves_block (Spin4_le hx) hv
 
 end GU.Spinor
