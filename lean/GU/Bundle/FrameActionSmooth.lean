@@ -197,4 +197,22 @@ theorem contMDiff_actOFr :
     contMDiff_levelSet_val (orth_submersive _ (ηSig_mem 7 7) (ηSig_sq 7 7))
   exact contMDiff_ractM_joint.comp ((hv.comp contMDiff_fst).prodMk (hO.comp contMDiff_snd))
 
+lemma contMDiff_homTot_proj :
+    ContMDiff 𝓘(ℝ, HomModel) ((modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod
+      (modelWithCornersSelf ℝ (Fin 10 → ℝ))) ∞ (fun q : HomTotM X => q.proj) := by
+  have hp := Bundle.contMDiff_proj (IB := (modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod
+      (modelWithCornersSelf ℝ (Fin 10 → ℝ))) (n := ∞) (F := HomF) (E := HomCb (X := X))
+  simp only [ContMDiff, ContMDiffAt, ContMDiffWithinAt] at hp ⊢
+  exact hp
+
+/-- **The projection of the orthonormal frame bundle to `Y` is smooth.** -/
+theorem contMDiff_OFr_proj :
+    letI := regCharted (Fframe_regular (X := X))
+    haveI := isManifold_regularLevel (Fframe_regular (X := X))
+    ContMDiff 𝓘(ℝ, Fin (fibreDim HomModel (symS 14)) → ℝ) ((modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod
+      (modelWithCornersSelf ℝ (Fin 10 → ℝ))) ∞ (fun q : OFr X => (q : HomTotM X).proj) := by
+  let _ := regCharted (Fframe_regular (X := X))
+  have _ := isManifold_regularLevel (Fframe_regular (X := X))
+  exact contMDiff_homTot_proj.comp (contMDiff_regularLevel_val (Fframe_regular (X := X)))
+
 end GU.Library
