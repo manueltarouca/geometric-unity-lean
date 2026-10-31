@@ -10,9 +10,9 @@ orthonormal frames, a canonically defined subset of `OFr`.
   orthonormal frame, namely `TP_P ∘ Φ` (`TP_isometry`; `TP` preserves `V` and `H*`).
 * **`ractM_mem_AFr`**: isometries fixing `H*` pointwise preserve adapted frames; in particular the
   `Φ`-aligned Pati–Salam groups (`ractM_mem_AFr_PS6'`, `_PS4'`).
-**Not shown**: stability under the full block group `O(6,4) × O(1,3)`, fibrewise transitivity of
-that group, smoothness, or any principal-bundle structure; so this is not (yet) a reduction of the
-structure group in the bundle-theoretic sense.
+Block-group stability, fibrewise transitivity, smooth local adapted sections and the reduction
+of the structure group to `O(6,4) × O(1,3)` are in `AdaptedBundle`, `AdaptedSection` and
+`AdaptedReduction` (`adaptedReduction`).
 -/
 
 namespace GU.Library

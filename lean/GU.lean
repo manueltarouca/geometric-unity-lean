@@ -121,3 +121,6 @@ import GU.Bundle.AdaptedFrames
 import GU.Bundle.LocalTrivInverse
 import GU.Library.SmoothPrincipal
 import GU.Bundle.FramePrincipal
+import GU.Bundle.AdaptedBundle
+import GU.Bundle.AdaptedSection
+import GU.Bundle.AdaptedReduction

@@ -42,4 +42,78 @@ structure SmoothPrincipalBundle (IB : ModelWithCorners 𝕜 EB HB) (IG : ModelWi
     ContMDiffOn IB IP ∞ σ V ∧ (∀ y ∈ V, proj (σ y) = y) ∧
     ContMDiffOn IP IG ∞ τ (proj ⁻¹' V) ∧ (∀ p ∈ proj ⁻¹' V, act (σ (proj p)) (τ p) = p)
 
+variable {IB : ModelWithCorners 𝕜 EB HB} {IG : ModelWithCorners 𝕜 EG HG}
+  {IP : ModelWithCorners 𝕜 EP HP} [LieGroup IG ∞ G] [IsManifold IB ∞ B] [IsManifold IP ∞ P]
+
+/-- **A reduction of the structure group** of a smooth principal `G`-bundle to `H ≤ G`: a subset
+`Q ⊆ P` that is `H`-stable, on which `H` acts transitively on each fibre, and which admits smooth
+local sections of `P` with values in `Q` (`locSec`; so `Q` meets every fibre). This is a
+local-section characterisation; it is equivalent to the sub-bundle definition (a principal
+`H`-bundle with an equivariant embedding into `P`) when `H` is an embedded Lie subgroup, which is
+not proved here. `SmoothReduction.locTriv` derives smooth local trivialisations whose division maps
+are `H`-valued on `Q` (smooth as `G`-valued maps). -/
+structure SmoothReduction (Pb : SmoothPrincipalBundle IB IG IP B G P) (H : Subgroup G) where
+  carrier : Set P
+  act_mem : ∀ p ∈ carrier, ∀ g ∈ H, Pb.act p g ∈ carrier
+  transitive : ∀ p ∈ carrier, ∀ q ∈ carrier, Pb.proj p = Pb.proj q → ∃ g ∈ H, Pb.act p g = q
+  locSec : ∀ b : B, ∃ V : Set B, IsOpen V ∧ b ∈ V ∧ ∃ σ : B → P,
+    ContMDiffOn IB IP ∞ σ V ∧ ∀ y ∈ V, Pb.proj (σ y) = y ∧ σ y ∈ carrier
+
+namespace SmoothReduction
+
+variable {Pb : SmoothPrincipalBundle IB IG IP B G P} {H : Subgroup G}
+
+/-- The reduced set meets every fibre. -/
+lemma exists_mem (R : SmoothReduction Pb H) (b : B) : ∃ p ∈ R.carrier, Pb.proj p = b := by
+  obtain ⟨V, -, hb, σ, -, hσ⟩ := R.locSec b
+  exact ⟨σ b, (hσ b hb).2, (hσ b hb).1⟩
+
+/-- **Smooth local trivialisations of the reduction**: an `R`-valued smooth local section `σ`
+and a smooth division map `τ` with `σ (proj p) · τ p = p`, and `τ p ∈ H` for `p ∈ R`. -/
+theorem locTriv (R : SmoothReduction Pb H) (b : B) :
+    ∃ V : Set B, IsOpen V ∧ b ∈ V ∧ ∃ (σ : B → P) (τ : P → G),
+      ContMDiffOn IB IP ∞ σ V ∧ (∀ y ∈ V, Pb.proj (σ y) = y ∧ σ y ∈ R.carrier) ∧
+      ContMDiffOn IP IG ∞ τ (Pb.proj ⁻¹' V) ∧
+      (∀ p ∈ Pb.proj ⁻¹' V, Pb.act (σ (Pb.proj p)) (τ p) = p) ∧
+      ∀ p ∈ Pb.proj ⁻¹' V, p ∈ R.carrier → τ p ∈ H := by
+  obtain ⟨V1, hV1, hb1, σ, hσ, hσp⟩ := R.locSec b
+  obtain ⟨V2, hV2, hb2, σ', τ', -, -, hτ', hrec⟩ := Pb.locTriv b
+  have key : ∀ p ∈ Pb.proj ⁻¹' (V1 ∩ V2),
+      Pb.act (σ (Pb.proj p)) ((τ' (σ (Pb.proj p)))⁻¹ * τ' p) = p := by
+    intro p hp
+    have hy := (hσp _ hp.1).1
+    have e1 : Pb.act (σ' (Pb.proj p)) (τ' (σ (Pb.proj p))) = σ (Pb.proj p) := by
+      have := hrec (σ (Pb.proj p)) (by show Pb.proj _ ∈ V2; rw [hy]; exact hp.2)
+      rwa [hy] at this
+    calc Pb.act (σ (Pb.proj p)) ((τ' (σ (Pb.proj p)))⁻¹ * τ' p)
+        = Pb.act (Pb.act (σ' (Pb.proj p)) (τ' (σ (Pb.proj p))))
+            ((τ' (σ (Pb.proj p)))⁻¹ * τ' p) := by rw [e1]
+      _ = Pb.act (σ' (Pb.proj p)) (τ' p) := by rw [Pb.act_mul, mul_inv_cancel_left]
+      _ = p := hrec p hp.2
+  refine ⟨V1 ∩ V2, hV1.inter hV2, ⟨hb1, hb2⟩, σ, fun p => (τ' (σ (Pb.proj p)))⁻¹ * τ' p,
+    hσ.mono Set.inter_subset_left, fun y hy => hσp y hy.1, ?_, key, ?_⟩
+  · have hs : ContMDiffOn IP IP ∞ (fun p => σ (Pb.proj p)) (Pb.proj ⁻¹' (V1 ∩ V2)) :=
+      hσ.comp Pb.smooth_proj.contMDiffOn fun p hp => hp.1
+    have h1 : ContMDiffOn IP IG ∞ (fun p => τ' (σ (Pb.proj p))) (Pb.proj ⁻¹' (V1 ∩ V2)) :=
+      hτ'.comp hs fun p hp => by
+        show Pb.proj (σ (Pb.proj p)) ∈ V2
+        rw [(hσp _ hp.1).1]; exact hp.2
+    exact h1.inv.mul (hτ'.mono fun p hp => hp.2)
+  · intro p hp hpR
+    show (τ' (σ (Pb.proj p)))⁻¹ * τ' p ∈ H
+    set t := (τ' (σ (Pb.proj p)))⁻¹ * τ' p
+    obtain ⟨h, hH, hh⟩ := R.transitive _ (hσp _ hp.1).2 p hpR (hσp _ hp.1).1
+    have hrec' : Pb.act (σ (Pb.proj p)) t = p := key p hp
+    have hfree : t * h⁻¹ = 1 := by
+      apply Pb.free (σ (Pb.proj p))
+      rw [← Pb.act_mul, hrec']
+      calc Pb.act p h⁻¹ = Pb.act (Pb.act (σ (Pb.proj p)) h) h⁻¹ := by rw [hh]
+        _ = σ (Pb.proj p) := by rw [Pb.act_mul, mul_inv_cancel, Pb.act_one]
+    have : t = h := by
+      calc t = t * h⁻¹ * h := by rw [inv_mul_cancel_right]
+        _ = h := by rw [hfree, one_mul]
+    rw [this]; exact hH
+
+end SmoothReduction
+
 end GU.Library
