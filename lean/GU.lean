@@ -98,3 +98,4 @@ import GU.Spinor.Lambda2
 import GU.Spinor.SU4Det
 import GU.Spinor.SU4Onto
 import GU.Bundle.OrthoLie
+import GU.Bundle.OrthoSpin

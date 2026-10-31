@@ -294,3 +294,9 @@ open GU
 #print axioms GU.Library.dim_O77
 #print axioms GU.Library.mem_Orth_iff_Bm
 #print axioms GU.Library.orthOGEquiv
+#print axioms GU.Library.mem_O77_iff_IsoSet
+#print axioms GU.Library.spinToO77
+#print axioms GU.Library.orthToOG_comp_spinToO77
+#print axioms GU.Library.cc_O77_iff_spin
+#print axioms GU.Library.connectedComponent_O77
+#print axioms GU.Library.spinToO77_neg_one
