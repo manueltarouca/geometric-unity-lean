@@ -9,7 +9,7 @@ This is the identity behind `SU(4) → SO(6)`. For unitary `U` with `det U = 1` 
 `A ↦ U A Uᵀ` commutes with `⋆` up to complex conjugation, so it preserves the 6-dimensional real
 form of `Λ²ℂ⁴`. Track 1 of `MULTISESSION_PLAN.md`: S1 (`lam2`), S2 partly (`σK_eq`, `σK_vOf`: the
 real form is `{A antisym : ⋆A = Ā}`), S3 (`su4_preserves`, the linear map `TUL`, `σK_TU`, `TU_isometry` via the Pfaffian `pf_conj`,
-`TU_mul`). S4 is `SU4Det.lean`.
+`TU_mul`). S4 is `SU4Det.lean`, S5 is `SU4Onto.lean`.
 -/
 
 namespace GU.Spinor

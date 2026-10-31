@@ -264,3 +264,7 @@ open GU
 #print axioms GU.Spinor.TU_mul
 #print axioms GU.Spinor.unitary_sqrt
 #print axioms GU.Spinor.det_TUL
+#print axioms GU.Spinor.det_ext6_TUL
+#print axioms GU.Spinor.spinSU4_surjective
+#print axioms GU.Spinor.spin6SU4Equiv
+#print axioms GU.Spinor.Spin6SU4

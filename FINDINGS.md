@@ -38,7 +38,7 @@ nothing here proves or refutes GU as a physical theory.
 |---|---|---|
 | C1 | **Signature selection.** Orthonormal (7,7) frames of the chimeric bundle exist exactly over the (1,3) points of Y, never over the (3,1) points. Y splits as (1,3) ⊔ (3,1). | `ortho_iff_13`, `no_ortho_31`, `lorentz_dichotomy`, `signature_selected` |
 | C2 | The image of Spin(7,7) in O(7,7) is exactly SO⁺ (the spinor-norm kernel), of index 2 in SO. It equals the identity component SO₀, both connected and path component. | `range_vecRep`, `cc_iff_spin` |
-| C3 | Pati–Salam at the group level. Spin6 and Spin4 inside Spin(7,7) commute and meet in ±1. Spin6 ≅ Mathlib's Spin(6) and embeds in SU(4); Spin4 ≅ SU(2) × SU(2). | `product_kernel`, `spin6Equiv`, `spinSU4_injective`, `spin4SU2Equiv` |
+| C3 | Pati–Salam at the group level. Spin6 and Spin4 inside Spin(7,7) commute and meet in ±1. Spin6 ≅ Mathlib's Spin(6) ≅ SU(4); Spin4 ≅ SU(2) × SU(2). | `product_kernel`, `spin6Equiv`, `Spin6SU4`, `spin4SU2Equiv` |
 | C4 | Hypercharge circle U(1)_Y ⊂ Spin(7,7) has minimal period π. The maximal torus kernel on U(1)⁵ is (ℤ/2)⁴. | `U1Y_eq_one_iff`, `torusKer_quot_equiv_four` |
 
 ## D. Underspecified in the draft (not formalisable as stated)
@@ -50,7 +50,6 @@ is no anomaly-cancellation mechanism. The global spin structure (w₂) is not di
 
 ## E. Not done / open
 
-- Surjectivity of Spin(6) → SU(4), so Spin(6) ≅ SU(4) itself.
 - The global spin lift (w₂).
 - The submanifold structure of the orthonormal frames.
 - Linearity of the forms layer, which would extend B3 from the 55 spanning tensors to all tensors

@@ -9,8 +9,8 @@ Same method as `SpinIso.lean`, applied to the positive-definite block `W6 = span
   monomials map to Pauli strings that are trace-orthogonal (`decide` over `64 × 64` pairs).
 * `Φ₆(spinGroup Q₆) = Spin6`.
 
-**`spin6Equiv : spinGroup Q₆ ≃* Spin6`**. `Spin(6) ↪ SU(4)` is `spinSU4_injective`
-(`SpinSU4.lean`); surjectivity, hence `Spin(6) ≅ SU(4)`, is not proved.
+**`spin6Equiv : spinGroup Q₆ ≃* Spin6`**. **`Spin6 ≃* SU(4)`** is `Spin6SU4`
+(`SpinSU4.lean`, `SU4Onto.lean`).
 -/
 
 namespace GU.Spinor

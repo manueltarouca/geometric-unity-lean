@@ -2,7 +2,7 @@ import GU.Spinor.SpinSU2
 import GU.Spinor.SpinIso6
 
 /-!
-# Towards `Spin(6) ≅ SU(4)`: the half-spin representation of `Spin(6)` on `ℂ⁴`
+# `Spin(6) → SU(4)`: the half-spin representation of `Spin(6)` on `ℂ⁴`
 
 `σ(v)`, for `v ∈ ℝ⁶`, is an explicit complex `4 × 4` matrix with `σ(v) σ(v)ᴴ = σ(v)ᴴ σ(v) = |v|²`
 (`σ_mul_conj`, `σ_conj_mul`) and `det σ(v) = |v|⁴` (`det_σM`). It is `v₅ + i ∑ v_k τ_k`, with
@@ -16,7 +16,7 @@ nontrivial (`spinSU4_negOne : −1 ↦ −1`).
 (`vecRep_spinU`). If `A = 1`, this forces `Bᴴ = ±1`, so `x` acts as `±1` on `W6`. Then `x = ±1`, or
 `x = ±ω₆` (the volume element, with `γ(ω₆) = diag(−i, i)`); only `x = 1` has `A = 1`.
 
-Not proved yet: surjectivity, so `Spin(6) ≅ SU(4)` is still open.
+Surjectivity, and hence `Spin(6) ≅ SU(4)`: `spinSU4_surjective`, `spin6SU4Equiv` (`SU4Onto.lean`).
 -/
 
 namespace GU.Spinor
