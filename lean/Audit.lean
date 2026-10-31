@@ -108,3 +108,6 @@ open GU
 #print axioms FormsW.einstein_nonzero
 #print axioms Spinor.centralizer_iff
 #print axioms Spinor.V_linIndep
+#print axioms Spinor.centralizer_spin64
+#print axioms Spinor.u32_span_finrank
+#print axioms Spinor.span_eq
