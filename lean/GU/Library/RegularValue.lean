@@ -12,7 +12,7 @@ The topology is the subspace topology of `M`.
 
 `[Nontrivial F]` is only used to extend `f ∘ φ⁻¹` by a value `≠ c` off the chart target; if
 `F = 0`, the level set is `M` itself. Not yet proved: `RegularLevel` from the textbook hypothesis
-(`f` is `C^∞` with `mfderiv` onto along `f⁻¹{c}`), and smoothness of the inclusion into `M`.
+(`f` is `C^∞` with `mfderiv` onto along `f⁻¹{c}`), and smoothness of the inclusion into `M` is `contMDiff_regularLevel_val`.
 Not in the pinned Mathlib: `Geometry/Manifold/Submersion.lean` lists the preimage theorem as TODO.
 -/
 
@@ -259,6 +259,88 @@ theorem isManifold_regularLevel (h : RegularLevel E f c) :
           (contDiff_id.sub contDiff_const)) :)
     exact h4.contDiffAt.comp v h3
   refine hG.contDiffWithinAt.congr (fun w hw' => regTrans_eq h a b hw') (regTrans_eq h a b hv)
+
+/-- The value in `M` of the inverse regular chart. -/
+lemma regChart_symm_val (h : RegularLevel E f c) (a : levelSet f c) {v : Fin (fibreDim E F) → ℝ}
+    (hv : v ∈ (regChart h a).target) :
+    (((regChart h a).symm v : levelSet f c) : M) =
+      (chartAt E (a : M)).symm
+        ((smoothChartOn (a := ((basePt E a : levelSet _ c) : E)) (gch_sub h (a : M)).isOpen
+          (gch_sub h (a : M)).smooth ((gch_sub h (a : M)).sub _ (basePt E a).2)
+          ((gch_sub h (a : M)).surj _ (basePt E a).2)).symm
+          (c, (kerEquiv ((gch_sub h (a : M)).surj _ (basePt E a).2)).symm v)) := by
+  set La := smoothLevelChartOn (gch_sub h (a : M)) (basePt E a)
+  have hea : regChart h a = (restrA E a).trans La := rfl
+  rw [hea, OpenPartialHomeomorph.trans_target] at hv
+  obtain ⟨hvL, hvR⟩ := hv
+  rw [hea, OpenPartialHomeomorph.trans_symm_eq_symm_trans_symm, OpenPartialHomeomorph.coe_trans,
+    Function.comp_apply]
+  rw [show (((restrA E a).symm (La.symm v) : levelSet f c) : M) =
+      (chartAt E (a : M)).symm (La.symm v : E) from levelRestr_symm_val hvR,
+    smoothLevelChartOn_symm_val (gch_sub h (a : M)) (basePt E a) hvL]
+
+lemma regChart_target_chart (h : RegularLevel E f c) (a : levelSet f c) {v : Fin (fibreDim E F) → ℝ}
+    (hv : v ∈ (regChart h a).target) :
+    (smoothChartOn (a := ((basePt E a : levelSet _ c) : E)) (gch_sub h (a : M)).isOpen
+      (gch_sub h (a : M)).smooth ((gch_sub h (a : M)).sub _ (basePt E a).2)
+      ((gch_sub h (a : M)).surj _ (basePt E a).2)).symm
+      (c, (kerEquiv ((gch_sub h (a : M)).surj _ (basePt E a).2)).symm v) ∈
+        (chartAt E (a : M)).target ∧
+      (c, (kerEquiv ((gch_sub h (a : M)).surj _ (basePt E a).2)).symm v) ∈
+        (smoothChartOn (a := ((basePt E a : levelSet _ c) : E)) (gch_sub h (a : M)).isOpen
+          (gch_sub h (a : M)).smooth ((gch_sub h (a : M)).sub _ (basePt E a).2)
+          ((gch_sub h (a : M)).surj _ (basePt E a).2)).target := by
+  set La := smoothLevelChartOn (gch_sub h (a : M)) (basePt E a)
+  have hea : regChart h a = (restrA E a).trans La := rfl
+  rw [hea, OpenPartialHomeomorph.trans_target] at hv
+  obtain ⟨hvL, hvR⟩ := hv
+  refine ⟨?_, mem_smoothChartOn_target_of _ _ hvL⟩
+  have ht : ((La.symm v : levelSet _ c) : E) ∈ (chartAt E (a : M)).target := hvR
+  rwa [smoothLevelChartOn_symm_val (gch_sub h (a : M)) (basePt E a) hvL] at ht
+
+/-- **The inclusion of a regular level set is smooth**: it is a submanifold of `M`. -/
+theorem contMDiff_regularLevel_val (h : RegularLevel E f c) :
+    letI := regCharted h
+    haveI := isManifold_regularLevel h
+    ContMDiff 𝓘(ℝ, Fin (fibreDim E F) → ℝ) 𝓘(ℝ, E) ∞ (Subtype.val : levelSet f c → M) := by
+  let _ := regCharted h
+  have _ := isManifold_regularLevel h
+  rw [contMDiff_iff]
+  refine ⟨continuous_subtype_val, fun a y => ?_⟩
+  intro v hv
+  have hvt : v ∈ (regChart h a).target := by
+    have : v ∈ (chartAt (Fin (fibreDim E F) → ℝ) a).target := by
+      simpa [extChartAt, OpenPartialHomeomorph.extend] using hv.1
+    exact this
+  have hvy : (((regChart h a).symm v : levelSet f c) : M) ∈ (chartAt E y).source := by
+    have : (((chartAt (Fin (fibreDim E F) → ℝ) a).symm v : levelSet f c) : M) ∈ (chartAt E y).source := by
+      simpa [extChartAt, OpenPartialHomeomorph.extend] using hv.2
+    exact this
+  obtain ⟨ht, htgt⟩ := regChart_target_chart h a hvt
+  set ha := gch_sub h (a : M)
+  set Ψa := smoothChartOn (a := ((basePt E a : levelSet _ c) : E)) ha.isOpen ha.smooth
+    (ha.sub _ (basePt E a).2) (ha.surj _ (basePt E a).2)
+  set Ka := kerEquiv (ha.surj _ (basePt E a).2)
+  have hsrc : Ψa.symm (c, Ka.symm v) ∈ ((chartAt E (a : M)).symm.trans (chartAt E y)).source :=
+    ⟨ht, by
+      show (chartAt E (a : M)).symm (Ψa.symm (c, Ka.symm v)) ∈ (chartAt E y).source
+      rw [← regChart_symm_val h a hvt]; exact hvy⟩
+  have hG : ContDiffAt ℝ ∞
+      (fun v => ((chartAt E (a : M)).symm.trans (chartAt E y)) (Ψa.symm (c, Ka.symm v))) v :=
+    ((chartTrans_contDiffOn (a : M) y).contDiffAt
+      ((OpenPartialHomeomorph.open_source _).mem_nhds hsrc)).comp v
+      ((contDiffAt_smoothChartOn_symm ha.isOpen ha.smooth (ha.sub _ (basePt E a).2)
+        (ha.surj _ (basePt E a).2) htgt).comp v
+        (contDiff_const.prodMk Ka.symm.contDiff).contDiffAt)
+  refine hG.contDiffWithinAt.congr (fun w hw => ?_) ?_
+  · have hwt : w ∈ (regChart h a).target := by
+      have : w ∈ (chartAt (Fin (fibreDim E F) → ℝ) a).target := by
+        simpa [extChartAt, OpenPartialHomeomorph.extend] using hw.1
+      exact this
+    show chartAt E y (((regChart h a).symm w : levelSet f c) : M) = _
+    rw [regChart_symm_val h a hwt]; rfl
+  · show chartAt E y (((regChart h a).symm v : levelSet f c) : M) = _
+    rw [regChart_symm_val h a hvt]; rfl
 
 end RegularManifold
 
