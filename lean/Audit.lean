@@ -240,3 +240,6 @@ open GU
 #print axioms GU.Spinor.Φ4_injective
 #print axioms GU.Spinor.spin4_le_range
 #print axioms GU.Spinor.spin4Equiv
+#print axioms GU.Spinor.finrank_Cl6
+#print axioms GU.Spinor.Φ6_injective
+#print axioms GU.Spinor.spin6Equiv

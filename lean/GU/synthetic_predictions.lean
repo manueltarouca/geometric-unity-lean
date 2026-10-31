@@ -44,8 +44,8 @@ under the draft's dictionary. None of them is a claim that nature behaves this w
    So the internal symmetry does not mix with spacetime (compatible with Coleman–Mandula). Caveats: the
    reading of weights as one left-handed generation needs the Majorana reality and a chirality
    convention (`Anomaly.lean`); each subgroup is a non-split double cover of its block `SO(6)` / `SO(4)` (`BlockSpin.lean`);
-   `Spin4 ≃* spinGroup Q₄` (Mathlib's abstract `Spin(0,4)`, `SpinIso.lean`); the same for
-   `Spin6`, and topology, are not formalised.
+   `Spin4 ≃* spinGroup Q₄` and `Spin6 ≃* spinGroup Q₆` (Mathlib's abstract `Spin(0,4)`, `Spin(6)`;
+   `SpinIso.lean`, `SpinIso6.lean`); topology and the exceptional isomorphisms are not formalised.
 -/
 
 namespace GU.Predictions
