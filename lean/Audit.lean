@@ -106,3 +106,5 @@ open GU
 #print axioms Spinor.gamma_linIndep
 #print axioms FormsW.einstein_all
 #print axioms FormsW.einstein_nonzero
+#print axioms Spinor.centralizer_iff
+#print axioms Spinor.V_linIndep
