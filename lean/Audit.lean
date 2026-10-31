@@ -47,3 +47,6 @@ open GU
 #print axioms Spinor.u32_commutes_J
 #print axioms Spinor.smPart_length
 #print axioms Spinor.pati_salam_split
+#print axioms Predictions.center_two_u1
+#print axioms Predictions.four_sectors_equal
+#print axioms Predictions.rs_kernel_dim
