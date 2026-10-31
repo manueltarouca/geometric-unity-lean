@@ -1,3 +1,4 @@
 .toolchain/
 lean/.lake/
 lean/build/
+__pycache__/
