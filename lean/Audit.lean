@@ -52,3 +52,6 @@ open GU
 #print axioms Predictions.rs_kernel_dim
 #print axioms Chimeric.chimForm_transport
 #print axioms Chimeric.chim_signature_everywhere
+#print axioms Spinor.hypercharge_table
+#print axioms Spinor.charge_table
+#print axioms Spinor.ω10_planes
