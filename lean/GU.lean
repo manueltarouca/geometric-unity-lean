@@ -21,3 +21,4 @@ import GU.Observerse.ChimericFiber
 import GU.Spinor.Hypercharge
 import GU.Fermion.Decoupling
 import GU.Spinor.WeightSpaces
+import GU.Spinor.HyperchargeOp
