@@ -137,3 +137,7 @@ open GU
 #print axioms GU.Observerse.frames_isManifold
 #print axioms GU.Observerse.contMDiff_frames_proj
 #print axioms GU.Observerse.finrank_EndC
+#print axioms GU.Observerse.ract_free
+#print axioms GU.Observerse.ract_transitive
+#print axioms GU.Observerse.contMDiff_ract
+#print axioms GU.Observerse.frYBundle
