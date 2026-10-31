@@ -115,3 +115,5 @@ open GU
 #print axioms Observerse.fiberEquiv
 #print axioms FormsW.sigma2_kills
 #print axioms FormsW.not_in_image
+#print axioms Observerse.bil_isManifold
+#print axioms Observerse.contMDiff_bil_proj

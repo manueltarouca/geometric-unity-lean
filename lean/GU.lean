@@ -48,3 +48,4 @@ import GU.Spinor.CentralizerMain
 import GU.Spinor.SpanFull
 import GU.Observerse.Global
 import GU.Shiab.DeformationWitness
+import GU.Observerse.BilinearBundle
