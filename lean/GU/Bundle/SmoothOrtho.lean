@@ -15,8 +15,7 @@ On the smooth frame bundle `FrY ⊆ Hom(ℝ¹⁴, C)` (`SmoothFrames.lean`):
 * **`mem_orthoSet_iff`**: orthonormality of a frame (`Bmod (Gpt y) (A u) (A w) = Bη u w`, raw
   coordinates) is chart invariant: equivalently it holds in any chart `i` (via `Bmod_covariant`).
 * **`isClosed_orthoSet`**: the orthonormal frames form a closed subset of the total space
-  `Hom(ℝ¹⁴, C)` (hence of `FrY`; `orthoSet ⊆ frameSet` holds since `Bη` is nondegenerate, but is not
-  stated here).
+  `Hom(ℝ¹⁴, C)` (hence of `FrY`: `orthoSet_subset_frameSet` in `OrthoGlue.lean`).
 * `ract_ortho`, **`ortho_transitive`**: `Bη`-preserving `g` (the group `O(Bη)`, as a predicate on
   `EndC`; not linked to the subgroup `OG ⊆ GLC` of `OrthoFrames.lean`) preserve orthonormal frames,
   and two orthonormal frames over the same point differ by such a `g` (unique by `ract_unique`).
@@ -24,7 +23,7 @@ On the smooth frame bundle `FrY ⊆ Hom(ℝ¹⁴, C)` (`SmoothFrames.lean`):
 This is NOT yet a reduction of the structure group over all of `Y`: `Yobs` contains both Lorentzian
 components, and at (3,1) points `Bmod G` has signature (9,5) (checked numerically; see
 `Chimeric.lean`), so those fibres of `orthoSet` are empty. Over (1,3) points orthonormal frames exist
-(`TP_isometry`, for the set-level `OFrames`; not transported to `orthoSet`). Not done: the
+in the smooth total space (`ortho_exists_Y13`, `OrthoGlue.lean`). Not done: the
 submanifold structure (needs a regular-value theorem; Mathlib has no submanifolds).
 -/
 

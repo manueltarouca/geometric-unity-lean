@@ -156,3 +156,7 @@ open GU
 #print axioms GU.Observerse.isClosed_orthoSet
 #print axioms GU.Observerse.ortho_transitive
 #print axioms GU.Observerse.Gi_det_neg
+#print axioms GU.Observerse.Bη_nondeg
+#print axioms GU.Observerse.orthoSet_subset_frameSet
+#print axioms GU.Observerse.ortho_exists_Y13
+#print axioms GU.Observerse.ortho_transitive'

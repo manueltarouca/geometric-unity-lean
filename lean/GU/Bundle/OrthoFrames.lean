@@ -15,8 +15,10 @@ import GU.Observerse.ChimericMetricY
 
 As with `frameBundle`, the set-level statement has the shape `B × G`; its real content is that an
 orthonormal frame exists at every (1,3) point (`TP_isometry`). Chart covariance of the metric is
-`ChimericCovariance.lean`. Not proved: the explicit identification `Bη ≅ Q77` (both are (7,7)), and
-the O(7,7) reduction as a topological sub-bundle. Still open: the spin double cover `P̃_Fr(C)`.
+`ChimericCovariance.lean`. The identification `Bη ≅ Q77` is `Φiso_isometry` (`Isometry77.lean`);
+orthonormal frames in the smooth frame bundle are closed and exist over (1,3) points
+(`SmoothOrtho.lean`, `OrthoGlue.lean`); the sub-bundle (submanifold) structure is not proved.
+Still open: the global spin double cover `P̃_Fr(C)`.
 -/
 
 namespace GU
