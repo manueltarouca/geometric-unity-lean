@@ -84,3 +84,4 @@ import GU.Spinor.SpinIso6
 import GU.Spinor.SpinQuat
 import GU.Spinor.SpinSU2
 import GU.Spinor.SpinSU4
+import GU.Spinor.Lambda2

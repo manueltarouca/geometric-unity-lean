@@ -255,3 +255,6 @@ open GU
 #print axioms GU.Spinor.spinSU4_negOne
 #print axioms GU.Spinor.vecRep_spinU
 #print axioms GU.Spinor.spinSU4_injective
+#print axioms GU.Spinor.lam2
+#print axioms GU.Spinor.σK_eq
+#print axioms GU.Spinor.su4_preserves
