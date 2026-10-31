@@ -38,7 +38,8 @@ structure ChimericSpinStructure (Y : Type u) where
 
 attribute [instance] ChimericSpinStructure.act
 
-/-- Synthetic axiom (roadblock R4): the Dirac representation (3.31). -/
+/-- Interface for the Dirac representation (3.31). Originally a synthetic hypothesis (roadblock R4);
+now instantiated by `diracRep` below. -/
 structure DiracRep where
   ρ : Spin77 →* U6464
 

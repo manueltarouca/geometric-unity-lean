@@ -15,9 +15,15 @@ Under observation `ℷ*(TY) = TX^{1,3} ⊕ N^{6,4}` (12.19). We split the 14 gen
 
 Over `ℂ`, `J₄ = iω₄` and `J₁₀ = iω₁₀` square to `1` and `J₄ J₁₀ = -Γ`. So the `Γ = +1` (left)
 spinors of `Y` are exactly `{J₄ = -J₁₀}` = `(+,−) ⊕ (−,+)`, i.e. `S̸_L(Y) = S̸_±(TX) ⊗ S̸_∓(N)`.
-By the traces each joint eigenspace has complex dimension `128/4 = 32 = 2 · 16`, matching (12.20).
-Which factor is called "L" is an orientation convention, so the paper's labelling
-`L⊗L ⊕ R⊗R` agrees with this one after flipping the orientation of `N`.
+Each joint eigenspace has complex dimension `32 = 2 · 16` (`joint_eigenspace_finrank`),
+matching (12.20).
+Which pair is called "left" depends on three independent sign conventions `Γ_V = ±(i)ω_V`
+(for Y, X and N). This is a sign convention, *not* an orientation: with all signs `+` one gets
+`LR ⊕ RL`, and the paper's `LL ⊕ RR` corresponds to flipping one of them.
+
+Not formalised here: the module isomorphism `S̸(Y) ≅ S̸(X) ⊗ S̸(N)` under
+`Spin(1,3) × Spin(6,4)`, and invariance of the joint eigenspaces under that subgroup. The
+(anti)commutation lemmas below are the ingredients for it.
 -/
 
 namespace GU.Spinor
@@ -102,9 +108,9 @@ lemma trace_toC (A : M128) : trace (toC A) = ((trace A : ℝ) : ℂ) := by
   simp only [trace, diag, toC, map_apply, Complex.ofRealHom_eq_coe]
   push_cast; rfl
 
-/-- Each joint eigenspace of `(iω₄, iω₁₀)` has trace-dimension 32: for the commuting
-projectors `P_a = (1 + a·iω₄)/2` and `Q_b = (1 + b·iω₁₀)/2`, `tr(P_a Q_b) = 32`. -/
-theorem joint_eigenspace_dim (a b : ℂ) :
+/-- Trace identity (holds for all `a b`; it counts dimension only for `a, b = ±1`, see
+`joint_eigenspace_finrank`). -/
+theorem trace_PQ (a b : ℂ) :
     trace ((1 / 2 : ℂ) • (1 + (a * Complex.I) • toC ω4) *
       ((1 / 2 : ℂ) • (1 + (b * Complex.I) • toC ω10))) = 32 := by
   have t4 : trace (toC ω4) = 0 := by rw [trace_toC, trace_ω4]; simp
@@ -116,5 +122,59 @@ theorem joint_eigenspace_dim (a b : ℂ) :
     Matrix.smul_mul, Matrix.mul_smul, trace_smul]
   simp
   norm_num
+
+lemma toC_ω4_sq : toC ω4 * toC ω4 = -1 := by
+  rw [← toC_mul, ω4_sq, toC]; ext i j; simp [Matrix.one_apply]; split_ifs <;> simp
+
+lemma toC_ω10_sq : toC ω10 * toC ω10 = -1 := by
+  rw [← toC_mul, ω10_sq, toC]; ext i j; simp [Matrix.one_apply]; split_ifs <;> simp
+
+lemma toC_ω_comm : toC ω4 * toC ω10 = toC ω10 * toC ω4 := by
+  rw [← toC_mul, ← toC_mul, ω4_ω10_comm]
+
+/-- `(1 + X)/2` is idempotent when `X² = 1`. -/
+lemma half_idem {X : Matrix Idx Idx ℂ} (hX : X * X = 1) :
+    IsIdempotentElem ((1 / 2 : ℂ) • (1 + X)) := by
+  unfold IsIdempotentElem
+  rw [Matrix.smul_mul, Matrix.mul_smul, smul_smul, Matrix.add_mul, Matrix.mul_add, Matrix.mul_add,
+    Matrix.one_mul, Matrix.one_mul, Matrix.mul_one, hX]
+  rw [show (1 : Matrix Idx Idx ℂ) + X + (X + 1) = (2 : ℂ) • (1 + X) by rw [two_smul]; abel, smul_smul]
+  norm_num
+
+lemma sq_scaled {X : Matrix Idx Idx ℂ} (hX : X * X = -1) {a : ℂ} (ha : a * a = 1) :
+    ((a * Complex.I) • X) * ((a * Complex.I) • X) = 1 := by
+  rw [Matrix.smul_mul, Matrix.mul_smul, smul_smul, hX]
+  have : a * Complex.I * (a * Complex.I) = -1 := by
+    rw [show a * Complex.I * (a * Complex.I) = (a * a) * (Complex.I * Complex.I) by ring, ha,
+      Complex.I_mul_I]; ring
+  rw [this]; simp
+
+/-- **(12.20), dimension count.** For `a, b ∈ {±1}`, the joint eigenprojector
+`P_a Q_b = ((1 + a·iω₄)/2)((1 + b·iω₁₀)/2)` is idempotent and has rank `32 = 2·16`. -/
+theorem joint_eigenspace_finrank (a b : ℂ) (ha : a * a = 1) (hb : b * b = 1) :
+    IsIdempotentElem ((1 / 2 : ℂ) • (1 + (a * Complex.I) • toC ω4) *
+        ((1 / 2 : ℂ) • (1 + (b * Complex.I) • toC ω10))) ∧
+      Module.finrank ℂ (LinearMap.range (Matrix.toLin'
+        ((1 / 2 : ℂ) • (1 + (a * Complex.I) • toC ω4) *
+          ((1 / 2 : ℂ) • (1 + (b * Complex.I) • toC ω10))))) = 32 := by
+  set P := (1 / 2 : ℂ) • (1 + (a * Complex.I) • toC ω4)
+  set Q := (1 / 2 : ℂ) • (1 + (b * Complex.I) • toC ω10)
+  have hP : IsIdempotentElem P := half_idem (sq_scaled toC_ω4_sq ha)
+  have hQ : IsIdempotentElem Q := half_idem (sq_scaled toC_ω10_sq hb)
+  have hPQ : Commute P Q := by
+    simp only [P, Q, Commute, SemiconjBy, Matrix.smul_mul, Matrix.mul_smul, Matrix.add_mul,
+      Matrix.mul_add, Matrix.one_mul, Matrix.mul_one, smul_smul, toC_ω_comm]
+    module
+  have hM : IsIdempotentElem (P * Q) := hP.mul_of_commute hPQ hQ
+  refine ⟨hM, ?_⟩
+  have hL : IsIdempotentElem (Matrix.toLin' (P * Q)) := by
+    unfold IsIdempotentElem
+    rw [Module.End.mul_eq_comp, ← Matrix.toLin'_mul, hM.eq]
+  have := (LinearMap.IsIdempotentElem.isProj_range _ hL).trace
+  rw [Matrix.trace_toLin'_eq] at this
+  have h32 := trace_PQ a b
+  rw [show (1 / 2 : ℂ) • (1 + (a * Complex.I) • toC ω4) * ((1 / 2 : ℂ) • (1 + (b * Complex.I) • toC ω10))
+    = P * Q from rfl, this] at h32
+  exact_mod_cast h32
 
 end GU.Spinor

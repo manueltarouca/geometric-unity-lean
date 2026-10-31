@@ -10,9 +10,16 @@ import GU.Geometry.IndefUnitary
 * `Γ = σ₃^{⊗7}` is the chirality operator: it anticommutes with every `γ`, and `C Γ = -Γ C`.
   So `C` pairs left-handed with right-handed Weyl spinors, as the draft's metric (3.24) does.
 * `cliffordRep_star`: `ρ(x*) = C ρ(x)ᵀ C`, where `*` is Mathlib's Clifford conjugation (reverse ∘
-  involute). For `x ∈ Spin(7,7)`, `x* x = 1` then gives `ρ(x)ᵀ C ρ(x) = C`.
+  involute). This is exactly the draft's adjoint (p.23, after (3.27)): "canonical automorphism
+  composed with reversal".
+* Identification with (3.24): `C` is Spin-invariant and pairs `S̸_L` with `S̸_R`. The
+  Spin(7,7)-invariant pairing is unique up to scale (half-spin representations are irreducible
+  of real type), and scale does not change `U(C)`. That standard uniqueness step is *not*
+  formalised here.
+* The SO(64,64) step of (3.30) is only implicit: `spin_preserves_C` shows `ρ(x)` is real and
+  `C`-orthogonal, but `det = 1` is not proved. For `x ∈ Spin(7,7)`, `x* x = 1` then gives `ρ(x)ᵀ C ρ(x) = C`.
 * `rhoD : Spin77 →* UC`, with `UC` the unitary group of the complexified `C`, i.e. `U(64,64)`
-  in the draft's own basis (3.24). Even elements commute with `Γ` (`rhoD_chirality`), giving the
+  in the draft's own basis (3.24). Even elements commute with `Γ` (`spin_commutes_Γ`), giving the
   Weyl splitting (3.25).
 
 Faithfulness (the `↪` of (3.28)) is not proved here.

@@ -32,7 +32,7 @@ open GU
 #print axioms GaugeData.pi_eq_iff
 #print axioms GaugeData.leftAct_pi
 #print axioms Spinor.Γ_factorises
-#print axioms Spinor.joint_eigenspace_dim
+#print axioms Spinor.joint_eigenspace_finrank
 #print axioms Spinor.ω4_anticomm_gens4
 #print axioms CliffordBianchi.three_gamma
 #print axioms CliffordBianchi.lichnerowicz

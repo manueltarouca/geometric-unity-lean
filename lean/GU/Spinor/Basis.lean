@@ -41,7 +41,7 @@ theorem D_eq_tprod : D = tprod (fun j => F2.toM (dsym j)) := by
   have h : ∀ j, F2.toM (dsym j) = diagonal (fun x => if j = 0 ∧ x = 1 then -1 else 1) := by
     intro j
     by_cases hj : j = 0 <;> ext x y <;> fin_cases x <;> fin_cases y <;>
-      simp [dsym, hj, F2.toM, ]
+      simp [dsym, hj, F2.toM]
   simp_rw [h]
   rw [tprod_diagonal, D]
   congr 1; funext a
@@ -99,7 +99,7 @@ theorem PtCP : Pᵀ * C * P = D := by
       rw [← Matrix.mul_assoc, hDC, Matrix.neg_mul, Matrix.mul_assoc, D_mul_D, Matrix.mul_one]
     have hCCD : C * (C * D) = D := by rw [← Matrix.mul_assoc, C_mul_C, Matrix.one_mul]
     rw [hDCD]
-    try rw [hCCD]
+    rw [hCCD]
     rw [two_smul]; abel
   rw [this, ← Nat.cast_smul_eq_nsmul ℝ, smul_smul]; norm_num
 
@@ -175,11 +175,15 @@ end Transport
 
 /-! ### Assembling `UC ≃* U(64,64)` -/
 
+/-- Half of the spinor indices have first bit `0`: the split is 64 + 64. -/
+theorem card_split : Fintype.card {a : Idx // a 0 = 0} = 64 := by decide
+theorem card_split' : Fintype.card {a : Idx // ¬ a 0 = 0} = 64 := by decide
+
 /-- Spinors whose first bit is `0` (chirality `+` of slot 0). -/
-noncomputable def splitL : {a : Idx // a 0 = 0} ≃ Fin 64 := Fintype.equivFinOfCardEq (by decide)
+noncomputable def splitL : {a : Idx // a 0 = 0} ≃ Fin 64 := Fintype.equivFinOfCardEq card_split
 
 /-- Spinors whose first bit is `1`. -/
-noncomputable def splitR : {a : Idx // ¬ a 0 = 0} ≃ Fin 64 := Fintype.equivFinOfCardEq (by decide)
+noncomputable def splitR : {a : Idx // ¬ a 0 = 0} ≃ Fin 64 := Fintype.equivFinOfCardEq card_split'
 
 /-- `Idx ≃ Fin 64 ⊕ Fin 64`, by the first spinor bit (`0 ↦ inl`). -/
 noncomputable def splitIdx : Idx ≃ Fin 64 ⊕ Fin 64 :=
