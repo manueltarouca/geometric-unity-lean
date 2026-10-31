@@ -59,3 +59,4 @@ import GU.Spinor.SpinCover
 import GU.Observerse.ChimericCovariance
 import GU.Bundle.Isometry77
 import GU.Bundle.SpinLift
+import GU.Bundle.SmoothFrames

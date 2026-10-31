@@ -133,3 +133,7 @@ open GU
 #print axioms Iso77.spinToOG
 #print axioms Iso77.spinToOG_neg_one
 #print axioms lift_equivariant
+#print axioms GU.Observerse.isOpen_frames
+#print axioms GU.Observerse.frames_isManifold
+#print axioms GU.Observerse.contMDiff_frames_proj
+#print axioms GU.Observerse.finrank_EndC
