@@ -58,7 +58,10 @@ Under the isometry `Φ : (ℝ¹⁴, Q77) ≅ (CFib, Bη)` the chimeric horizonta
 `Spinor/PatiSalamGroup.lean` (`W6 = e₁..e₆`, `W4 = e₁₀..e₁₃`, base `e₀,e₇,e₈,e₉`) are an abstract
 `(1,3) ⊕ (6) ⊕ (4)` split with the right signatures, but they are not aligned with `V ⊕ H*` under `Φ`.
 The group-theoretic results (Spin(6) ≅ SU(4), commuting, kernels) are unaffected. Statements about
-the Pati–Salam group acting on the chimeric *bundle* need the aligned blocks `{0..5}`, `{7..10}`.
+the Pati–Salam group acting on the chimeric *bundle* need the aligned blocks `{0..5}`, `{7..10}`; the old
+`W4` is three-quarters horizontal and the old base is vertical, so the Coleman–Mandula reading in
+`synthetic_predictions.lean` ("fixes the base") applies to the aligned `PS6'`, `PS4'` (which fix `H*`
+pointwise), not to the old blocks.
 
 ## E. Not done / open
 

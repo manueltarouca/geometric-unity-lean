@@ -41,3 +41,9 @@ Gaps are supplied as explicit hypothesis structures or definitions tagged `AI_BR
 **Numerical (n = 4; Einstein check also at n = 6):** the printed (9.3) needs mixed brackets for Einstein. It is not formally self-adjoint (also a Lean witness), so (9.7) does not follow. The synthetic ⧉_GU (second term = sum of both bracket pairings) fixes the quadratic part, but the cubic Chern–Simons term still blocks (9.7) (Lean witness). More strongly, no Spin(4)-equivariant operator Ω² → Ω³ at n = 4 that outputs Einstein and is formally self-adjoint satisfies the cubic identity, for any coefficient. Weyl annihilation is automatic for every Def 8.1 Shiab (representation theory), so it is not a real constraint. Ellipticity of (10.1) is *achievable* (Euclidean, n = 4) once Def 8.1's twisted invariants Φ_r·ω are included. The earlier "trilemma" was an artefact of an incomplete family and is withdrawn.
 
 **Retracted after review:** the "(9.3) degree defect" (a misread outer ⋆) and the "Einstein needs +½ at (7,7)" claim (convention artefact).
+
+**Caveat (Pati–Salam blocks, FINDINGS §E2):** the blocks of `Spinor/PatiSalamGroup.lean` are an abstract
+`(1,3) ⊕ (6) ⊕ (4)` split. Under the identification `Φ` with the chimeric bundle, `H*` is spanned by
+`e₆, e₁₁, e₁₂, e₁₃`, so the old `W4` is mostly horizontal and the old "base" `e₀, e₇, e₈, e₉` is vertical.
+Statements like "acts only on the fibre / does not mix with spacetime" (e.g. `gauge_embedding`'s reading)
+hold for the `Φ`-aligned groups `PS6'`, `PS4'` (`Bundle/ChimReduction.lean`), not for the old blocks.

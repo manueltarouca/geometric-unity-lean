@@ -388,3 +388,7 @@ open GU
 #print axioms GU.Library.PS6'_fixes_H
 #print axioms GU.Library.PS4'_fixes_H
 #print axioms GU.Library.PS6'_preserves_H_legs
+#print axioms GU.Library.exists_adapted_frame
+#print axioms GU.Library.ractM_mem_AFr
+#print axioms GU.Library.ractM_mem_AFr_PS6'
+#print axioms GU.Library.ractM_mem_AFr_PS4'
