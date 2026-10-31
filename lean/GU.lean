@@ -53,3 +53,4 @@ import GU.Observerse.SymSquare
 import GU.Observerse.GlobalSmooth
 import GU.Observerse.ChimericBundle
 import GU.Observerse.ChimericMetricY
+import GU.Bundle.FrameBundle
