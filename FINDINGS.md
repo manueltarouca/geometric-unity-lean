@@ -27,7 +27,7 @@ nothing here proves or refutes GU as a physical theory.
 |---|---|---|---|
 | B1 | Cl(7,7) ≅ ℝ(128), and ρ_D is faithful. | (3.18), (3.28) | `cliffordRep_bijective`, `rhoD_injective` (`Spinor/Faithful.lean`) |
 | B2 | (9.3) has correct degrees once the outer ⋆ over the ½ is read correctly. An earlier "degree defect" was retracted. | (9.3) | `draft93_ok` (`Shiab/Degrees.lean`) |
-| B3 | The Clifford core of (9.3) kills Weyl and yields the Einstein tensor, but **only with mixed brackets** (commutator in the Ricci term, anticommutator in the scalar term). | §9.1 | `shiab_einstein` (`Shiab/Einstein.lean`); with Hodge stars at n = 4 on a 55-tensor spanning set: `einstein_all`, and on its whole ℤ-span: `einstein_span` |
+| B3 | The Clifford core of (9.3) kills Weyl and yields the Einstein tensor, but **only with mixed brackets** (commutator in the Ricci term, anticommutator in the scalar term). | §9.1 | `shiab_einstein` (`Shiab/Einstein.lean`); with Hodge stars at n = 4 on a 55-tensor spanning set: `einstein_all`, and for every integer algebraic curvature tensor: `einstein_all_curv` (`Shiab/FormsCurvSpan.lean`) |
 | B4 | The Shiab equation with a cosmological source gives G = Λg. | (9.9)–(9.10) | `einstein_equation` (`Shiab/EinsteinEquation.lean`) |
 | B5 | One SM generation (+ν^c) from the (6,4) branching, anomaly-free, with sin²θ_W = 3/8. | §11–12 | `anomaly_free`, `weinberg_angle`, `particle_allocation` |
 | B6 | The hypercharge direction is forced. | §11.3 | `hypercharge_forced` (`synthetic_predictions.lean`) |
@@ -52,9 +52,8 @@ is no anomaly-cancellation mechanism. The global spin structure (w₂) is not di
 
 - The global spin lift (w₂).
 - The submanifold structure of the orthonormal frames.
-- Spanning lemma (Track 2 F2): every integer algebraic curvature tensor is an integer combination of
-  the 55 KN tensors (true by a Smith-normal-form computation; not yet in Lean). Linearity is done:
-  `einstein_span`.
+- A real-coefficient version of B3 (the Lean statement covers every *integer* algebraic curvature
+  tensor, `einstein_all_curv`, because the computable forms layer uses ℤ coefficients).
 
 ## Literature comparison (first pass, 2026-10-31)
 

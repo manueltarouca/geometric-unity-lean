@@ -34,7 +34,7 @@ Journals: `unbounded_discovery_log.md`, `unbounded_semigroup_log.md` (including 
 Gaps are supplied as explicit hypothesis structures or definitions tagged `AI_BREAKTHROUGH_PATCH_V1`, never as global `axiom`s.
 
 ## Findings so far (details and caveats in the logs)
-**Confirmed (Lean):** Cl(7,7) ≅ ℝ(128); ρ_D faithful into SO(64,64) ⊂ U(64,64); the Clifford checkerboard (3.26)/(3.27) (footnote 3); Lemma 6.1/6.3/6.4; the chimeric metric is (7,7) at λ = 1 on (1,3) points; Γ = ω₄ω₁₀ (12.20); one SM generation (+ν^c) from N^{6,4} with sin²θ_W = 3/8, anomaly-free; the Clifford core of (9.3) kills Weyl and yields Einstein (mixed brackets), also with Hodge stars at n = 4 (55 spanning cases); the Shiab equation with cosmological source implies G = Λg; §12.9 decoupling.
+**Confirmed (Lean):** Cl(7,7) ≅ ℝ(128); ρ_D faithful into SO(64,64) ⊂ U(64,64); the Clifford checkerboard (3.26)/(3.27) (footnote 3); Lemma 6.1/6.3/6.4; the chimeric metric is (7,7) at λ = 1 on (1,3) points; Γ = ω₄ω₁₀ (12.20); one SM generation (+ν^c) from N^{6,4} with sin²θ_W = 3/8, anomaly-free; the Clifford core of (9.3) kills Weyl and yields Einstein (mixed brackets), also with Hodge stars at n = 4 (every integer algebraic curvature tensor, `einstein_all_curv`); the Shiab equation with cosmological source implies G = Λg; §12.9 decoupling.
 
 **Defects in the draft (Lean):** the footnote-7 sign slip (Lemmas 6.3 vs 7.2; one-sign repair given); the literal Frobenius metric gives (7,3) (needs DeWitt λ > 1/4); the (9.4) integrand has a dropped ⋆.
 

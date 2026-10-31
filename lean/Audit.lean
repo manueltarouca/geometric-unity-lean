@@ -272,3 +272,6 @@ open GU
 #print axioms GU.FormsW.sum_regroup
 #print axioms GU.FormsW.semF_twoShiab
 #print axioms GU.FormsW.einstein_span
+#print axioms GU.FormsW.curv_span
+#print axioms GU.FormsW.einstein_all_curv
+#print axioms GU.FormsW.isCurv_knT
