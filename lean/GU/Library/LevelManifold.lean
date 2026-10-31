@@ -1,12 +1,16 @@
 import GU.Library.LevelSet
 
 /-!
-# Track 3, L2: explicit submersion charts with smooth inverses (part A)
+# Track 3, L2: explicit submersion charts with smooth inverses (parts A–C)
 
 For `f : E → F` (finite-dimensional real spaces) with surjective derivative `g = f'(a)`, fix a
 continuous projection `Q : E →L ker g` (`kerProj`), and set `ψ x = (f x, Q (x − a))`. Its derivative
 at `a` is the isomorphism `(g, Q) : E ≃L F × ker g` (`derivEquiv`), so the inverse function theorem
 gives a local homeomorphism whose first component is exactly `f`.
+
+Part C restricts these to the level set (`sliceG`, `smoothLevelChart`) and proves the transition
+maps are `C^∞`, so **`isManifold_level`**: a regular level set `f⁻¹{c}` of a smooth map with
+surjective derivative along it is a smooth manifold modelled on `ℝ^(dim E − dim F)`.
 -/
 
 namespace GU.Library
@@ -130,5 +134,148 @@ lemma contDiffAt_smoothChart_symm (hf : ContDiff ℝ ∞ f) (hg : (fderiv ℝ f 
   · exact (ψmap_contDiff hf).contDiffAt
 
 end Chart
+
+/-! ### Generic slice charts and the smooth structure (part C) -/
+
+section Slice
+
+variable {K : Type*} [NormedAddCommGroup K] [NormedSpace ℝ K] {f : E → F} {c : F}
+
+open Classical in
+/-- Inverse of the generic slice chart (base point off the target). -/
+noncomputable def sliceInvG (φ : OpenPartialHomeomorph E (F × K)) (hφ : ∀ x, (φ x).1 = f x)
+    {a : E} (hac : f a = c) (w : K) : levelSet f c :=
+  if h : (c, w) ∈ φ.target then
+    ⟨φ.symm (c, w), by show f _ = c; rw [← hφ, φ.right_inv h]⟩
+  else ⟨a, hac⟩
+
+lemma sliceInvG_val (φ : OpenPartialHomeomorph E (F × K)) (hφ : ∀ x, (φ x).1 = f x)
+    {a : E} (hac : f a = c) {w : K} (h : (c, w) ∈ φ.target) :
+    (sliceInvG φ hφ hac w : E) = φ.symm (c, w) := by
+  classical
+  unfold sliceInvG; rw [dite_cond_eq_true (eq_true h)]
+
+lemma sliceG_apply_eq (φ : OpenPartialHomeomorph E (F × K)) (hφ : ∀ x, (φ x).1 = f x)
+    (s : levelSet f c) : φ s = (c, (φ s).2) := by
+  ext
+  · rw [hφ]; exact s.2
+  · rfl
+
+/-- **Generic slice chart**: for any local homeomorphism `φ` with first component `f`. -/
+noncomputable def sliceG (φ : OpenPartialHomeomorph E (F × K)) (hφ : ∀ x, (φ x).1 = f x)
+    {a : E} (hac : f a = c) : OpenPartialHomeomorph (levelSet f c) K where
+  toFun s := (φ s).2
+  invFun := sliceInvG φ hφ hac
+  source := {s | (s : E) ∈ φ.source}
+  target := {w | (c, w) ∈ φ.target}
+  map_source' s hs := by
+    show (c, (φ s).2) ∈ φ.target
+    rw [← sliceG_apply_eq φ hφ]; exact φ.map_source hs
+  map_target' w hw := by
+    show (sliceInvG φ hφ hac w : E) ∈ φ.source
+    rw [sliceInvG_val φ hφ hac hw]; exact φ.map_target hw
+  left_inv' s hs := by
+    have ht : (c, (φ s).2) ∈ φ.target := by rw [← sliceG_apply_eq φ hφ]; exact φ.map_source hs
+    apply Subtype.ext
+    show (sliceInvG φ hφ hac _ : E) = s
+    rw [sliceInvG_val φ hφ hac ht, ← sliceG_apply_eq φ hφ, φ.left_inv hs]
+  right_inv' w hw := by
+    show (φ (sliceInvG φ hφ hac w : E)).2 = w
+    rw [sliceInvG_val φ hφ hac hw, φ.right_inv hw]
+  open_source := φ.open_source.preimage continuous_subtype_val
+  open_target := φ.open_target.preimage (continuous_const.prodMk continuous_id)
+  continuousOn_toFun :=
+    continuous_snd.comp_continuousOn (φ.continuousOn.comp continuous_subtype_val.continuousOn fun _ hs => hs)
+  continuousOn_invFun := by
+    rw [Topology.IsInducing.subtypeVal.continuousOn_iff]
+    have hc : ContinuousOn (fun w : K => φ.symm (c, w)) {w | (c, w) ∈ φ.target} :=
+      φ.continuousOn_symm.comp (continuous_const.prodMk continuous_id).continuousOn fun _ hw => hw
+    exact hc.congr fun w hw => sliceInvG_val φ hφ hac hw
+
+end Slice
+
+section Smooth
+
+variable {f : E → F} {c : F}
+
+/-- Smooth submersion hypothesis on a level set: `f` is `C^∞` on all of `E`, and `f′(x)` is
+surjective at every `x` with `f x = c`. -/
+structure SmoothSubmersive (f : E → F) (c : F) : Prop where
+  smooth : ContDiff ℝ ∞ f
+  surj : ∀ x, f x = c → (fderiv ℝ f x).range = ⊤
+
+/-- The smooth model-valued chart at `a ∈ f⁻¹{c}`. -/
+noncomputable def smoothLevelChart (h : SmoothSubmersive f c) (a : levelSet f c) :
+    OpenPartialHomeomorph (levelSet f c) (Fin (fibreDim E F) → ℝ) :=
+  (sliceG (smoothChart (a := (a : E)) h.smooth (h.surj a a.2)) (fun _ => rfl) a.2).trans
+    (kerEquiv (h.surj a a.2)).toHomeomorph.toOpenPartialHomeomorph
+
+/-- **Smooth charted structure** on a regular level set (`isManifold_level`). Its charts differ from
+L1's `levelChartedSpace`; use this one for the smooth structure. -/
+@[instance_reducible] noncomputable def smoothLevelCharted (h : SmoothSubmersive f c) :
+    ChartedSpace (Fin (fibreDim E F) → ℝ) (levelSet f c) where
+  atlas := Set.range (smoothLevelChart h)
+  chartAt := smoothLevelChart h
+  mem_chart_source a := by
+    rw [smoothLevelChart, OpenPartialHomeomorph.trans_source]
+    exact ⟨mem_smoothChart_source h.smooth (h.surj a a.2), Set.mem_univ _⟩
+  chart_mem_atlas a := ⟨a, rfl⟩
+
+end Smooth
+
+section Manifold
+
+open scoped Manifold ContDiff
+
+variable {f : E → F} {c : F}
+
+lemma smoothLevelChart_apply (h : SmoothSubmersive f c) (a s : levelSet f c) :
+    smoothLevelChart h a s = kerEquiv (h.surj a a.2) (kerProj (fderiv ℝ f a) ((s : E) - a)) := rfl
+
+lemma mem_smoothChart_target_of (h : SmoothSubmersive f c) (a : levelSet f c)
+    {v : Fin (fibreDim E F) → ℝ} (hv : v ∈ (smoothLevelChart h a).target) :
+    (c, (kerEquiv (h.surj a a.2)).symm v) ∈ (smoothChart (a := (a : E)) h.smooth (h.surj a a.2)).target := by
+  rw [smoothLevelChart, OpenPartialHomeomorph.trans_target] at hv
+  exact hv.2
+
+lemma smoothLevelChart_symm_val (h : SmoothSubmersive f c) (a : levelSet f c)
+    {v : Fin (fibreDim E F) → ℝ} (hv : v ∈ (smoothLevelChart h a).target) :
+    (((smoothLevelChart h a).symm v : levelSet f c) : E) =
+      (smoothChart (a := (a : E)) h.smooth (h.surj a a.2)).symm (c, (kerEquiv (h.surj a a.2)).symm v) := by
+  exact sliceInvG_val (f := f) _ (fun _ => rfl) a.2 (mem_smoothChart_target_of h a hv)
+
+/-- **Regular level sets of smooth maps are smooth manifolds.** -/
+theorem isManifold_level (h : SmoothSubmersive f c) :
+    letI := smoothLevelCharted h
+    IsManifold 𝓘(ℝ, Fin (fibreDim E F) → ℝ) ∞ (levelSet f c) := by
+  let _ := smoothLevelCharted h
+  apply isManifold_of_contDiffOn
+  rintro e e' ⟨a, rfl⟩ ⟨b, rfl⟩
+  simp only [modelWithCornersSelf_coe, modelWithCornersSelf_coe_symm, Function.id_comp,
+    Function.comp_id, Set.range_id, Set.preimage_id, Set.inter_univ]
+  set Ka := kerEquiv (h.surj a a.2)
+  set Kb := kerEquiv (h.surj b b.2)
+  set φa := smoothChart (a := (a : E)) h.smooth (h.surj a a.2)
+  set φb := smoothChart (a := (b : E)) h.smooth (h.surj b b.2)
+  let G : (Fin (fibreDim E F) → ℝ) → (Fin (fibreDim E F) → ℝ) :=
+    fun v => Kb ((ψmap f (b : E) (φa.symm (c, Ka.symm v))).2)
+  intro v hv
+  have hvt : v ∈ (smoothLevelChart h a).target := by
+    rw [OpenPartialHomeomorph.trans_source, OpenPartialHomeomorph.symm_source] at hv; exact hv.1
+  have hG : ContDiffAt ℝ ∞ G v := by
+    have h1 : ContDiffAt ℝ ∞ (fun v => (c, Ka.symm v)) v :=
+      (contDiff_const.prodMk Ka.symm.contDiff).contDiffAt
+    have h2 := (contDiffAt_smoothChart_symm h.smooth (h.surj a a.2) (mem_smoothChart_target_of h a hvt)).comp v h1
+    have h3 := (ψmap_contDiff (a := (b : E)) h.smooth).contDiffAt.comp v h2
+    exact Kb.contDiff.contDiffAt.comp v (contDiff_snd.contDiffAt.comp v h3)
+  refine hG.contDiffWithinAt.congr (fun w hw => ?_) ?_
+  · have hwt : w ∈ (smoothLevelChart h a).target := by
+      rw [OpenPartialHomeomorph.trans_source, OpenPartialHomeomorph.symm_source] at hw; exact hw.1
+    show Kb ((φb ((smoothLevelChart h a).symm w : E)).2) = G w
+    rw [smoothLevelChart_symm_val h a hwt]; rfl
+  · show Kb ((φb ((smoothLevelChart h a).symm v : E)).2) = G v
+    rw [smoothLevelChart_symm_val h a hvt]; rfl
+
+end Manifold
 
 end GU.Library

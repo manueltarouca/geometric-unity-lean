@@ -133,8 +133,10 @@ noncomputable def levelChart {c : F} (h : SubmersiveAt f c) (a : levelSet f c) :
   (sliceChart (h.strict a a.2) (h.surj a a.2) a.2).trans
     (kerEquiv (h.surj a a.2)).toHomeomorph.toOpenPartialHomeomorph
 
-/-- **The level set is a charted space** modelled on `Fin (dim E − dim F) → ℝ`. -/
-noncomputable def levelChartedSpace {c : F} (h : SubmersiveAt f c) :
+/-- **The level set is a charted space** modelled on `Fin (dim E − dim F) → ℝ`. This is a
+topological atlas only; for the smooth structure use `smoothLevelCharted` and `isManifold_level`
+(`LevelManifold.lean`), whose charts are different. -/
+@[instance_reducible] noncomputable def levelChartedSpace {c : F} (h : SubmersiveAt f c) :
     ChartedSpace (Fin (fibreDim E F) → ℝ) (levelSet f c) where
   atlas := Set.range (levelChart h)
   chartAt := levelChart h
