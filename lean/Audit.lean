@@ -323,3 +323,7 @@ open GU
 #print axioms GU.Library.smoothSubmersiveOn_extend
 #print axioms GU.Library.contMDiff_levelSetOn_val
 #print axioms GU.Library.contMDiff_levelSetOn_iff
+#print axioms GU.Library.orthF_surj_gen
+#print axioms GU.Library.isManifold_frames
+#print axioms GU.Library.fibreDim_frames
+#print axioms GU.Library.mem_frames_iff
