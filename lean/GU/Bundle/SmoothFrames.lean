@@ -27,8 +27,9 @@ the local trivialisations are equivariant and carry frames onto `U_i × GL(14)` 
 
 This replaces the set-level product of `FrameBundle.lean` with a topological and smooth object.
 (Orthonormal frames: a closed, chart-invariant subset, `SmoothOrtho.lean`; not shown to be a
-submanifold. Over the (3,1) component of `Y` the chimeric metric has signature (9,5), so there the
-fibres are empty and the O(7,7) reduction can only live over the (1,3) part.)
+submanifold. Over (3,1) points of `Y` the chimeric metric is not isometric to the (7,7) model (orthogonal basis
+with 9 positive norms; convention `+DeWitt ⊕ +g⁻¹` of `Chimeric.lean`), so there the fibres are
+empty (`no_ortho_31`) and the O(7,7) reduction can only live over the (1,3) part.)
 -/
 
 namespace GU.Observerse

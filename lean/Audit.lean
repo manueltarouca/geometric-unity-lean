@@ -160,3 +160,5 @@ open GU
 #print axioms GU.Observerse.orthoSet_subset_frameSet
 #print axioms GU.Observerse.ortho_exists_Y13
 #print axioms GU.Observerse.ortho_transitive'
+#print axioms GU.Chimeric.no_isometry_95
+#print axioms GU.Observerse.no_ortho_31
