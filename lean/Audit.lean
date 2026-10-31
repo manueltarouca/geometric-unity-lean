@@ -192,3 +192,6 @@ open GU
 #print axioms GU.Observerse.homDiffeo
 #print axioms GU.Observerse.frEquiv
 #print axioms GU.Observerse.toM_ract
+#print axioms GU.Observerse.Bη_Φ
+#print axioms GU.Observerse.toM_ortho_iff
+#print axioms GU.Observerse.orthoM_iff_13
