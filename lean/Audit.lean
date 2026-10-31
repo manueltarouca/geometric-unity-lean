@@ -113,3 +113,5 @@ open GU
 #print axioms Spinor.span_eq
 #print axioms Observerse.det_congr_sign
 #print axioms Observerse.fiberEquiv
+#print axioms FormsW.sigma2_kills
+#print axioms FormsW.not_in_image
