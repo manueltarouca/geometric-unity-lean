@@ -327,3 +327,7 @@ open GU
 #print axioms GU.Library.isManifold_frames
 #print axioms GU.Library.fibreDim_frames
 #print axioms GU.Library.mem_frames_iff
+#print axioms GU.Library.contDiffOn_Gchim
+#print axioms GU.Library.Gchim_mem
+#print axioms GU.Library.isManifold_chimFrames
+#print axioms GU.Library.fibreDim_chimFrames
