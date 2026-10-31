@@ -170,3 +170,9 @@ open GU
 #print axioms GU.Spinor.det_refl
 #print axioms GU.Spinor.par_lipschitz
 #print axioms GU.Spinor.det_vecRep
+#print axioms GU.Spinor.pair_mem
+#print axioms GU.Spinor.spin6_spin4_commute
+#print axioms GU.Spinor.spin6_fixes
+#print axioms GU.Spinor.spin4_fixes
+#print axioms GU.Spinor.product_not_injective
+#print axioms GU.Spinor.base_fixed
