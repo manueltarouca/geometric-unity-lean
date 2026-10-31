@@ -79,3 +79,5 @@ open GU
 #print axioms Spinor.eps_table
 #print axioms Spinor.anomaly_free
 #print axioms CliffordBianchi.shiabGU_einstein
+#print axioms GaugeData.gauge_equiv_iff_double_coset
+#print axioms GaugeData.orbit_eq_iff
