@@ -26,8 +26,9 @@ the local trivialisations are equivariant and carry frames onto `U_i × GL(14)` 
 (`contMDiff_smul_FrY`). The comparison with the set-level `frameBundle` is not formalised.
 
 This replaces the set-level product of `FrameBundle.lean` with a topological and smooth object.
-(The O(7,7) reduction is a closed submanifold; Mathlib has no submanifold theory, so it stays
-set level.)
+(Orthonormal frames: a closed, chart-invariant subset, `SmoothOrtho.lean`; not shown to be a
+submanifold. Over the (3,1) component of `Y` the chimeric metric has signature (9,5), so there the
+fibres are empty and the O(7,7) reduction can only live over the (1,3) part.)
 -/
 
 namespace GU.Observerse

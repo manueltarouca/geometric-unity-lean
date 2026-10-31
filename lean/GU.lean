@@ -61,4 +61,5 @@ import GU.Bundle.Isometry77
 import GU.Bundle.SpinLift
 import GU.Bundle.SmoothFrames
 import GU.Bundle.FramesCb
+import GU.Bundle.SmoothOrtho
 import GU.Spinor.SpinKernel

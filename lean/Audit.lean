@@ -152,3 +152,7 @@ open GU
 #print axioms GU.Observerse.Cb_triv_apply
 #print axioms GU.Observerse.frameCore_localTriv_eq
 #print axioms GU.Observerse.Cb_coordChange
+#print axioms GU.Observerse.mem_orthoSet_iff
+#print axioms GU.Observerse.isClosed_orthoSet
+#print axioms GU.Observerse.ortho_transitive
+#print axioms GU.Observerse.Gi_det_neg
