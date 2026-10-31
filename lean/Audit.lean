@@ -281,3 +281,4 @@ open GU
 #print axioms GU.FormsW.einstein_all_real
 #print axioms GU.FormsW.isCurvR_cast
 #print axioms GU.Library.sliceChart
+#print axioms GU.Library.levelChartedSpace
