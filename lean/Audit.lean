@@ -88,3 +88,4 @@ open GU
 #print axioms Spinor.weinberg_angle
 #print axioms Spinor.Y_commutes_sm
 #print axioms MatrixModel.matrix_no_common_convention
+#print axioms FormsW.cubic_fails
