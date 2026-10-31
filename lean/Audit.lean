@@ -64,3 +64,5 @@ open GU
 #print axioms MatrixModel.matrix_no_common_convention
 #print axioms Spinor.Y_commutes_sm
 #print axioms Spinor.weinberg_angle
+#print axioms Spinor.mu_mem_u
+#print axioms Spinor.mu_equivariant
