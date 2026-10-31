@@ -1,0 +1,36 @@
+import GU
+/-! Axiom audit: every headline result must depend only on Lean's standard axioms
+(`propext`, `Classical.choice`, `Quot.sound`), with no `sorryAx` and no project `axiom`s. -/
+open GU
+#print axioms GaugeData.tau_injective
+#print axioms GaugeData.stabilizer_eq_range_tau_neg
+#print axioms GaugeData.pi_invariant_tau_neg
+#print axioms GaugeData.T_equivariant_tau_pos
+#print axioms GaugeData.mu_equivariant_tau_pos
+#print axioms GaugeData.no_common_section
+#print axioms GaugeData.piPlus_invariant_tau_pos
+#print axioms GaugeData.u1_no_common_convention
+#print axioms GaugeData.leftAct_mul
+#print axioms trace_direction_neg_iff
+#print axioms frobenius_trace_direction_pos
+#print axioms dim_so6464
+#print axioms mainBundle
+#print axioms degenerateModel
+#print axioms FExpr.draft93_ok
+#print axioms shiab_equivariant
+#print axioms Spinor.gammaMap_sq
+#print axioms Spinor.cliffordRep
+#print axioms Spinor.C_trace
+#print axioms Spinor.C_Γ
+#print axioms Spinor.spin_preserves_C
+#print axioms Spinor.spin_commutes_Γ
+#print axioms Spinor.rhoD
+#print axioms Spinor.UC_equiv_U6464
+#print axioms physicalBundle
+#print axioms Spinor.cl77Equiv
+#print axioms diracRep_faithful
+#print axioms GaugeData.pi_eq_iff
+#print axioms GaugeData.leftAct_pi
+#print axioms Spinor.Γ_factorises
+#print axioms Spinor.joint_eigenspace_dim
+#print axioms Spinor.ω4_anticomm_gens4
