@@ -92,3 +92,8 @@ if len(sys.argv) > 2 and sys.argv[1] == 'constrained_mode':
     MODE = sys.argv[2]
     for eta in ([1, 1, 1, 1],):
         constrained_max_rank(eta)
+
+if len(sys.argv) > 1 and sys.argv[1] == 'n6':
+    for MODE in ('none', 'antisym'):
+        print("mode", MODE)
+        constrained_max_rank([1, 1, 1, 1, 1, 1], trials=2)
