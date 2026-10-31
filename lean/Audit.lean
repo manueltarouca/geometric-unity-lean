@@ -94,3 +94,4 @@ open GU
 #print axioms Spinor.so6_closed
 #print axioms Spinor.su2L_su2R
 #print axioms Spinor.so6_so4_commute
+#print axioms InternalDim.dirac_eq
