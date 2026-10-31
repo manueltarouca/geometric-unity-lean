@@ -356,3 +356,5 @@ open GU
 #print axioms GU.Observerse.sig13_of_negOn
 #print axioms GU.Observerse.isOpen_S13
 #print axioms GU.Observerse.isOpen_Y13
+#print axioms GU.Library.chart_ractM
+#print axioms GU.Library.ractM_mem_source
