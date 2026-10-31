@@ -23,7 +23,7 @@ Shell profiles are untouched.
 | Reductions (§4) | `GU/Spinor/Branching, Reductions, Hypercharge, WeightSpaces, HyperchargeOp, SMAlgebra, Anomaly.lean` | Γ = ω₄ω₁₀; Pati–Salam 21/24; u(3,2) = centraliser of J (exactly 25) ⊃ u(3)⊕u(2), su(3)/su(2) closure; one SM generation (+ν^c) as eigenspaces of Ŷ, Q̂; sin²θ_W = 3/8; anomaly-free |
 | Shiab (§8–9) | `GU/Shiab/Degrees, CliffordBianchi, Einstein, ShiabGU.lean` | 3-gamma and Lichnerowicz identities; Clifford core of (9.3) gives the Einstein tensor and kills Weyl; synthetic ⧉_GU |
 | Fermions (§9.3, §12.9) | `GU/Fermion/Decoupling, Bilinear.lean` | chirality decoupling theorem; Spin-equivariant sesquilinear pairing S̸⊗S̸ → u(64,64) |
-| Bundles (§3.6) | `GU/Bundle/*.lean`, `GU/Spinor/SpinCover.lean` | P_H with explicit ρ_D; GL(14) frames and O(7,7) orthonormal frames of C (set level); covering map Spin(7,7) → O(7,7) with ±1 in its kernel. Global spin structure open (w₂) |
+| Bundles (§3.6) | `GU/Bundle/*.lean`, `GU/Spinor/SpinCover.lean` | P_H with explicit ρ_D; GL(14) frames and O(7,7) orthonormal frames of C (set level); smooth GL(14) frame bundle; orthonormal frames closed, existing exactly over (1,3) points; covering map Spin(7,7) → SO(7,7) with kernel exactly ±1. Open: surjectivity onto SO₀(7,7), global spin structure (w₂) |
 | Predictions | `GU/synthetic_predictions.lean` | contingent Z′, sector counts, RS kernel, forced hypercharge direction |
 
 Numerical experiments (`experiments/`, run with `uv run --with numpy python -I ...`): the Shiab/Einstein checks,

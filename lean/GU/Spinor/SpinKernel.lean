@@ -1,7 +1,7 @@
 import GU.Spinor.SpinCover
 
 /-!
-# The kernel of `vecRep : Spin(7,7) → GL(ℝ¹⁴)` (image in `O(7,7)`, `vecRep_isometry`) is exactly `{±1}`
+# The kernel of `vecRep : Spin(7,7) → GL(ℝ¹⁴)` (image in `SO(7,7)`: `vecRep_isometry`, `det_vecRep`) is exactly `{±1}`
 
 `vecRep_ker`: if `x ∈ Spin(7,7)` acts trivially on `ℝ¹⁴` then `x = ±1`.
 Proof: `x ι(v) x* = ι(v)` and `x* x = 1` give `x ι(v) = ι(v) x`; the `ι(v)` generate `Cl(7,7)`

@@ -67,3 +67,4 @@ import GU.Observerse.Signature95
 import GU.Observerse.LorentzDichotomy
 import GU.Bundle.NoOrtho31
 import GU.Spinor.SpinKernel
+import GU.Spinor.SpinDet

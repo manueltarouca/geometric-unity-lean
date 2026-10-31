@@ -167,3 +167,6 @@ open GU
 #print axioms GU.Observerse.ortho_iff_13
 #print axioms GU.Observerse.not_13_and_31
 #print axioms GU.Predictions.signature_selected
+#print axioms GU.Spinor.det_refl
+#print axioms GU.Spinor.par_lipschitz
+#print axioms GU.Spinor.det_vecRep
