@@ -51,3 +51,4 @@ import GU.Shiab.DeformationWitness
 import GU.Observerse.BilinearBundle
 import GU.Observerse.SymSquare
 import GU.Observerse.GlobalSmooth
+import GU.Observerse.ChimericBundle

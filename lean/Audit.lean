@@ -120,3 +120,4 @@ open GU
 #print axioms Observerse.Yobs_isManifold
 #print axioms Observerse.contMDiff_Yobs_proj
 #print axioms Observerse.isOpen_lorSet
+#print axioms Observerse.chimeric_smooth
