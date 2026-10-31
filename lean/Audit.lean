@@ -176,3 +176,5 @@ open GU
 #print axioms GU.Spinor.spin4_fixes
 #print axioms GU.Spinor.product_not_injective
 #print axioms GU.Spinor.base_fixed
+#print axioms GU.Spinor.spin6_inf_spin4_eq
+#print axioms GU.Spinor.product_kernel

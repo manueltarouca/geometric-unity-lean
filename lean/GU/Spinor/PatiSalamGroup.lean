@@ -22,7 +22,8 @@ gamma-matrix `pos6`/`neg4` of `PatiSalam.lean` (via `gen i = (i % 7, 7 ≤ i)`, 
 
 On `W6` (positive definite) and `W4` (negative definite) the spinor-norm condition is automatic, so the
 generators are the standard ones for `Spin(6)` and `Spin(0,4) ≅ Spin(4)`. Not proved: isomorphism of
-these subgroups with the abstract groups (no Lie group theory here), and `Spin6 ∩ Spin4 ⊆ {±1}`.
+these subgroups with the abstract groups (no Lie group theory here). **`spin6_inf_spin4_eq`**:
+`Spin6 ∩ Spin4 = {±1}`, and the product map has kernel exactly `{(1,1), (−1,−1)}` (`product_kernel`).
 -/
 
 namespace GU.Spinor
@@ -260,5 +261,58 @@ theorem spin6_fixes_W4 {x : Spin77} (hx : x ∈ Spin6) {c : Fin 14 → ℝ} (hc 
 
 theorem spin4_fixes_W6 {x : Spin77} (hx : x ∈ Spin4) {c : Fin 14 → ℝ} (hc : SuppIn S6 c) :
     vecRep x c = c := spin4_fixes hx (W6_perp4 hc)
+
+
+/-- Support complement: a vector supported off `S` is orthogonal to everything supported in `S`. -/
+lemma off_perp {S : Finset (Fin 14)} {c : Fin 14 → ℝ} (hc : ∀ i ∈ S, c i = 0) : c ∈ perpOf S := by
+  intro a ha
+  rw [polar_Q77]
+  have : ∀ i, a i * c i = 0 := fun i => by
+    by_cases hi : i ∈ S
+    · rw [hc i hi, mul_zero]
+    · rw [ha i hi, zero_mul]
+  simp [this]
+
+/-- **`Spin6 ∩ Spin4 = {±1}`**. -/
+theorem spin6_inf_spin4 {x : Spin77} (h6 : x ∈ Spin6) (h4 : x ∈ Spin4) :
+    (x : Cl77) = 1 ∨ (x : Cl77) = -1 := by
+  refine vecRep_ker x fun v => ?_
+  let v6 : Fin 14 → ℝ := fun i => if i ∈ S6 then v i else 0
+  have hv : v = v6 + (v - v6) := by abel
+  have h6' : SuppIn S6 v6 := fun i hi => by simp [v6, hi]
+  have hr : ∀ i ∈ S6, (v - v6) i = 0 := fun i hi => by simp [v6, hi]
+  rw [hv, map_add, spin4_fixes_W6 h4 h6', spin6_fixes h6 (off_perp hr)]
+
+/-- With `−1` in both: the intersection is exactly `{1, −1}`. -/
+theorem spin6_inf_spin4_eq (x : Spin77) :
+    (x ∈ Spin6 ∧ x ∈ Spin4) ↔ ((x : Cl77) = 1 ∨ (x : Cl77) = -1) := by
+  constructor
+  · rintro ⟨h6, h4⟩; exact spin6_inf_spin4 h6 h4
+  · rintro (h | h)
+    · have : x = 1 := Subtype.ext h
+      subst this; exact ⟨Spin6.one_mem, Spin4.one_mem⟩
+    · obtain ⟨y, hy, ey⟩ := neg_one_mem_Spin6
+      obtain ⟨z, hz, ez⟩ := neg_one_mem_Spin4
+      have e1 : x = y := Subtype.ext (h.trans ey.symm)
+      have e2 : x = z := Subtype.ext (h.trans ez.symm)
+      exact ⟨e1 ▸ hy, e2 ▸ hz⟩
+
+
+/-- **Kernel of the product map is `{(1,1), (−1,−1)}`**: `x·y = 1` with `x ∈ Spin6`, `y ∈ Spin4`
+forces `x = y⁻¹ = ±1`. -/
+theorem product_kernel {x y : Spin77} (hx : x ∈ Spin6) (hy : y ∈ Spin4) (h : x * y = 1) :
+    ((x : Cl77) = 1 ∧ (y : Cl77) = 1) ∨ ((x : Cl77) = -1 ∧ (y : Cl77) = -1) := by
+  have hxy : x = y⁻¹ := eq_inv_of_mul_eq_one_left h
+  have hx4 : x ∈ Spin4 := hxy ▸ Spin4.inv_mem hy
+  have hyx : y = x⁻¹ := eq_inv_of_mul_eq_one_right h
+  rcases spin6_inf_spin4 hx hx4 with e | e
+  · left
+    have : x = 1 := Subtype.ext e
+    subst this
+    exact ⟨rfl, by rw [hyx, inv_one]; rfl⟩
+  · right
+    refine ⟨e, ?_⟩
+    have hxx : x * x = 1 := Subtype.ext (by rw [Submonoid.coe_mul, e, neg_one_mul, neg_neg]; rfl)
+    rw [hyx, inv_eq_of_mul_eq_one_right hxx]; exact e
 
 end GU.Spinor
