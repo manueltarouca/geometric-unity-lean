@@ -103,4 +103,27 @@ theorem contMDiff_ractM_right (g : Mat 14) :
   rw [show ψR g (c q) = c (ractM q g) from (chart_ractM q0 q hq g).symm,
     c.left_inv (ractM_mem_source q0 q hq g)]
 
+/-- **Orbit maps are smooth**: `g ↦ q · g` is `C^∞` from `Mat 14` to `HomTotM`. -/
+theorem contMDiff_ractM_orbit (q : HomTotM X) :
+    ContMDiff 𝓘(ℝ, Mat 14) 𝓘(ℝ, HomModel) ∞ (fun g : Mat 14 => ractM q g) := by
+  set c := chartAt HomModel q
+  set p := c q
+  have hψ : ContMDiff 𝓘(ℝ, Mat 14) 𝓘(ℝ, HomModel) ∞ (fun g : Mat 14 => (ψR g p : HomModel)) := by
+    have h : ContDiff ℝ ∞ (fun g : Mat 14 =>
+        (((p.1 : (Fin 4 → ℝ) × (Fin 10 → ℝ)), (p.2 : HomF).comp (matL g)) :
+          ((Fin 4 → ℝ) × (Fin 10 → ℝ)) × HomF)) :=
+      contDiff_const.prodMk (contDiff_const.clm_comp matL.contDiff)
+    exact (show ContDiff ℝ ∞ (fun g : Mat 14 => (ψR g p : HomModel)) from h).contMDiff
+  have hq : q ∈ c.source := mem_chart_source _ q
+  have htgt : ∀ g, ψR g p ∈ c.target := fun g => by
+    have := c.map_source (ractM_mem_source q q hq g)
+    rwa [chart_ractM q q hq g] at this
+  have hsym : ContMDiff 𝓘(ℝ, Mat 14) 𝓘(ℝ, HomModel) ∞ (fun g : Mat 14 => c.symm (ψR g p)) :=
+    fun g => (contMDiffOn_chart_symm (x := q)).contMDiffAt
+      (c.open_target.mem_nhds (htgt g)) |>.comp g (hψ g)
+  refine hsym.congr fun g => ?_
+  show ractM q g = c.symm (ψR g p)
+  rw [show ψR g p = c (ractM q g) from (chart_ractM q q hq g).symm,
+    c.left_inv (ractM_mem_source q q hq g)]
+
 end GU.Library
