@@ -206,6 +206,30 @@ theorem exists_local_frames (H : B → Mat 14) (b0 : B) (hH : ContDiffAt ℝ ω 
     rw [this, orthF_Nf_zero η hη]
   exact bil_of_orthF_eq (hsym b) hη hb'
 
+
+/-! ### Model conversion for product model spaces -/
+
+section ModelConv
+
+open scoped Manifold
+
+variable {E1 E2 : Type*} [NormedAddCommGroup E1] [NormedSpace ℝ E1] [NormedAddCommGroup E2]
+  [NormedSpace ℝ E2] {E' H' M' : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+  [TopologicalSpace H'] [TopologicalSpace M'] [ChartedSpace H' M'] {I' : ModelWithCorners ℝ E' H'}
+  [IsManifold I' ∞ M']
+
+/-- **Smoothness on `ModelProd` with the product model equals smoothness on the product normed
+space with the self model** (all charts are identities; unfold both via `contMDiffOn_iff`). -/
+theorem contMDiffOn_modelProd_iff {f : ModelProd E1 E2 → M'} {s : Set (ModelProd E1 E2)} :
+    ContMDiffOn ((modelWithCornersSelf ℝ E1).prod (modelWithCornersSelf ℝ E2)) I' ∞ f s ↔
+      ContMDiffOn 𝓘(ℝ, E1 × E2) I' ∞ (fun x : E1 × E2 => f x) {x : E1 × E2 | x ∈ s} := by
+  rw [contMDiffOn_iff, contMDiffOn_iff]
+  constructor <;> rintro ⟨hc, hd⟩ <;> refine ⟨hc, fun x y => ?_⟩ <;>
+    · convert hd x y using 2 <;>
+        first | rfl | simp [extChartAt, OpenPartialHomeomorph.extend, Function.comp_def, Set.ext_iff]
+
+end ModelConv
+
 /-! ### Local sections of the orthonormal frame bundle (chart coordinates) -/
 
 section Section
@@ -434,6 +458,23 @@ theorem localTriv_surj (q0 : HomTotM X) (hq0 : q0 ∈ OFr X)
   have ha : σ (chartAt HomModel q0 q).1 ∈ orthoSetM := by rw [← levelSet_Fframe]; exact hO1
   have hb : q ∈ orthoSetM := by rw [← levelSet_Fframe]; exact hq
   exact ractM_transitive' ha hb hproj
+
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+/-- **Smooth local sections over `Y`**: `s = σ ∘ chartY` is `C^∞` on a neighbourhood of `y₀`,
+with `s y ∈ OFr` and `proj (s y) = y`. -/
+theorem exists_smooth_local_section_Y (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
+    ∃ V ∈ nhds q0.proj, ∃ s : Yobs X → HomTotM X,
+      ContMDiffOn ((modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod (modelWithCornersSelf ℝ (Fin 10 → ℝ)))
+        𝓘(ℝ, HomModel) ∞ s V ∧ ∀ y ∈ V, s y ∈ OFr X ∧ (s y).proj = y := by
+  obtain ⟨V, hV, U, σ, hσ, hp⟩ := exists_local_section_Y q0 hq0
+  set cY := chartAt (ModelProd (Fin 4 → ℝ) (Fin 10 → ℝ)) q0.proj
+  refine ⟨V ∩ cY.source, Filter.inter_mem hV (cY.open_source.mem_nhds (mem_chart_source _ _)),
+    fun y => σ (cY y), ?_, fun y hy => ⟨(hp y hy.1).2.1, (hp y hy.1).2.2⟩⟩
+  have hσ' := (contMDiffOn_modelProd_iff (E1 := Fin 4 → ℝ) (E2 := Fin 10 → ℝ)
+    (I' := 𝓘(ℝ, HomModel)) (M' := HomTotM X) (f := fun x => σ x) (s := U)).mpr hσ
+  exact hσ'.comp ((contMDiffOn_chart (x := q0.proj)).mono Set.inter_subset_right)
+    fun y hy => (hp y hy.1).1
 
 end Section
 
