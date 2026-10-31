@@ -3,8 +3,10 @@ import GU.Shiab.FormsWitness
 /-!
 # Lean-checked: the cubic Chern–Simons term blocks (9.4) → (9.7) for `⧉_GU`
 
-The variation of `⅓ Tr(T ∧ ⧉[T,T])` equals `⟨α, ⧉[T,T]⟩` only if
-`Tr(T ∧ ⧉([α,T] + [T,α])) = 2 Tr(α ∧ ⧉[T,T])`. For the synthetic `⧉_GU` (which passes the
+With `[T,T]` read as `T∧T` (the reading under which (9.4)'s `½, ⅓` reproduce `½·CS`), the
+variation of `⅓ Tr(T ∧ ⧉[T,T])` equals `⟨α, ⧉[T,T]⟩` only if
+`Tr(T ∧ ⧉([α,T] + [T,α])) = 2 Tr(α ∧ ⧉[T,T])` (with the commutator-wedge bracket the target is
+`k = ½`; numerically infeasible for every `k`, see the log). For the synthetic `⧉_GU` (which passes the
 quadratic self-adjointness test, `GU_witness_ok`) this fails at
 `T = e⁰⊗γ₀ + e¹⊗γ₁γ₃`, `α = e²⊗γ₂γ₃` (`cubic_fails`). Numerically no Weyl-killing,
 Einstein-producing member of the Def 8.1 family satisfies it for any coefficient (see log).

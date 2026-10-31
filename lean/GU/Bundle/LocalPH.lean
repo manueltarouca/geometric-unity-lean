@@ -2,12 +2,15 @@ import GU.Bundle.MainBundle
 import GU.Observerse.Manifold
 
 /-!
-# `P_H` over a chart of the observerse (local closure of gap M2)
+# A trivial principal bundle and `P_H` over the type of an observerse chart
 
-Over a chart `Y|_U` (`GU.Observerse.Yloc U`), the chimeric bundle is trivial (it is a product
-over `U × LorFiber`). A spin structure is then the trivial principal bundle
-`Y|_U × Spin(7,7)` with right multiplication (`trivialSpinOver`). With the explicit Dirac
-representation this gives `P_H|_{Y|_U}` as a principal `U(64,64)`-bundle (`localPH`).
+`trivialSpinOver B` is the trivial principal `Spin(7,7)`-bundle `B × Spin(7,7)` over an *arbitrary*
+type `B`. With the explicit Dirac representation, `localPH` gives a principal `U(64,64)`-bundle over
+the type `Y|_U`. This only shows the structures can be instantiated over that base. Its
+identification with the spin cover of the frame bundle of `C` is **not** formalised (`C` is not
+a bundle in Lean). Also, `Y|_U` contains the (3,1) sector, where `C` has signature (9,5), so a
+Spin(7,7) structure of `C` makes sense only on the (1,3) component. Classically `C` is trivial
+over such charts, so a (non-unique) spin structure exists there.
 
 Global existence (obstruction theory on all of `Y`) remains open; this is only the local
 statement. Topology/smoothness are not modelled, as in `Principal.lean`.
@@ -26,7 +29,7 @@ open MulOpposite
     simp [mul_assoc]
 
 /-- Trivial principal `Spin(7,7)`-bundle over any base. -/
-def trivialSpinOver (B : Type) [Nonempty B] : ChimericSpinStructure.{0} B where
+def trivialSpinOver (B : Type) : ChimericSpinStructure.{0} B where
   Ptilde := B × Spin77
   act := spinAct B
   bundle := letI := spinAct B
@@ -42,8 +45,8 @@ def trivialSpinOver (B : Type) [Nonempty B] : ChimericSpinStructure.{0} B where
         · exact hpq
         · simp⟩ }
 
-/-- `P_H` over an observerse chart with nonempty `U`. -/
-noncomputable def localPH (U : TopologicalSpace.Opens (Fin 4 → ℝ)) [Nonempty (Observerse.Yloc U)] :
+/-- `P_H`-type bundle over the type `Y|_U`. -/
+noncomputable def localPH (U : TopologicalSpace.Opens (Fin 4 → ℝ)) :
     PrincipalBundle U6464 (PH (trivialSpinOver (Observerse.Yloc U)) diracRep) (Observerse.Yloc U) :=
   physicalBundle _
 

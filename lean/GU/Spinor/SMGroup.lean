@@ -13,6 +13,10 @@ and `su2` commute with each other; each set is linearly independent (diagonal tr
 the sample Cartan relation `[X₀₁, Y₀₁] = 4(P₀ − P₁)` holds. Together with `center_two_u1`, this
 exhibits the Standard Model algebra plus `u(1)_{B−L}` explicitly inside the observerse's
 `spin(6,4) ⊂ cl(7,7)`.
+
+Not proved: closure of `su3` under all 28 brackets (only one Cartan relation is checked), and that
+these span the full centraliser (which relies on the classical dimension count). So "su(3)" here
+means 8 independent, centre-commuting elements of the expected form.
 -/
 
 namespace GU.Spinor

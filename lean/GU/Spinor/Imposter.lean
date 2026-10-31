@@ -12,9 +12,10 @@ leaves the 144.
 
 Proved (`decide`, combinatorics only):
 * `count_144`: `160 − 16 = 144` weights;
-* `anomaly_144`: `Σ Y`, `Σ Y³`, `Σ (B−L)`, `Σ (B−L)³` all vanish on the 144. The imposter sector is
-  anomaly free as a representation. (For spin-3/2 fields in 4D the physical anomaly coefficients
-  are multiples of these, so they vanish too.)
+* `anomaly_144`: `Σ Y`, `Σ Y³`, `Σ (B−L)`, `Σ (B−L)³` all vanish on the 144. This is automatic for any
+  `so(10)` representation (traceless Cartan elements, no cubic Casimir), so it is bookkeeping, not
+  evidence. The draft's "imposter generation" is a proper subset of the 144; the rest carry
+  exotic charges (e.g. `Y = 3/2, 7/6, 5/6`), and nothing here addresses that subset alone.
 -/
 
 namespace GU.Spinor

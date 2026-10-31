@@ -5,11 +5,11 @@ import GU.Spinor.Reductions
 
 Within `cl(7,7)`, using the CSum calculus:
 * `so6_closed`: the 15 bivectors of the positive 6 generators close under commutators. Each
-  `[b, b']` is `0` or `±2` times another bivector of the set, so they span a Lie algebra:
-  `so(6) ≅ su(4)`, the colour-lepton factor.
-* `su2L_su2R`: on the negative 4 generators, `L = (b₀₁+b₂₃, b₀₂−b₁₃, b₀₃+b₁₂)` and
-  `R = (b₀₁−b₂₃, b₀₂+b₁₃, b₀₃−b₁₂)` satisfy `[L_i,L_j] = 4L_k`, `[R_i,R_j] = −4R_k` (cyclic) and
-  `[L_i,R_j] = 0`. This is `so(4) = su(2)_L ⊕ su(2)_R` as in (4.8).
+  `[b, b']` is `0` or `±2` times another bivector of the set, so they form a Lie algebra
+  (its identification with `so(6) ≅ su(4)` is standard), the colour-lepton factor.
+* `su2L_su2R`: on the negative 4 generators, `Rs = (b₀₁+b₂₃, b₀₂−b₁₃, b₀₃+b₁₂)` (contains
+  `P₃+P₄ = J₋ ∝ T₃ᴿ`, so this is su(2)_R) and `Ls = (b₀₁−b₂₃, b₀₂+b₁₃, b₀₃−b₁₂)` (= `SMGroup.su2`,
+  the weak su(2)_L) commute and close: `so(4) = su(2)_L ⊕ su(2)_R` as in (4.8).
 * `so6_so4_commute`: the two blocks commute.
 -/
 
@@ -35,15 +35,15 @@ theorem so6_closed : so6.length = 15 ∧ so6.all (fun A => so6.all fun B => clos
   decide +kernel
 
 def nb (i j : ℕ) : CSum := biv (neg4.getD i (0, false)) (neg4.getD j (0, false))
-def Ls : List CSum := [nb 0 1 ++ nb 2 3, nb 0 2 ++ neg (nb 1 3), nb 0 3 ++ nb 1 2]
-def Rs : List CSum := [nb 0 1 ++ neg (nb 2 3), nb 0 2 ++ nb 1 3, nb 0 3 ++ neg (nb 1 2)]
+def Rs : List CSum := [nb 0 1 ++ nb 2 3, nb 0 2 ++ neg (nb 1 3), nb 0 3 ++ nb 1 2]
+def Ls : List CSum := [nb 0 1 ++ neg (nb 2 3), nb 0 2 ++ nb 1 3, nb 0 3 ++ neg (nb 1 2)]
 
 def cyc3 : List (ℕ × ℕ × ℕ) := [(0, 1, 2), (1, 2, 0), (2, 0, 1)]
 
 set_option maxRecDepth 100000 in
 theorem su2L_su2R :
-    cyc3.all (fun t => isZero (comm (Ls.getD t.1 []) (Ls.getD t.2.1 []) ++ smul (-4) (Ls.getD t.2.2 []))) = true ∧
-    cyc3.all (fun t => isZero (comm (Rs.getD t.1 []) (Rs.getD t.2.1 []) ++ smul 4 (Rs.getD t.2.2 []))) = true ∧
+    cyc3.all (fun t => isZero (comm (Rs.getD t.1 []) (Rs.getD t.2.1 []) ++ smul (-4) (Rs.getD t.2.2 []))) = true ∧
+    cyc3.all (fun t => isZero (comm (Ls.getD t.1 []) (Ls.getD t.2.1 []) ++ smul 4 (Ls.getD t.2.2 []))) = true ∧
     Ls.all (fun A => Rs.all fun B => isZero (comm A B)) = true := by
   decide +kernel
 
