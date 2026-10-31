@@ -358,3 +358,4 @@ open GU
 #print axioms GU.Observerse.isOpen_Y13
 #print axioms GU.Library.chart_ractM
 #print axioms GU.Library.ractM_mem_source
+#print axioms GU.Library.contMDiff_ractM_right

@@ -59,4 +59,48 @@ lemma chart_ractM (a q : HomTotM X) (hq : q ∈ (chartAt HomModel a).source) (g 
       ((trivializationAt HomF (HomCb (X := X)) a.proj) q).2.comp (matCLM g)
     rw [triv_ractM a.proj q hb g]
 
+/-- `matCLM` as a continuous linear map. -/
+noncomputable def matL : Mat 14 →L[ℝ] (R14 →L[ℝ] R14) :=
+  LinearMap.toContinuousLinearMap
+    { toFun := matCLM
+      map_add' := fun g g' => ContinuousLinearMap.ext fun x => by
+        simp only [matCLM_apply, ContinuousLinearMap.add_apply]
+        show (Matrix.of g + Matrix.of g') *ᵥ x = _
+        rw [add_mulVec]
+      map_smul' := fun r g => ContinuousLinearMap.ext fun x => by
+        simp only [matCLM_apply, ContinuousLinearMap.smul_apply, RingHom.id_apply]
+        show (r • Matrix.of g) *ᵥ x = _
+        rw [smul_mulVec] }
+
+lemma matL_apply (g : Mat 14) : matL g = matCLM g := rfl
+
+/-- The chart-level right translation `p ↦ (p.1, p.2 ∘ g)`. -/
+noncomputable def ψR (g : Mat 14) (p : HomModel) : HomModel := (p.1, p.2.comp (matCLM g))
+
+-- Proved on the plain product type and transported by `show`: this avoids the `ModelProd`
+-- topology diamond that blocks continuous linear maps out of `HomModel`.
+lemma contMDiff_ψR (g : Mat 14) : ContMDiff 𝓘(ℝ, HomModel) 𝓘(ℝ, HomModel) ∞ (ψR g) := by
+  have h : ContDiff ℝ ∞ (fun p : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) × HomF => (p.1, p.2.comp (matCLM g))) :=
+    contDiff_fst.prodMk (contDiff_snd.clm_comp contDiff_const)
+  exact (show ContDiff ℝ ∞ (ψR g) from h).contMDiff
+
+/-- **Right translations are smooth**: `q ↦ q · g` is `C^∞` on `HomTotM`. -/
+theorem contMDiff_ractM_right (g : Mat 14) :
+    ContMDiff 𝓘(ℝ, HomModel) 𝓘(ℝ, HomModel) ∞ (fun q : HomTotM X => ractM q g) := by
+  intro q0
+  set c := chartAt HomModel q0
+  have hloc : ContMDiffOn 𝓘(ℝ, HomModel) 𝓘(ℝ, HomModel) ∞
+      (fun q => c.symm (ψR g (c q))) c.source := by
+    refine (contMDiffOn_chart_symm (x := q0)).comp ((contMDiff_ψR g).comp_contMDiffOn
+      (contMDiffOn_chart (x := q0))) ?_
+    intro q hq
+    show ψR g (c q) ∈ c.target
+    have := c.map_source (ractM_mem_source q0 q hq g)
+    rwa [chart_ractM q0 q hq g] at this
+  refine (hloc.contMDiffAt (c.open_source.mem_nhds (mem_chart_source _ q0))).congr_of_eventuallyEq ?_
+  filter_upwards [c.open_source.mem_nhds (mem_chart_source _ q0)] with q hq
+  show ractM q g = c.symm (ψR g (c q))
+  rw [show ψR g (c q) = c (ractM q g) from (chart_ractM q0 q hq g).symm,
+    c.left_inv (ractM_mem_source q0 q hq g)]
+
 end GU.Library
