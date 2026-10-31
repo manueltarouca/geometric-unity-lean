@@ -57,3 +57,4 @@ import GU.Bundle.FrameBundle
 import GU.Bundle.OrthoFrames
 import GU.Spinor.SpinCover
 import GU.Observerse.ChimericCovariance
+import GU.Bundle.Isometry77

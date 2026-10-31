@@ -129,3 +129,6 @@ open GU
 #print axioms Spinor.vecRep_neg_one
 #print axioms Spinor.neg_one_mem_spin
 #print axioms Bmod_covariant
+#print axioms Iso77.Φiso_isometry
+#print axioms Iso77.spinToOG
+#print axioms Iso77.spinToOG_neg_one
