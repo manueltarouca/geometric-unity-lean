@@ -48,6 +48,8 @@ import GU.Shiab.FormsSem
 import GU.Shiab.FormsSemOps
 import GU.Shiab.FormsSpan
 import GU.Shiab.FormsCurvSpan
+import GU.Shiab.FormsReal
+import GU.Shiab.FormsRealCoords
 import GU.Spinor.CentralizerMain
 import GU.Spinor.SpanFull
 import GU.Observerse.Global

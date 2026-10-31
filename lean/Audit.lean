@@ -275,3 +275,8 @@ open GU
 #print axioms GU.FormsW.curv_span
 #print axioms GU.FormsW.einstein_all_curv
 #print axioms GU.FormsW.isCurv_knT
+#print axioms GU.FormsW.curvR_cast
+#print axioms GU.FormsW.einR_cast
+#print axioms GU.FormsW.curv_coordsR
+#print axioms GU.FormsW.einstein_all_real
+#print axioms GU.FormsW.isCurvR_cast

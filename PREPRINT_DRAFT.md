@@ -47,7 +47,7 @@ refute GU as physics.
 - B1: Cl(7,7) ≅ ℝ(128), with ρ_D faithful. B2: the degrees of (9.3) are correct once the outer ⋆
   is read correctly.
 - B3: Shiab → Einstein, with mixed brackets: the Clifford core (`shiab_einstein`), and with Hodge
-  stars for every integer algebraic curvature tensor (`einstein_all_curv`, via `einstein_span`
+  stars for every real algebraic curvature tensor (`einstein_all_real`, via `einstein_all_curv`, `einstein_span`
   and `curv_span`).
 - B4: Shiab with a cosmological source gives G = Λg. B5–B6: one Standard Model generation,
   anomaly-free, sin²θ_W = 3/8, with the hypercharge direction forced.
