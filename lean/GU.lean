@@ -25,3 +25,4 @@ import GU.Spinor.HyperchargeOp
 import GU.Gauge.MatrixModel
 import GU.Spinor.SMAlgebra
 import GU.Fermion.Bilinear
+import GU.Spinor.DetOne

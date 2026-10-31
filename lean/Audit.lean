@@ -66,3 +66,4 @@ open GU
 #print axioms Spinor.weinberg_angle
 #print axioms Spinor.mu_mem_u
 #print axioms Spinor.mu_equivariant
+#print axioms Spinor.det_rho_eq_one
