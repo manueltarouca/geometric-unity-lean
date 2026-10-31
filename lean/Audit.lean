@@ -382,3 +382,5 @@ open GU
 #print axioms GU.Library.PS6_preserves_base_legs
 #print axioms GU.Library.PS4_preserves_base_legs
 #print axioms GU.Library.PS4_le_SO0
+#print axioms GU.Library.ΦL_horiz
+#print axioms GU.Library.ΦL_vert

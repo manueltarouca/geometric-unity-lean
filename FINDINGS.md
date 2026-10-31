@@ -51,6 +51,15 @@ argues w₂(Y¹⁴) = π*w₂(X⁴), i.e. Y spin iff X spin, with only the mod-2
 they retracted an earlier, unconditional version.) Details:
 `PHASE1_BLUEPRINT.md`, "Omitted constructs".
 
+## E2. Internal consistency note (Lean-checked)
+
+Under the isometry `Φ : (ℝ¹⁴, Q77) ≅ (CFib, Bη)` the chimeric horizontal part `H*` is spanned by
+`e₆, e₁₁, e₁₂, e₁₃` (`ΦL_horiz`, `ΦL_vert`, `Bundle/ChimReduction.lean`). The Pati–Salam blocks of
+`Spinor/PatiSalamGroup.lean` (`W6 = e₁..e₆`, `W4 = e₁₀..e₁₃`, base `e₀,e₇,e₈,e₉`) are an abstract
+`(1,3) ⊕ (6) ⊕ (4)` split with the right signatures, but they are not aligned with `V ⊕ H*` under `Φ`.
+The group-theoretic results (Spin(6) ≅ SU(4), commuting, kernels) are unaffected. Statements about
+the Pati–Salam group acting on the chimeric *bundle* need the aligned blocks `{0..5}`, `{7..10}`.
+
 ## E. Not done / open
 
 - The global spin lift (w₂).
