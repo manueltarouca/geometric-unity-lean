@@ -1,13 +1,14 @@
 import GU.Spinor.SpinCover
 
 /-!
-# The kernel of `Spin(7,7) → O(7,7)` is exactly `{±1}`
+# The kernel of `vecRep : Spin(7,7) → GL(ℝ¹⁴)` (image in `O(7,7)`, `vecRep_isometry`) is exactly `{±1}`
 
 `vecRep_ker`: if `x ∈ Spin(7,7)` acts trivially on `ℝ¹⁴` then `x = ±1`.
 Proof: `x ι(v) x* = ι(v)` and `x* x = 1` give `x ι(v) = ι(v) x`; the `ι(v)` generate `Cl(7,7)`
 (`adjoin_range_ι`), so `x` is central; under `Cl(7,7) ≅ ℝ(128)` (`cl77Equiv`) the centre is the
 scalars (`Matrix.center_eq_range`), so `x = c·1`, and `x* x = 1` gives `c² = 1`.
-With `vecRep_neg_one` the cover is exactly two-to-one onto its image.
+With `vecRep_neg_one`: `ker_eq : ker vecRep = {1, −1}`, `negOne_ne_one`, and every fibre has exactly
+two elements (`fiber_ncard`). Surjectivity onto `SO₀(7,7)` is not proved.
 -/
 
 namespace GU.Spinor
@@ -56,7 +57,7 @@ theorem vecRep_ker (x : Spin77) (hx : ∀ v, vecRep x v = v) :
   · left; rw [hc, h, map_one]
   · right; rw [hc, h, map_neg, map_one]
 
-/-- **The covering is exactly two-to-one**: `vecRep x = vecRep y ↔ x = ±y`. -/
+/-- **The covering is two-to-one onto its image**: `vecRep x = vecRep y ↔ x = ±y`. -/
 theorem vecRep_eq_iff (x y : Spin77) :
     vecRep x = vecRep y ↔ (x : Cl77) = y ∨ (x : Cl77) = -y := by
   constructor
@@ -79,5 +80,44 @@ theorem vecRep_eq_iff (x y : Spin77) :
       rw [this, map_mul]
       ext v
       rw [LinearEquiv.mul_apply, vecRep_neg_one]
+
+/-- `−1 ∈ Spin(7,7)`. -/
+def negOne : Spin77 := ⟨-1, neg_one_mem_spin⟩
+
+theorem neg_one_ne_one_Cl77 : (-1 : Cl77) ≠ 1 := fun h => by
+  have := (algebraMap ℝ Cl77).injective (by simpa using h : algebraMap ℝ Cl77 (-1) = algebraMap ℝ Cl77 1)
+  norm_num at this
+
+theorem negOne_ne_one : negOne ≠ 1 := fun h => neg_one_ne_one_Cl77 (congrArg Subtype.val h)
+
+theorem mem_ker_iff (x : Spin77) : x ∈ vecRep.ker ↔ x = 1 ∨ x = negOne := by
+  rw [MonoidHom.mem_ker]
+  constructor
+  · intro h
+    rcases vecRep_ker x (fun v => by rw [h]; rfl) with e | e
+    · exact Or.inl (Subtype.ext e)
+    · exact Or.inr (Subtype.ext e)
+  · rintro (rfl | rfl)
+    · exact map_one _
+    · exact LinearEquiv.ext vecRep_neg_one
+
+theorem ker_eq : (vecRep.ker : Set Spin77) = {1, negOne} := by
+  ext x; rw [SetLike.mem_coe, mem_ker_iff]; simp
+
+theorem fiber_eq (x : Spin77) : {y : Spin77 | vecRep y = vecRep x} = {x, negOne * x} := by
+  ext y
+  simp only [Set.mem_ofPred_eq, Set.mem_insert_iff, Set.mem_singleton_iff, vecRep_eq_iff]
+  constructor
+  · rintro (e | e)
+    · exact Or.inl (Subtype.ext e)
+    · exact Or.inr (Subtype.ext (by rw [Submonoid.coe_mul, e]; simp [negOne]))
+  · rintro (rfl | rfl)
+    · exact Or.inl rfl
+    · exact Or.inr (by simp [negOne])
+
+theorem fiber_ncard (x : Spin77) : {y : Spin77 | vecRep y = vecRep x}.ncard = 2 := by
+  rw [fiber_eq, Set.ncard_pair]
+  intro h
+  exact negOne_ne_one (mul_right_cancel (a := negOne) (b := x) (c := 1) (by rw [one_mul]; exact h.symm))
 
 end GU.Spinor

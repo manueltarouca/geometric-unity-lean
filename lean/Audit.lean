@@ -147,3 +147,5 @@ open GU
 #print axioms GU.Observerse.ract_unique
 #print axioms GU.Observerse.localTriv_frames
 #print axioms GU.Observerse.contMDiff_smul_FrY
+#print axioms GU.Spinor.ker_eq
+#print axioms GU.Spinor.fiber_ncard
