@@ -165,4 +165,36 @@ theorem contMDiff_ractM_joint :
   rw [show ΨJ (c qg.1, qg.2) = c (ractM qg.1 qg.2) from (chart_ractM qg0.1 qg.1 hqg.1 qg.2).symm,
     c.left_inv (ractM_mem_source qg0.1 qg.1 hqg.1 qg.2)]
 
+/-! ### The action on the orthonormal frame submanifold -/
+
+/-- The frame submanifold `Fframe⁻¹{η₇₇}` (`= orthoSetM`). -/
+abbrev OFr (X : Type) [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
+    [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X] :=
+  levelSet (Fframe (X := X)) ⟨η77, ηSig_mem 7 7⟩
+
+lemma ractM_mem_OFr {q : HomTotM X} (hq : q ∈ OFr X) (g : O77) : ractM q g ∈ OFr X := by
+  rw [OFr, levelSet_Fframe] at hq ⊢
+  exact ractM_mem hq g
+
+/-- The right `O(7,7)`-action on orthonormal frames. -/
+noncomputable def actOFr (qg : OFr X × O77) : OFr X :=
+  ⟨ractM qg.1 qg.2, ractM_mem_OFr qg.1.2 qg.2⟩
+
+/-- **The `O(7,7)`-action on the orthonormal frame bundle is smooth** (for the regular-level-set
+manifold structure on the frames and the Lie group structure on `O77`). -/
+theorem contMDiff_actOFr :
+    letI := regCharted (Fframe_regular (X := X))
+    haveI := isManifold_regularLevel (Fframe_regular (X := X))
+    ContMDiff (𝓘(ℝ, Fin (fibreDim HomModel (symS 14)) → ℝ).prod
+        𝓘(ℝ, Fin (fibreDim (Mat 14) (symS 14)) → ℝ))
+      𝓘(ℝ, Fin (fibreDim HomModel (symS 14)) → ℝ) ∞ (actOFr (X := X)) := by
+  let _ := regCharted (Fframe_regular (X := X))
+  have _ := isManifold_regularLevel (Fframe_regular (X := X))
+  rw [contMDiff_regularLevel_iff]
+  have hv := contMDiff_regularLevel_val (Fframe_regular (X := X))
+  have hO : ContMDiff 𝓘(ℝ, Fin (fibreDim (Mat 14) (symS 14)) → ℝ) 𝓘(ℝ, Mat 14) ∞
+      (Subtype.val : O77 → Mat 14) :=
+    contMDiff_levelSet_val (orth_submersive _ (ηSig_mem 7 7) (ηSig_sq 7 7))
+  exact contMDiff_ractM_joint.comp ((hv.comp contMDiff_fst).prodMk (hO.comp contMDiff_snd))
+
 end GU.Library

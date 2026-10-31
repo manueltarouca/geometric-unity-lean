@@ -361,3 +361,4 @@ open GU
 #print axioms GU.Library.contMDiff_ractM_right
 #print axioms GU.Library.contMDiff_ractM_orbit
 #print axioms GU.Library.contMDiff_ractM_joint
+#print axioms GU.Library.contMDiff_actOFr
