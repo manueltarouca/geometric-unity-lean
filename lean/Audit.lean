@@ -162,3 +162,7 @@ open GU
 #print axioms GU.Observerse.ortho_transitive'
 #print axioms GU.Chimeric.no_isometry_95
 #print axioms GU.Observerse.no_ortho_31
+#print axioms GU.Chimeric.lorentz_dichotomy
+#print axioms GU.Observerse.yobs_dichotomy
+#print axioms GU.Observerse.ortho_iff_13
+#print axioms GU.Observerse.not_13_and_31

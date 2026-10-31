@@ -20,12 +20,13 @@ On the smooth frame bundle `FrY ⊆ Hom(ℝ¹⁴, C)` (`SmoothFrames.lean`):
   `EndC`; not linked to the subgroup `OG ⊆ GLC` of `OrthoFrames.lean`) preserve orthonormal frames,
   and two orthonormal frames over the same point differ by such a `g` (unique by `ract_unique`).
 
-This is NOT yet a reduction of the structure group over all of `Y`: `Yobs` contains both Lorentzian
-components, and at (3,1) points (`Gpt = P(−η)Pᵀ`) `Bmod G` has an orthogonal basis with 9 positive
+This is NOT yet a reduction of the structure group over all of `Y`: `Yobs` contains both kinds of
+Lorentzian points, and at (3,1) points (`Gpt = P(−η)Pᵀ`) `Bmod G` has an orthogonal basis with 9 positive
 and 5 negative norms and is not isometric to the (7,7) model, so those fibres of `orthoSet` are empty
 (`no_ortho_31`, `NoOrtho31.lean`). This depends on the relative sign `+DeWitt ⊕ +g⁻¹` chosen in
-`Chimeric.lean` (with the opposite sign the two Lorentzian components swap roles); that `Yobs` is
-exactly the union of the (1,3) and (3,1) points is not formalised. Over (1,3) points orthonormal frames exist
+`Chimeric.lean` (with the opposite sign the two kinds of Lorentzian points swap roles); `Yobs` is exactly
+the union of the (1,3) and (3,1) points (`yobs_dichotomy`), and orthonormal frames exist over `y` iff
+`y` is (1,3) (`ortho_iff_13`). Over (1,3) points orthonormal frames exist
 in the smooth total space (`ortho_exists_Y13`, `OrthoGlue.lean`). Not done: the
 submanifold structure (needs a regular-value theorem; Mathlib has no submanifolds).
 -/

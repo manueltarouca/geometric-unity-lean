@@ -64,5 +64,6 @@ import GU.Bundle.FramesCb
 import GU.Bundle.SmoothOrtho
 import GU.Bundle.OrthoGlue
 import GU.Observerse.Signature95
+import GU.Observerse.LorentzDichotomy
 import GU.Bundle.NoOrtho31
 import GU.Spinor.SpinKernel
