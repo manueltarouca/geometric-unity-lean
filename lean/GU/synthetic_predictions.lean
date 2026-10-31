@@ -43,8 +43,8 @@ under the draft's dictionary. None of them is a claim that nature behaves this w
    act only on the fibre directions `W6 ⊕ W4`, and fix the base (1,3) (`gauge_embedding`).
    So the internal symmetry does not mix with spacetime (compatible with Coleman–Mandula). Caveats: the
    reading of weights as one left-handed generation needs the Majorana reality and a chirality
-   convention (`Anomaly.lean`); identifying the subgroups with abstract `Spin(6)`, `Spin(4)` is not
-   formalised.
+   convention (`Anomaly.lean`); each subgroup is a non-split double cover of its block `SO(6)` / `SO(4)` (`BlockSpin.lean`);
+   identification with abstract `Spin(6)`, `Spin(4)` (uniqueness, topology) is not formalised.
 -/
 
 namespace GU.Predictions

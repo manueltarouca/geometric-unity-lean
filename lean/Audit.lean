@@ -219,3 +219,13 @@ open GU
 #print axioms GU.Spinor.g0_not_mem
 #print axioms GU.Spinor.mem_or_g0_mul_mem
 #print axioms GU.Spinor.not_both
+#print axioms GU.Spinor.isom_eq_reflB
+#print axioms GU.Spinor.block_onto
+#print axioms GU.Spinor.range_spin6
+#print axioms GU.Spinor.range_spin4
+#print axioms GU.Spinor.spin6_ker
+#print axioms GU.Spinor.spin4_ker
+#print axioms GU.Spinor.spin6_iff
+#print axioms GU.Spinor.spin4_iff
+#print axioms GU.Spinor.spin6_nonsplit
+#print axioms GU.Spinor.spin4_nonsplit
