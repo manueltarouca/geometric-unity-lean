@@ -83,3 +83,5 @@ open GU
 #print axioms GaugeData.orbit_eq_iff
 #print axioms GaugeData.principalG
 #print axioms Spinor.bminusL_table
+#print axioms FormsW.not_selfadjoint
+#print axioms FormsW.GU_witness_ok
