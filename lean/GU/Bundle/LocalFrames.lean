@@ -241,7 +241,8 @@ theorem exists_local_section (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
     ∃ U ∈ nhds (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from (chartAt HomModel q0 q0).1),
       ∃ σ : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) → HomTotM X,
         ContMDiffOn 𝓘(ℝ, (Fin 4 → ℝ) × (Fin 10 → ℝ)) 𝓘(ℝ, HomModel) ∞ σ U ∧
-        ∀ e ∈ U, σ e ∈ OFr X ∧ (chartAt HomModel q0 (σ e)).1 = e := by
+        ∀ e ∈ U, σ e ∈ OFr X ∧ (chartAt HomModel q0 (σ e)).1 = e ∧
+          σ e ∈ (chartAt HomModel q0).source := by
   set c := chartAt HomModel q0
   set p0 := c q0
   set e0 : (Fin 4 → ℝ) × (Fin 10 → ℝ) := (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from p0.1)
@@ -294,7 +295,7 @@ theorem exists_local_section (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
     exact (contMDiffOn_chart_symm (x := q0)).comp hpair fun e he => hTν e he.2
   · rintro e ⟨he1, he2⟩
     have hmem := hTν e he2
-    refine ⟨?_, ?_⟩
+    refine ⟨?_, ?_, c.map_target hmem⟩
     · show Fframe (c.symm (pairHM e (ν e))) = ⟨η77, ηSig_mem 7 7⟩
       rw [Fframe_chart q0 hmem]
       apply Subtype.ext
@@ -308,6 +309,55 @@ theorem exists_local_section (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
         exact this
       rw [hb, symP_of_mem (ηSig_mem 7 7)]
     · rw [c.right_inv hmem]; rfl
+
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+/-- The base coordinate of the total-space chart is the base chart of the projection. -/
+lemma chart_fst (a q : HomTotM X) (hq : q ∈ (chartAt HomModel a).source) :
+    (chartAt HomModel a q).1 = chartAt (ModelProd (Fin 4 → ℝ) (Fin 10 → ℝ)) a.proj q.proj := by
+  rw [show chartAt HomModel a = _ from FiberBundle.chartedSpace_chartAt a] at hq ⊢
+  simp only [OpenPartialHomeomorph.trans_source, Set.mem_inter_iff] at hq
+  show chartAt _ a.proj ((trivializationAt HomF (HomCb (X := X)) a.proj) q).1 = _
+  rw [Trivialization.coe_fst _ hq.1]
+
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+lemma proj_mem_chart_source (a q : HomTotM X) (hq : q ∈ (chartAt HomModel a).source) :
+    q.proj ∈ (chartAt (ModelProd (Fin 4 → ℝ) (Fin 10 → ℝ)) a.proj).source := by
+  rw [show chartAt HomModel a = _ from FiberBundle.chartedSpace_chartAt a] at hq
+  simp only [OpenPartialHomeomorph.trans_source, Set.mem_inter_iff, Set.mem_preimage,
+    OpenPartialHomeomorph.prod_source, Set.mem_prod, OpenPartialHomeomorph.refl_source,
+    Set.mem_univ, and_true] at hq
+  have := hq.2
+  rwa [Trivialization.coe_coe, Trivialization.coe_fst _ hq.1] at this
+
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+/-- **Local sections of the orthonormal frame bundle over `Y`**: around the base point of any
+orthonormal frame there is `s = σ ∘ chartY` on a neighbourhood `V`, with `σ` smooth on the chart
+image (`exists_local_section`), `s y ∈ OFr` and `proj (s y) = y`. (Stating `ContMDiffOn` of `s`
+directly needs the `ModelProd`/product-model instance conversion; it is `σ` composed with the
+smooth chart.) -/
+theorem exists_local_section_Y (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
+    ∃ V ∈ nhds q0.proj, ∃ U : Set ((Fin 4 → ℝ) × (Fin 10 → ℝ)),
+      ∃ σ : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) → HomTotM X,
+        ContMDiffOn 𝓘(ℝ, (Fin 4 → ℝ) × (Fin 10 → ℝ)) 𝓘(ℝ, HomModel) ∞ σ U ∧
+        ∀ y ∈ V, chartAt (ModelProd (Fin 4 → ℝ) (Fin 10 → ℝ)) q0.proj y ∈ U ∧
+          σ (chartAt (ModelProd (Fin 4 → ℝ) (Fin 10 → ℝ)) q0.proj y) ∈ OFr X ∧
+          (σ (chartAt (ModelProd (Fin 4 → ℝ) (Fin 10 → ℝ)) q0.proj y)).proj = y := by
+  obtain ⟨U, hU, σ, hσ, hσp⟩ := exists_local_section q0 hq0
+  set cY := chartAt (ModelProd (Fin 4 → ℝ) (Fin 10 → ℝ)) q0.proj
+  have he0 : (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from (chartAt HomModel q0 q0).1) = cY q0.proj :=
+    chart_fst q0 q0 (mem_chart_source _ q0)
+  rw [he0] at hU
+  refine ⟨cY.source ∩ cY ⁻¹' U, Filter.inter_mem (cY.open_source.mem_nhds (mem_chart_source _ _))
+      ((cY.continuousAt (mem_chart_source _ _)).preimage_mem_nhds hU), U, σ, hσ, ?_⟩
+  rintro y ⟨hys, hyU⟩
+  obtain ⟨hO, hfst, hsrc⟩ := hσp (cY y) hyU
+  refine ⟨hyU, hO, ?_⟩
+  have h1 := chart_fst q0 _ hsrc
+  rw [hfst] at h1
+  exact cY.injOn (proj_mem_chart_source q0 _ hsrc) hys h1.symm
 
 end Section
 

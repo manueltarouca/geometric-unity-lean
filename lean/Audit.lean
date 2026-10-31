@@ -367,3 +367,5 @@ open GU
 #print axioms GU.Library.exists_local_frames
 #print axioms GU.Library.exists_local_section
 #print axioms GU.Library.mem_chart_target_iff
+#print axioms GU.Library.exists_local_section_Y
+#print axioms GU.Library.chart_fst
