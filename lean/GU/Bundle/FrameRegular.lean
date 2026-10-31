@@ -13,7 +13,7 @@ Lorentzian chart target and submersive at frames (`Fframe_regular`).
 (iv) **`isManifold_orthoFrames`**, **`contMDiff_orthoFrames_val`**, **`fibreDim_orthoFrames`**:
 `orthoSetM` (as the level-set subtype) is a smooth 105-dimensional submanifold of `HomTotM X`.
 Its fibres are nonempty exactly over the (1,3) part of `Y` (`orthoM_iff_13`); over (3,1) points
-they are empty. The O(7,7) action (algebra) is in `FrameAction.lean`; smoothness of the action and local triviality are open.
+they are empty. The O(7,7) action (algebra) is in `FrameAction.lean`; its smoothness is in `FrameActionSmooth.lean`; local triviality is open.
 -/
 
 namespace GU.Library

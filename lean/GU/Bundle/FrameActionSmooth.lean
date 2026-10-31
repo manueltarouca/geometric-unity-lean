@@ -5,8 +5,8 @@ import GU.Bundle.FrameAction
 
 In a total-space chart, `ractM` is `(e, h) ↦ (e, h ∘ g)` (`chart_ractM`): trivialisations act on
 frames by post-composition (`triv_apply`), which commutes with pre-composition by `g`. Hence the
-action map `HomTotM × Mat 14 → HomTotM` is `C^∞` (`contMDiff_ractM`), via chart transitions of
-`HomTotM`.
+action map `HomTotM × Mat 14 → HomTotM` is `C^∞` (`contMDiff_ractM_joint`); in particular right
+translations (`contMDiff_ractM_right`) and orbit maps (`contMDiff_ractM_orbit`).
 -/
 
 namespace GU.Library
@@ -77,8 +77,8 @@ lemma matL_apply (g : Mat 14) : matL g = matCLM g := rfl
 /-- The chart-level right translation `p ↦ (p.1, p.2 ∘ g)`. -/
 noncomputable def ψR (g : Mat 14) (p : HomModel) : HomModel := (p.1, p.2.comp (matCLM g))
 
--- Proved on the plain product type and transported by `show`: this avoids the `ModelProd`
--- topology diamond that blocks continuous linear maps out of `HomModel`.
+-- Proved on the plain product type and transported by `show`: `ModelProd` is a `def`, so `p.1`
+-- for `p : HomModel` has no normed instance and the `Prod` lemmas do not unify directly.
 lemma contMDiff_ψR (g : Mat 14) : ContMDiff 𝓘(ℝ, HomModel) 𝓘(ℝ, HomModel) ∞ (ψR g) := by
   have h : ContDiff ℝ ∞ (fun p : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) × HomF => (p.1, p.2.comp (matCLM g))) :=
     contDiff_fst.prodMk (contDiff_snd.clm_comp contDiff_const)
@@ -125,5 +125,44 @@ theorem contMDiff_ractM_orbit (q : HomTotM X) :
   show ractM q g = c.symm (ψR g p)
   rw [show ψR g p = c (ractM q g) from (chart_ractM q q hq g).symm,
     c.left_inv (ractM_mem_source q q hq g)]
+
+/-- The chart-level joint action `(p, g) ↦ (p.1, p.2 ∘ g)`. -/
+noncomputable def ΨJ (pg : HomModel × Mat 14) : HomModel := (pg.1.1, pg.1.2.comp (matCLM pg.2))
+
+lemma contMDiff_ΨJ : ContMDiff (𝓘(ℝ, HomModel).prod 𝓘(ℝ, Mat 14)) 𝓘(ℝ, HomModel) ∞ ΨJ := by
+  have h : ContDiff ℝ ∞ (fun pg : (((Fin 4 → ℝ) × (Fin 10 → ℝ)) × HomF) × Mat 14 =>
+      ((pg.1.1, pg.1.2.comp (matL pg.2)) : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) × HomF)) :=
+    (contDiff_fst.comp contDiff_fst).prodMk
+      ((contDiff_snd.comp contDiff_fst).clm_comp (matL.contDiff.comp contDiff_snd))
+  have h' : ContMDiff 𝓘(ℝ, HomModel × Mat 14) 𝓘(ℝ, HomModel) ∞ ΨJ :=
+    (show ContDiff ℝ ∞ ΨJ from h).contMDiff
+  have hid : ContMDiff (𝓘(ℝ, HomModel).prod 𝓘(ℝ, Mat 14)) 𝓘(ℝ, HomModel × Mat 14) ∞
+      (fun pg : HomModel × Mat 14 => (pg.1, pg.2)) :=
+    contMDiff_fst.prodMk_space contMDiff_snd
+  exact h'.comp hid
+
+/-- **The action map `HomTotM × Mat 14 → HomTotM` is jointly smooth.** -/
+theorem contMDiff_ractM_joint :
+    ContMDiff (𝓘(ℝ, HomModel).prod 𝓘(ℝ, Mat 14)) 𝓘(ℝ, HomModel) ∞
+      (fun qg : HomTotM X × Mat 14 => ractM qg.1 qg.2) := by
+  intro qg0
+  set c := chartAt HomModel qg0.1
+  have hs : c.source ×ˢ (Set.univ : Set (Mat 14)) ∈ nhds qg0 :=
+    (c.open_source.prod isOpen_univ).mem_nhds ⟨mem_chart_source _ _, Set.mem_univ _⟩
+  have hloc : ContMDiffOn (𝓘(ℝ, HomModel).prod 𝓘(ℝ, Mat 14)) 𝓘(ℝ, HomModel) ∞
+      (fun qg : HomTotM X × Mat 14 => c.symm (ΨJ (c qg.1, qg.2))) (c.source ×ˢ Set.univ) := by
+    have h1 : ContMDiffOn (𝓘(ℝ, HomModel).prod 𝓘(ℝ, Mat 14)) (𝓘(ℝ, HomModel).prod 𝓘(ℝ, Mat 14)) ∞
+        (fun qg : HomTotM X × Mat 14 => (c qg.1, qg.2)) (c.source ×ˢ Set.univ) :=
+      ((contMDiffOn_chart (x := qg0.1)).comp contMDiffOn_fst (fun _ h => h.1)).prodMk contMDiffOn_snd
+    refine (contMDiffOn_chart_symm (x := qg0.1)).comp (contMDiff_ΨJ.comp_contMDiffOn h1) ?_
+    rintro ⟨q, g⟩ ⟨hq, -⟩
+    show ΨJ (c q, g) ∈ c.target
+    have := c.map_source (ractM_mem_source qg0.1 q hq g)
+    rwa [chart_ractM qg0.1 q hq g] at this
+  refine (hloc.contMDiffAt hs).congr_of_eventuallyEq ?_
+  filter_upwards [hs] with qg hqg
+  show ractM qg.1 qg.2 = c.symm (ΨJ (c qg.1, qg.2))
+  rw [show ΨJ (c qg.1, qg.2) = c (ractM qg.1 qg.2) from (chart_ractM qg0.1 qg.1 hqg.1 qg.2).symm,
+    c.left_inv (ractM_mem_source qg0.1 qg.1 hqg.1 qg.2)]
 
 end GU.Library
