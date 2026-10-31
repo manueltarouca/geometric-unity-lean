@@ -446,8 +446,8 @@ theorem spinQ_surjective : Function.Surjective spinQ := by
     · show γ4 ((negOne4 : CliffordAlgebra Q4) * x) 1 1 = r
       rw [negOne4_val, neg_one_mul, map_neg, Matrix.neg_apply, hb, neg_neg]
 
-/-- **`Spin4 ≃* Sp(1) × Sp(1)`**, pairs of unit quaternions. `Sp(1) ≅ SU(2)` is the classical
-identification; it is not formalised here. -/
+/-- **`Spin4 ≃* Sp(1) × Sp(1)`**, pairs of unit quaternions. With `sp1EquivSU2` (`SpinSU2.lean`) this
+gives `Spin4 ≃* SU(2) × SU(2)` (`spin4SU2Equiv`). -/
 noncomputable def spin4QuatEquiv : Spin4 ≃* unitary ℍ[ℝ] × unitary ℍ[ℝ] :=
   spin4Equiv.symm.trans (MulEquiv.ofBijective spinQ ⟨spinQ_injective, spinQ_surjective⟩)
 

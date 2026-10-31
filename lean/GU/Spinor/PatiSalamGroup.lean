@@ -25,7 +25,8 @@ generators are the standard ones for `Spin(6)` and `Spin(0,4) ≅ Spin(4)`. `Blo
 non-split double cover of its block `SO(6)` / `SO(4)` (`range_spin6/4`, `spin6/4_ker`, `spin6/4_nonsplit`).
 `Spin4 ≃* spinGroup Q₄` (Mathlib's abstract `Spin(0,4)`): `spin4Equiv`, `SpinIso.lean`. Likewise `Spin6 ≃* spinGroup Q₆`
 (`spin6Equiv`, `SpinIso6.lean`). `Spin4 ≃* Sp(1) × Sp(1)`: `spin4QuatEquiv`,
-`SpinQuat.lean`. Not proved: `Spin(6) ≅ SU(4)`, `Sp(1) ≅ SU(2)`, topology (no Lie group theory here). **`spin6_inf_spin4_eq`**:
+`SpinQuat.lean`. `Spin4 ≃* SU(2) × SU(2)`: `spin4SU2Equiv`, `SpinSU2.lean`.
+Not proved: `Spin(6) ≅ SU(4)`, topology (no Lie group theory here). **`spin6_inf_spin4_eq`**:
 `Spin6 ∩ Spin4 = {±1}`, and the product map has kernel exactly `{(1,1), (−1,−1)}` (`product_kernel`).
 -/
 

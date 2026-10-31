@@ -246,3 +246,5 @@ open GU
 #print axioms GU.Spinor.spinQ_injective
 #print axioms GU.Spinor.spinQ_surjective
 #print axioms GU.Spinor.spin4QuatEquiv
+#print axioms GU.Spinor.sp1EquivSU2
+#print axioms GU.Spinor.spin4SU2Equiv

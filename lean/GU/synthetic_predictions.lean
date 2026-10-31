@@ -46,7 +46,7 @@ under the draft's dictionary. None of them is a claim that nature behaves this w
    convention (`Anomaly.lean`); each subgroup is a non-split double cover of its block `SO(6)` / `SO(4)` (`BlockSpin.lean`);
    `Spin4 ≃* spinGroup Q₄` and `Spin6 ≃* spinGroup Q₆` (Mathlib's abstract `Spin(0,4)`, `Spin(6)`;
    `SpinIso.lean`, `SpinIso6.lean`), and `Spin4 ≃* Sp(1) × Sp(1)` (`SpinQuat.lean`); topology,
-   `Spin(6) ≅ SU(4)` and `Sp(1) ≅ SU(2)` are not formalised.
+   `Spin4 ≃* SU(2) × SU(2)` (`SpinSU2.lean`); `Spin(6) ≅ SU(4)` is not formalised.
 -/
 
 namespace GU.Predictions
