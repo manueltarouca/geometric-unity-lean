@@ -36,3 +36,4 @@ import GU.Spinor.BminusL
 import GU.Shiab.FormsWitness
 import GU.Shiab.FormsCubic
 import GU.Spinor.Imposter
+import GU.Spinor.PatiSalam

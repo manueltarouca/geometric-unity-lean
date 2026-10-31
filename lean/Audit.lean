@@ -91,3 +91,6 @@ open GU
 #print axioms FormsW.cubic_fails
 #print axioms Spinor.anomaly_144
 #print axioms Spinor.count_144
+#print axioms Spinor.so6_closed
+#print axioms Spinor.su2L_su2R
+#print axioms Spinor.so6_so4_commute
