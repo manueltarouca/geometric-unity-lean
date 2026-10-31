@@ -209,3 +209,6 @@ open GU
 #print axioms GU.Spinor.torus_eq_one_iff
 #print axioms GU.Spinor.torus_eq_one_iff_fundamental
 #print axioms GU.Spinor.kernel_reps_card
+#print axioms GU.Spinor.mem_ker_kpar
+#print axioms GU.Spinor.range_kpar
+#print axioms GU.Spinor.torusKer_quot_equiv_four

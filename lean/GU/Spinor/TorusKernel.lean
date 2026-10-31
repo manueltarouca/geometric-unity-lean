@@ -11,8 +11,8 @@ plane `k`), so `torus s = 1` forces `cos 2sₖ = 1`, i.e. `sₖ = nₖπ`; then 
 `torus s = (−1)^{Σ nₖ}`, which is `1` iff `Σ nₖ` is even (`−1 ≠ 1`, `negOne_ne_one`).
 
 On the fundamental domain `[0, 2π)⁵` the kernel is `{nπ : n ∈ {0,1}⁵, Σ n even}`
-(`torus_eq_one_iff_fundamental`); there are 16 such `n` (`kernel_reps_card`). That this kernel of
-`U(1)⁵ → Spin(7,7)` is `(ℤ/2)⁴` as a group is by hand (index 2 in `(ℤ/2)⁵`), not formalised.
+(`torus_eq_one_iff_fundamental`); there are 16 such `n` (`kernel_reps_card`). As a group:
+`ker torus / 2πℤ⁵ ≃* (ℤ/2)⁴` (`torusKer_quot_equiv_four`, `TorusKernelGroup.lean`).
 -/
 
 namespace GU.Spinor

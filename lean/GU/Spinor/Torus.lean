@@ -13,8 +13,8 @@ The five complex planes of `N^{6,4} ≅ ℂ^{3,2}` (`planes` in `Reductions.lean
   `R_add : planeRot k s · planeRot k t = planeRot k (s + t)`, `planeRot k (2π) = 1`, `planeRot k π = −1`: a circle subgroup.
 * **`torus : (Fin 5 → Multiplicative ℝ) →* Spin(7,7)`**: the five commuting circles, a homomorphism
   from `ℝ⁵`. It factors through `U(1)⁵` with a finite kernel (`Rot π = −1` in every plane, so e.g.
-  `(π,π,0,0,0) ↦ 1`; the kernel is `{nπ : n ∈ ℤ⁵, Σ n even}`: `torus_eq_one_iff`, `TorusKernel.lean`; that it is
-  `(ℤ/2)⁴` as a group on `U(1)⁵` is by hand). Its image is a
+  `(π,π,0,0,0) ↦ 1`; the kernel is `{nπ : n ∈ ℤ⁵, Σ n even}`: `torus_eq_one_iff`, `TorusKernel.lean`; modulo
+  `2πℤ⁵` it is `(ℤ/2)⁴`: `torusKer_quot_equiv_four`, `TorusKernelGroup.lean`). Its image is a
   5-torus, the double cover of the maximal torus of `U(3,2) ⊂ SO(6,4)`.
 * **`torus_le_centJfib`**: the torus commutes with `J = Σ_k P_k` and fixes the base (1,3) directions.
   The centraliser of `J` alone (`centJ`) also contains the base `Spin(1,3)`; `centJfib = centJ ∩
