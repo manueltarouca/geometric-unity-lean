@@ -118,3 +118,4 @@ import GU.Bundle.FrameActionSmooth
 import GU.Bundle.LocalFrames
 import GU.Bundle.ChimReduction
 import GU.Bundle.AdaptedFrames
+import GU.Bundle.LocalTrivInverse

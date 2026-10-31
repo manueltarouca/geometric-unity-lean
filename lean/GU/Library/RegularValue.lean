@@ -393,6 +393,40 @@ theorem contMDiff_regularLevel_iff (h : RegularLevel E f c) {g : N → levelSet 
     rw [regChart_apply h y _ h2]
     rfl
 
+/-- **Universal property on a set** for regular level sets. -/
+theorem contMDiffOn_regularLevel_iff (h : RegularLevel E f c) {g : N → levelSet f c} {t : Set N} :
+    letI := regCharted h
+    haveI := isManifold_regularLevel h
+    ContMDiffOn I 𝓘(ℝ, Fin (fibreDim E F) → ℝ) ∞ g t ↔
+      ContMDiffOn I 𝓘(ℝ, E) ∞ (fun x => (g x : M)) t := by
+  let _ := regCharted h
+  have _ := isManifold_regularLevel h
+  refine ⟨fun hg => (contMDiff_regularLevel_val h).comp_contMDiffOn hg, fun hg => ?_⟩
+  rw [contMDiffOn_iff] at hg ⊢
+  refine ⟨(Topology.IsInducing.subtypeVal.continuousOn_iff).mpr hg.1, fun x y => ?_⟩
+  have hx := hg.2 x (y : M)
+  have hL : ContDiff ℝ ∞ (fun z : E => kerEquiv ((gch_sub h (y : M)).surj _ (basePt E y).2)
+      (kerProj (fderiv ℝ (gch (E := E) f c (y : M)) (basePt E y)) (z - chartAt E (y : M) y))) :=
+    ((kerEquiv ((gch_sub h (y : M)).surj _ (basePt E y).2)).contDiff.comp
+      ((kerProj (fderiv ℝ (gch (E := E) f c (y : M)) (basePt E y))).contDiff.comp
+        (contDiff_id.sub contDiff_const)) :)
+  refine (hL.comp_contDiffOn (hx.mono ?_)).congr fun w hw => ?_
+  · intro w hw
+    refine ⟨hw.1, hw.2.1, ?_⟩
+    have := hw.2.2
+    have h2 : (g ((extChartAt I x).symm w) : M) ∈ (chartAt E (y : M)).source := by
+      have : g ((extChartAt I x).symm w) ∈ (chartAt (Fin (fibreDim E F) → ℝ) y).source := by
+        simpa [extChartAt, OpenPartialHomeomorph.extend] using this
+      exact this.1
+    simpa [extChartAt, OpenPartialHomeomorph.extend] using h2
+  · have hw2 := hw.2.2
+    have hsrc : g ((extChartAt I x).symm w) ∈ (chartAt (Fin (fibreDim E F) → ℝ) y).source := by
+      simpa [extChartAt, OpenPartialHomeomorph.extend] using hw2
+    have h2 : (g ((extChartAt I x).symm w) : M) ∈ (chartAt E (y : M)).source := hsrc.1
+    show regChart h y (g ((extChartAt I x).symm w)) = _
+    rw [regChart_apply h y _ h2]
+    rfl
+
 end Universal
 
 end RegularManifold

@@ -392,3 +392,8 @@ open GU
 #print axioms GU.Library.ractM_mem_AFr
 #print axioms GU.Library.ractM_mem_AFr_PS6'
 #print axioms GU.Library.ractM_mem_AFr_PS4'
+#print axioms GU.Library.contMDiffOn_regularLevel_iff
+#print axioms GU.Library.contDiff_homMat_symm
+#print axioms GU.Library.contDiffOn_Fg
+#print axioms GU.Library.Fg_ractM
+#print axioms GU.Library.localTriv_diffeo
