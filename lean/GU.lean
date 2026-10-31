@@ -14,3 +14,5 @@ import GU.Shiab.CliffordBianchi
 import GU.Shiab.Einstein
 import GU.Observerse.Manifold
 import GU.Observerse.Chimeric
+import GU.Spinor.PSum
+import GU.Spinor.Reductions

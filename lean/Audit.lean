@@ -42,3 +42,8 @@ open GU
 #print axioms Observerse.isOpen_LorFiber
 #print axioms Chimeric.chimBasis_gram
 #print axioms Chimeric.chim_signature
+#print axioms Spinor.CSum.toMat_eq_zero
+#print axioms Spinor.u32_linIndep
+#print axioms Spinor.u32_commutes_J
+#print axioms Spinor.smPart_length
+#print axioms Spinor.pati_salam_split
