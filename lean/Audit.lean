@@ -331,3 +331,5 @@ open GU
 #print axioms GU.Library.Gchim_mem
 #print axioms GU.Library.isManifold_chimFrames
 #print axioms GU.Library.fibreDim_chimFrames
+#print axioms GU.Library.bil_Gchim_iff
+#print axioms GU.Library.Bm_eq_polar

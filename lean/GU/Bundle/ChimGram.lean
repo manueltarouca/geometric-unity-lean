@@ -134,9 +134,9 @@ lemma η77_ne_zero : (⟨η77, ηSig_mem 7 7⟩ : symS 14) ≠ 0 := by
 
 /-- **Chimeric orthonormal frames over a chart of `Y` form a smooth manifold** of dimension
 `14 + 91 = 105` (`fibreDim_chimFrames`): the pairs `((x, s), q)` with `s` in the Lorentzian fibre
-and the matrix condition `qᵀ Gchim(s) q = η₇₇` (`mem_frames_iff`). Reading this as "`q` is a
-`(7,7)`-orthonormal frame of `C` via `Φ`" needs a bridge to `orthoSetM` (bilinearity of `Bmod`),
-which is not yet stated. Chartwise only; gluing across charts of `Y` is open. -/
+and the matrix condition `qᵀ Gchim(s) q = η₇₇` (`mem_frames_iff`). By `bil_Gchim_iff` this says
+exactly that `x ↦ Φ(q x)` is an isometry `(ℝ¹⁴, Q77) → (C_s, Bmod)`: a `(7,7)`-orthonormal frame of
+`C` at `(x, s)`. Chartwise only; gluing across charts of `Y` is open. -/
 theorem isManifold_chimFrames :
     letI := smoothLevelChartedOn (frames_submersive (G := Gchart) (U := chartU)
       isOpen_chartU contDiffOn_Gchart (fun p _ => Gchim_mem p.2) (ηSig_mem 7 7) (ηSig_sq 7 7)
@@ -149,5 +149,70 @@ theorem isManifold_chimFrames :
 lemma fibreDim_chimFrames :
     fibreDim (((Fin 4 → ℝ) × (Fin 10 → ℝ)) × Mat 14) (symS 14) = 105 := by
   rw [fibreDim_frames]; simp; rfl
+
+/-! ### Bridge: the matrix condition is chimeric orthonormality -/
+
+lemma symMat_add (v w : Fin 10 → ℝ) : symMat (v + w) = symMat v + symMat w := by ext; rfl
+lemma symMat_smul (c : ℝ) (v : Fin 10 → ℝ) : symMat (c • v) = c • symMat v := by ext; rfl
+lemma covec_add (p p' : (Fin 4 → ℝ) →L[ℝ] ℝ) : covec (p + p') = covec p + covec p' := by ext; rfl
+lemma covec_smul (c : ℝ) (p : (Fin 4 → ℝ) →L[ℝ] ℝ) : covec (c • p) = c • covec p := by ext; rfl
+
+/-- `Bmod G` as a bilinear form. -/
+noncomputable def BmodL (G : Matrix (Fin 4) (Fin 4) ℝ) : CFib →ₗ[ℝ] CFib →ₗ[ℝ] ℝ :=
+  LinearMap.mk₂ ℝ (Bmod G)
+    (fun u u' v => by
+      simp only [Bmod, chimY, Prod.fst_add, Prod.snd_add, symMat_add, covec_add, Matrix.mul_add,
+        Matrix.add_mul, trace_add, add_dotProduct]; ring)
+    (fun c u v => by
+      simp only [Bmod, chimY, Prod.smul_fst, Prod.smul_snd, symMat_smul, covec_smul,
+        Matrix.mul_smul, Matrix.smul_mul, trace_smul, smul_dotProduct, smul_eq_mul]; ring)
+    (fun u v v' => by
+      simp only [Bmod, chimY, Prod.fst_add, Prod.snd_add, symMat_add, covec_add, Matrix.mul_add,
+        trace_add, mulVec_add, dotProduct_add]; ring)
+    (fun c u v => by
+      simp only [Bmod, chimY, Prod.smul_fst, Prod.smul_snd, symMat_smul, covec_smul,
+        Matrix.mul_smul, trace_smul, mulVec_smul, dotProduct_smul, smul_eq_mul]; ring)
+
+lemma BmodL_apply (G : Matrix (Fin 4) (Fin 4) ℝ) (u v : CFib) : BmodL G u v = Bmod G u v := rfl
+
+lemma ΦL_expand (v : Fin 14 → ℝ) : ΦL v = ∑ k, v k • uΦ k := by
+  conv_lhs => rw [← Finset.univ_sum_single v]
+  rw [map_sum]
+  refine Finset.sum_congr rfl fun k _ => ?_
+  rw [show Pi.single k (v k) = v k • (Pi.single k 1 : Fin 14 → ℝ) by
+    ext i; by_cases h : i = k <;> simp [h], map_smul]; rfl
+
+/-- `Bmod (symMat s) (Φ a) (Φ b) = a ⬝ᵥ (Gchim s *ᵥ b)`. -/
+lemma Bmod_Φ (s : Fin 10 → ℝ) (a b : Fin 14 → ℝ) :
+    Bmod (symMat s) (ΦL a) (ΦL b) = a ⬝ᵥ (Matrix.of (Gchim s) *ᵥ b) := by
+  rw [← BmodL_apply, ΦL_expand a, ΦL_expand b]
+  simp only [map_sum, map_smul, LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul,
+    BmodL_apply, dotProduct, mulVec, Finset.mul_sum]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun l _ => ?_
+  simp only [Gchim, Matrix.of_apply]; ring
+
+/-- `Bm` is the polar form of `Q77` halved, the form used by `orthoSetM`. -/
+lemma Bm_eq_polar (x x' : Fin 14 → ℝ) : Bm x x' = QuadraticMap.polar Q77 x x' / 2 :=
+  (Bη_Φ_eq x x').symm.trans (Bη_Φ x x')
+
+/-- **Bridge**: the matrix condition `qᵀ Gchim(s) q = η₇₇` says exactly that the frame
+`x ↦ Φ(q x)` is an isometry from `(ℝ¹⁴, Q77)` (`Bm = polar Q77 / 2`, `Bm_eq_polar`) to
+`(C_s, Bmod)`: the same condition as `orthoSetM` at a point with `Gpt = symMat s`. The
+identification of a chart point with `y : Yobs X` is not formalised here. -/
+theorem bil_Gchim_iff (s : Fin 10 → ℝ) (q : Mat 14) :
+    bil (Gchim s) q q = η77 ↔
+      ∀ x x', Bmod (symMat s) (ΦL (Matrix.of q *ᵥ x)) (ΦL (Matrix.of q *ᵥ x')) = Bm x x' := by
+  have key : ∀ x x', Bmod (symMat s) (ΦL (Matrix.of q *ᵥ x)) (ΦL (Matrix.of q *ᵥ x')) =
+      x ⬝ᵥ (Matrix.of (bil (Gchim s) q q) *ᵥ x') := fun x x' => by
+    rw [Bmod_Φ, bil_eq_mat, ← mulVec_mulVec, ← mulVec_mulVec, dotProduct_mulVec x, vecMul_transpose]
+  constructor
+  · intro h x x'; rw [key, h]; rfl
+  · intro h
+    apply Matrix.of.injective
+    ext i j
+    have := h (Pi.single i 1) (Pi.single j 1)
+    rw [key, single_dot_mulVec] at this
+    rw [this]; unfold Bm; rw [single_dot_mulVec]
 
 end GU.Library
