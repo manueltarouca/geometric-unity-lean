@@ -352,3 +352,7 @@ open GU
 #print axioms GU.Library.ractM_free
 #print axioms GU.Library.ractM_one
 #print axioms GU.Library.ractM_mul
+#print axioms GU.Observerse.isOpen_negOn
+#print axioms GU.Observerse.sig13_of_negOn
+#print axioms GU.Observerse.isOpen_S13
+#print axioms GU.Observerse.isOpen_Y13
