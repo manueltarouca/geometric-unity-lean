@@ -100,3 +100,5 @@ open GU
 #print axioms Spinor.su3_linIndep
 #print axioms Spinor.cartan_relation
 #print axioms Observerse.contMDiff_observe
+#print axioms Spinor.su3_closed
+#print axioms Spinor.su2_closed
