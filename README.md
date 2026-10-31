@@ -32,3 +32,12 @@ the deformation-complex symbol, self-adjointness, the Shiab-family search, and t
 Journals: `unbounded_discovery_log.md`, `unbounded_semigroup_log.md` (including corrections from independent reviews).
 
 Gaps are supplied as explicit hypothesis structures or definitions tagged `AI_BREAKTHROUGH_PATCH_V1`, never as global `axiom`s.
+
+## Findings so far (details and caveats in the logs)
+**Confirmed (Lean):** Cl(7,7) ≅ ℝ(128); ρ_D faithful into SO(64,64) ⊂ U(64,64); the Clifford checkerboard (3.26)/(3.27) (footnote 3); Lemma 6.1/6.3/6.4; the chimeric metric is (7,7) at λ = 1 on (1,3) points; Γ = ω₄ω₁₀ (12.20); one SM generation (+ν^c) from N^{6,4} with sin²θ_W = 3/8, anomaly-free; the Clifford core of (9.3) kills Weyl and yields Einstein (mixed brackets); §12.9 decoupling.
+
+**Defects in the draft (Lean):** the footnote-7 sign slip (Lemmas 6.3 vs 7.2; one-sign repair given); the literal Frobenius metric gives (7,3) (needs DeWitt λ > 1/4); the (9.4) integrand has a dropped ⋆.
+
+**Numerical (dims 4, 6):** the printed (9.3) needs mixed brackets for Einstein; it is not formally self-adjoint, so (9.7) does not follow; synthetic ⧉_GU (second term = sum of both bracket pairings) fixes that; but within the draft's operator family {Einstein + Weyl-kill + self-adjoint} is incompatible with an elliptic deformation complex (10.1) (trilemma, n = 4).
+
+**Retracted after review:** the "(9.3) degree defect" (a misread outer ⋆) and the "Einstein needs +½ at (7,7)" claim (convention artefact).
