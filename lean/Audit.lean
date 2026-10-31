@@ -82,3 +82,4 @@ open GU
 #print axioms GaugeData.gauge_equiv_iff_double_coset
 #print axioms GaugeData.orbit_eq_iff
 #print axioms GaugeData.principalG
+#print axioms Spinor.bminusL_table
