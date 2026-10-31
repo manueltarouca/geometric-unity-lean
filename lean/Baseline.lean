@@ -34,6 +34,11 @@ example := @isCoveringMap_spinToSO0  -- Spin(7,7) → SO₀(7,7) is a covering m
 example := @spin_pathConnected       -- Spin(7,7) is path-connected
 example := @ker_spinToSO0_eq         -- kernel {±1}: the nontrivial double cover
 
+example := @GU.Library.isManifold_regularLevel   -- regular value theorem on manifold domains
+example := @GU.Library.isManifold_orthoFrames    -- (7,7)-orthonormal frames of C: smooth manifold
+example := @GU.Library.contMDiff_orthoFrames_val -- ... a smooth submanifold of the frame bundle
+example := @GU.Library.fibreDim_orthoFrames      -- ... of dimension 105 = 14 + 91
+
 /-! ## 4. Gauge groups and synthetic predictions -/
 example := @gauge_embedding          -- SM gauge algebra inside the observerse spin algebra
 example := @particle_allocation      -- one generation from the (6,4) branching
