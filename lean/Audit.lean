@@ -186,3 +186,9 @@ open GU
 #print axioms GU.Observerse.isOpen_FrM
 #print axioms GU.Observerse.FrM_isManifold
 #print axioms GU.Observerse.frMBundle
+#print axioms GU.Observerse.contMDiff_toM
+#print axioms GU.Observerse.contMDiff_ofM
+#print axioms GU.Observerse.toM_mem_iff
+#print axioms GU.Observerse.homDiffeo
+#print axioms GU.Observerse.frEquiv
+#print axioms GU.Observerse.toM_ract

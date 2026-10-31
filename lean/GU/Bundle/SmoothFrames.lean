@@ -18,7 +18,8 @@ chart-`i` coordinates → chart-`j` coordinates):
 CAVEATS. `frameCore` is built from the cocycle `gX` directly. `FramesCb.lean` shows that the
 bundle `Cb` of `ChimericBundle.lean` has the same transition cocycle (`Cb_coordChange`) and that
 `frameCore`'s trivialisations are fibrewise post-composition with `Cb`'s (`frameCore_localTriv_eq`);
-a bundle isomorphism with Mathlib's hom bundle `Hom(Y × ℝ¹⁴, Cb)` is not constructed. The right
+a fibrewise-linear diffeomorphism with Mathlib's hom bundle `Hom(Y × ℝ¹⁴, Cb)` is `homDiffeo`
+(`FramesCompare.lean`). The right
 action `A ↦ A ∘ g` is free and fibre-transitive (`frYBundle`, a set-level `GU.PrincipalBundle`), and
 the local trivialisations are equivariant and carry frames onto `U_i × GL(14)` (`localTriv_ract`,
 `localTriv_frames`). Smoothness is proved jointly in `(A, g)` on the ambient `Hom(ℝ¹⁴, C) × End(ℝ¹⁴)`

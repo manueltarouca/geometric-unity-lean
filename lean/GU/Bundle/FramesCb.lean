@@ -18,7 +18,7 @@ pullback/product/hom machinery):
 * `frameCore_localTriv_eq`: fibrewise, `frameCore.localTriv (chart π y)` is post-composition with
   `Cb`'s trivialisation at `y`.
 
-What this is NOT: a bundle isomorphism or an equality of total-space topologies with Mathlib's hom
+What this file does NOT give (see `FramesCompare.lean`, `homDiffeo`, for the isomorphism): a bundle isomorphism or an equality of total-space topologies with Mathlib's hom
 bundle `Trivial Y ℝ¹⁴ →L Cb`. That bundle is awkward to instantiate here (pullback fibres lack the
 `AddCommGroup`/topological-group instances, and `Trivial Y CFib` hits a product-bundle instance
 diamond because `CFib` is a product type). Only the `trivializationAt` family is compared, and

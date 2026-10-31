@@ -17,10 +17,10 @@ which avoids the `Trivial`/product instance diamond met in `FramesCb.lean`).
 
 * `frMBundle`: a set-level principal `GL(14)`-bundle (`GL14 = ℝ¹⁴ ≃L ℝ¹⁴`, precomposition).
 
-This is an independent construction of the frame bundle inside Mathlib's hom bundle. Its comparison
-with `frameCore`/`FrY` of `SmoothFrames.lean` (review 10) remains open: the data differ (fibre model
-`ℝ¹⁴ →L CFib` vs `End(CFib)`, group `Aut(ℝ¹⁴)` vs `End(CFib)ˣ`), and a comparison needs a chosen basis
-`ℝ¹⁴ ≃ CFib`. Downstream files (`SmoothOrtho`, `OrthoGlue`) still use `FrY`.
+This is an independent construction of the frame bundle inside Mathlib's hom bundle. The data differ
+from `frameCore`/`FrY` of `SmoothFrames.lean` (fibre model `ℝ¹⁴ →L CFib` vs `End(CFib)`, group
+`Aut(ℝ¹⁴)` vs `End(CFib)ˣ`); after choosing `Φ : ℝ¹⁴ ≃ CFib` they are compared in
+`FramesCompare.lean` (`homDiffeo`, `frEquiv`). Downstream files (`SmoothOrtho`, `OrthoGlue`) still use `FrY`.
 
 CAVEATS. Frames are `ℝ¹⁴ ≃L CFib`, identified with `ℝ¹⁴ →L C_y` through the definitional `C_y ≡ CFib`.
 Not here (unlike `SmoothFrames.lean`): equivariant local triviality and smoothness of the action

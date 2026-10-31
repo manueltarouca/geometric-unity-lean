@@ -62,6 +62,7 @@ import GU.Bundle.SpinLift
 import GU.Bundle.SmoothFrames
 import GU.Bundle.FramesCb
 import GU.Bundle.HomFrames
+import GU.Bundle.FramesCompare
 import GU.Bundle.SmoothOrtho
 import GU.Bundle.OrthoGlue
 import GU.Observerse.Signature95
