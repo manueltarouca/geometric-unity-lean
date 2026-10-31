@@ -49,7 +49,7 @@ refute GU as physics.
 - B3: Shiab → Einstein, with mixed brackets: the Clifford core (`shiab_einstein`), and with Hodge
   stars for every real algebraic curvature tensor (`einstein_all_real`, via `einstein_all_curv`, `einstein_span`
   and `curv_span`).
-- B4: Shiab with a cosmological source gives G = Λg. B5–B6: one Standard Model generation,
+- B4: Shiab with a cosmological source gives G = Λg. B7: (3.27) verified (placement of i, Spin(7,7)-equivariance). B5–B6: one Standard Model generation,
   anomaly-free, sin²θ_W = 3/8, with the hypercharge direction forced.
 
 ## 4. Group-level structure made precise
@@ -81,7 +81,9 @@ structure of the frame bundle (blocked on Mathlib infrastructure).
 ## 7. Relation to prior critiques (to be completed by an expert)
 - Nguyen–Polya (2021):
   - Complexification of the Shiab: the draft's (7,7) real form removes the dimension mismatch
-    (u(64,64) has dimension 2¹⁴). The equivariance of the isomorphism is not checked.
+    (u(64,64) has dimension 2¹⁴), and the linear identification (3.27) is verified with its placement
+    of i and is Spin(7,7)-equivariant (B7). Their point that Clifford multiplication leaves u(64,64)
+    stands for the Shiab operator.
   - Chiral anomaly: overlaps with §6.
   - Supersymmetry: out of scope.
 - No published technical analysis of the April 2021 draft was found (web search; weak negative).

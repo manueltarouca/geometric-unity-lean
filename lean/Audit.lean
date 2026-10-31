@@ -300,3 +300,8 @@ open GU
 #print axioms GU.Library.cc_O77_iff_spin
 #print axioms GU.Library.connectedComponent_O77
 #print axioms GU.Library.spinToO77_neg_one
+#print axioms GU.Spinor.mem_uC_iff
+#print axioms GU.Spinor.uEquiv
+#print axioms GU.Spinor.Ψu_equivariant
+#print axioms GU.Spinor.star_blade
+#print axioms GU.Spinor.Ψu_blade

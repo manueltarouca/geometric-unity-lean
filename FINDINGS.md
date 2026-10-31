@@ -31,6 +31,7 @@ nothing here proves or refutes GU as a physical theory.
 | B4 | The Shiab equation with a cosmological source gives G = Λg. | (9.9)–(9.10) | `einstein_equation` (`Shiab/EinsteinEquation.lean`) |
 | B5 | One SM generation (+ν^c) from the (6,4) branching, anomaly-free, with sin²θ_W = 3/8. | §11–12 | `anomaly_free`, `weinberg_angle`, `particle_allocation` |
 | B6 | The hypercharge direction is forced. | §11.3 | `hypercharge_forced` (`synthetic_predictions.lean`) |
+| B7 | (3.27) is right as a linear statement: under the split form C, u(64,64) = real Λ^{4i+1}, Λ^{4i+2} ⊕ i·Λ^{4i}, Λ^{4i+3} (the placement of i is forced), and the identification Cl(7,7) → u(64,64) is Spin(7,7)-equivariant. Λ^k = span of k-blades; Chevalley map not formalised. | (3.27) | `Ψu_blade`, `star_blade`, `uEquiv`, `Ψu_equivariant` (`Spinor/LieU6464.lean`) |
 
 ## C. Precise statements of things the draft leaves implicit (Lean-checked)
 
@@ -70,10 +71,13 @@ It also notes that spinors still need a metric or connection on U, and that a sp
 needs w₂(TU) = 0.
 
 Status of our items relative to it:
-- **Addresses or sharpens objection 1:** B1 and blueprint B7. In the draft, signature (7,7) gives
+- **Addresses or sharpens objection 1:** B1 and B7. In the draft, signature (7,7) gives
   Cl(7,7) ≅ ℝ(128) real and u(64,64) of dimension 16384 = 2¹⁴ = dim Λ•. So the dimension mismatch
   behind objection 1 is removed in the draft. Whether the draft's i-factor placement makes the
-  isomorphism equivariant is not checked (blueprint B7 caveat).
+  isomorphism equivariant is now checked at the linear level: B7 (the i placement in (3.27) is
+  correct and Spin(7,7)-equivariant). This does **not** resolve objection 1 itself, which concerns
+  the Shiab *operator*: Clifford products of u-elements leave u (Λ¹·Λ² ∋ Λ³, whose u-slot is
+  imaginary), so the operator still needs an i inserted by hand (compare B3's anticommutator).
 - **Known (N–P):** anomaly concerns (objection 2; our blueprint row "anomaly cancellation absent");
   w₂ / spin structure (our open item E); "spinors need a choice of connection" (our blueprint B5,
   "semi-canonical").
