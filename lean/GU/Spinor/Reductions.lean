@@ -12,8 +12,8 @@ All statements live in `cl(7,7) ≅ gl(128,ℝ)` and use the explicit gammas of 
   Pati–Salam), and mixed bivectors anticommute (the noncompact part). Counts: 15 + 6 = 21 vs 24.
 * **Complex reduction U(3,2).** `J = Σ_k γ_{2k-1}γ_{2k}` over the five planes (three positive,
   two negative) is the complex structure. `u32` lists 25 elements commuting with `J` and linearly
-  independent (certified via the trace form). This is a *lower bound*: that the centraliser of
-  `J` in `so(6,4)` is exactly `u(3,2)` (dimension 25) is the classical fact, not formalised here.
+  independent (certified via the trace form). The matching upper bound (the centraliser of `J` in
+  `spin(6,4)` is exactly this 25-dimensional span) is `centralizer_spin64` in `SpanFull.lean`.
 * **Standard Model (4.6).** The 13 elements of `u32` that also commute with `e₋` span
   `u(3) ⊕ u(2) = su(3) ⊕ su(2) ⊕ u(1) ⊕ u(1)`: the Standard Model algebra up to one extra
   `u(1)`, exactly the "reductive factor of U(1)" caveat stated after (4.6).

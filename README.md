@@ -20,7 +20,7 @@ Shell profiles are untouched.
 | Signature (§3.1) | `GU/Geometry/Signature.lean` | DeWitt λ > 1/4 is needed for (6,4) |
 | Spinors (§3.5–3.6) | `GU/Spinor/Gamma, Dirac, Basis, Faithful, DetOne, Checkerboard.lean` | Cl(7,7) ≃ₐ ℝ(128); ρ_D : Spin(7,7) → SO(64,64) ⊂ U(64,64), faithful, det 1; checkerboard (3.26)/(3.27) proved for all monomials |
 | Calculus | `GU/Spinor/Pauli.lean`, `PSum.lean` | exact Pauli-string and linear-combination calculus with certified zero test |
-| Reductions (§4) | `GU/Spinor/Branching, Reductions, Hypercharge, WeightSpaces, HyperchargeOp, SMAlgebra, Anomaly.lean` | Γ = ω₄ω₁₀; Pati–Salam 21/24; u(3,2) (≥25) ⊃ u(3)⊕u(2); one SM generation (+ν^c) as eigenspaces of Ŷ, Q̂; sin²θ_W = 3/8; anomaly-free |
+| Reductions (§4) | `GU/Spinor/Branching, Reductions, Hypercharge, WeightSpaces, HyperchargeOp, SMAlgebra, Anomaly.lean` | Γ = ω₄ω₁₀; Pati–Salam 21/24; u(3,2) = centraliser of J (exactly 25) ⊃ u(3)⊕u(2), su(3)/su(2) closure; one SM generation (+ν^c) as eigenspaces of Ŷ, Q̂; sin²θ_W = 3/8; anomaly-free |
 | Shiab (§8–9) | `GU/Shiab/Degrees, CliffordBianchi, Einstein, ShiabGU.lean` | 3-gamma and Lichnerowicz identities; Clifford core of (9.3) gives the Einstein tensor and kills Weyl; synthetic ⧉_GU |
 | Fermions (§9.3, §12.9) | `GU/Fermion/Decoupling, Bilinear.lean` | chirality decoupling theorem; Spin-equivariant sesquilinear pairing S̸⊗S̸ → u(64,64) |
 | Bundles (§3.6) | `GU/Bundle/*.lean` | P_H as a principal U(64,64)-bundle with the explicit ρ_D (spin structure on C is a hypothesis) |
@@ -34,7 +34,7 @@ Journals: `unbounded_discovery_log.md`, `unbounded_semigroup_log.md` (including 
 Gaps are supplied as explicit hypothesis structures or definitions tagged `AI_BREAKTHROUGH_PATCH_V1`, never as global `axiom`s.
 
 ## Findings so far (details and caveats in the logs)
-**Confirmed (Lean):** Cl(7,7) ≅ ℝ(128); ρ_D faithful into SO(64,64) ⊂ U(64,64); the Clifford checkerboard (3.26)/(3.27) (footnote 3); Lemma 6.1/6.3/6.4; the chimeric metric is (7,7) at λ = 1 on (1,3) points; Γ = ω₄ω₁₀ (12.20); one SM generation (+ν^c) from N^{6,4} with sin²θ_W = 3/8, anomaly-free; the Clifford core of (9.3) kills Weyl and yields Einstein (mixed brackets); §12.9 decoupling.
+**Confirmed (Lean):** Cl(7,7) ≅ ℝ(128); ρ_D faithful into SO(64,64) ⊂ U(64,64); the Clifford checkerboard (3.26)/(3.27) (footnote 3); Lemma 6.1/6.3/6.4; the chimeric metric is (7,7) at λ = 1 on (1,3) points; Γ = ω₄ω₁₀ (12.20); one SM generation (+ν^c) from N^{6,4} with sin²θ_W = 3/8, anomaly-free; the Clifford core of (9.3) kills Weyl and yields Einstein (mixed brackets), also with Hodge stars at n = 4 (55 spanning cases); the Shiab equation with cosmological source implies G = Λg; §12.9 decoupling.
 
 **Defects in the draft (Lean):** the footnote-7 sign slip (Lemmas 6.3 vs 7.2; one-sign repair given); the literal Frobenius metric gives (7,3) (needs DeWitt λ > 1/4); the (9.4) integrand has a dropped ⋆.
 
