@@ -305,3 +305,6 @@ open GU
 #print axioms GU.Spinor.Ψu_equivariant
 #print axioms GU.Spinor.star_blade
 #print axioms GU.Spinor.Ψu_blade
+#print axioms GU.Spinor.uC_trace_neg
+#print axioms GU.Spinor.uC_trace_pos
+#print axioms GU.Spinor.uC_nilpotent
