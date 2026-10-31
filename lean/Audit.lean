@@ -144,3 +144,6 @@ open GU
 #print axioms GU.Observerse.contMDiff_ract_joint
 #print axioms GU.Spinor.vecRep_ker
 #print axioms GU.Spinor.vecRep_eq_iff
+#print axioms GU.Observerse.ract_unique
+#print axioms GU.Observerse.localTriv_frames
+#print axioms GU.Observerse.contMDiff_smul_FrY

@@ -18,9 +18,11 @@ chart-`i` coordinates → chart-`j` coordinates):
 CAVEATS. `frameCore` is built from the cocycle `gX` directly; it is not yet proved isomorphic to
 `Hom(Y × ℝ¹⁴, Cb)` for the bundle `Cb` of `ChimericBundle.lean` (whose trivialisations are indexed by
 pairs of charts), so "frames of C" holds by construction of the transitions. The right
-action `A ↦ A ∘ g` is free and fibre-transitive (`frYBundle`) and smooth, jointly in `(A, g)`
-(`contMDiff_ract_joint`); the comparison with the set-level
-`frameBundle` are not formalised.
+action `A ↦ A ∘ g` is free and fibre-transitive (`frYBundle`, a set-level `GU.PrincipalBundle`), and
+the local trivialisations are equivariant and carry frames onto `U_i × GL(14)` (`localTriv_ract`,
+`localTriv_frames`). Smoothness is proved jointly in `(A, g)` on the ambient `Hom(ℝ¹⁴, C) × End(ℝ¹⁴)`
+(`contMDiff_ract_joint`) and, restricted, on `FrY × GL(14)` with `GL(14)` the Lie group of units
+(`contMDiff_smul_FrY`). The comparison with the set-level `frameBundle` is not formalised.
 
 This replaces the set-level product of `FrameBundle.lean` with a topological and smooth object.
 (The O(7,7) reduction is a closed submanifold; Mathlib has no submanifold theory, so it stays
@@ -235,7 +237,8 @@ theorem ract_free {p : HomTot X} (hp : p ∈ frameSet (X := X)) (g : EndC) (h : 
   calc g = ↑u⁻¹ * (↑u * g) := by rw [← mul_assoc, Units.inv_mul, one_mul]
     _ = 1 := by rw [e, Units.inv_mul]
 
-/-- **Fibre-transitive**: two frames over the same point differ by a unique `g ∈ GL(14)`. -/
+/-- **Fibre-transitive**: two frames over the same point differ by some `g ∈ GL(14)` (unique by
+`ract_free`, see `ract_unique`). -/
 theorem ract_transitive {p q : HomTot X} (hp : p ∈ frameSet (X := X)) (hq : q ∈ frameSet (X := X))
     (h : p.proj = q.proj) : ∃ g : EndCˣ, ract p g = q := by
   obtain ⟨u, hu⟩ := hp
@@ -250,6 +253,30 @@ theorem ract_transitive {p q : HomTot X} (hp : p ∈ frameSet (X := X)) (hq : q 
   have hA : (show EndC from A) = (u : EndC) := hu.symm
   have hB : (show EndC from B) = (v : EndC) := hv.symm
   rw [hA, hB, Units.val_mul, ← mul_assoc, Units.mul_inv, one_mul]
+
+/-- Uniqueness of the transition element. -/
+theorem ract_unique {p : HomTot X} (hp : p ∈ frameSet (X := X)) {g h : EndC}
+    (e : ract p g = ract p h) : g = h := by
+  obtain ⟨u, hu⟩ := hp
+  have e' : (show EndC from p.2) * g = (show EndC from p.2) * h :=
+    congrArg (fun q : HomTot X => (show EndC from q.2)) e
+  rw [← hu] at e'
+  calc g = ↑u⁻¹ * (↑u * g) := by rw [← mul_assoc, Units.inv_mul, one_mul]
+    _ = h := by rw [e', ← mul_assoc, Units.inv_mul, one_mul]
+
+/-- **Local triviality, equivariantly**: each local trivialisation intertwines `ract` with right
+composition on the fibre `End(ℝ¹⁴)`, and carries frames to `U_i × GL(14)`. -/
+theorem localTriv_ract (i : atlas (Fin 4 → ℝ) X) (p : HomTot X) (g : EndC) :
+    (frameCore (X := X)).localTriv i (ract p g)
+      = (((frameCore (X := X)).localTriv i p).1, (((frameCore (X := X)).localTriv i p).2).comp g) :=
+  rfl
+
+theorem localTriv_frames (i : atlas (Fin 4 → ℝ) X) {p : HomTot X}
+    (hs : p ∈ ((frameCore (X := X)).localTriv i).source) :
+    p ∈ frameSet (X := X) ↔ IsUnit (((frameCore (X := X)).localTriv i p).2) := by
+  simp only [VectorBundleCore.localTriv_apply]
+  rw [VectorBundleCore.mem_localTriv_source] at hs
+  exact (isUnit_comp_iff (gX_isUnit _ i _ ⟨(Zt X).mem_baseSet_at _, hs⟩)).symm
 
 /-- **The action is smooth** (for each fixed `g`): in a trivialisation it is `(y, A) ↦ (y, A ∘ g)`. -/
 theorem contMDiff_ract (g : EndC) :
@@ -307,8 +334,10 @@ noncomputable instance instFrYAction : MulAction EndCˣᵐᵒᵖ (FrY X) where
     rw [ract_mul, Units.val_mul]
 
 open MulOpposite in
-/-- **`FrY` is a principal `GL(14)`-bundle over `Y`** (free, fibre-transitive, onto, with smooth
-total space, projection and action: `frames_isManifold`, `contMDiff_frames_proj`, `contMDiff_ract`). -/
+/-- **`FrY` is a principal `GL(14)`-bundle over `Y`** in the set-level sense of `GU.PrincipalBundle`
+(free, fibre-transitive, onto). The smooth data are separate theorems: `frames_isManifold`,
+`contMDiff_frames_proj`, `contMDiff_ract_joint` (on the ambient `Hom × End`), and equivariant local
+triviality `localTriv_ract` + `localTriv_frames`. -/
 noncomputable def frYBundle : GU.PrincipalBundle EndCˣ (FrY X) (Yobs X) where
   proj f := (f : HomTot X).proj
   proj_surjective y := ⟨⟨⟨y, (1 : EndC)⟩, isUnit_one⟩, rfl⟩
@@ -319,5 +348,32 @@ noncomputable def frYBundle : GU.PrincipalBundle EndCˣ (FrY X) (Yobs X) where
   transitive f f' h := by
     obtain ⟨g, hg⟩ := ract_transitive f.2 f'.2 h
     exact ⟨g, Subtype.ext hg⟩
+
+section LieGroupAction
+open MulOpposite
+
+noncomputable local instance : NormedRing EndC := inferInstance
+noncomputable local instance : NormedAlgebra ℝ EndC := inferInstance
+noncomputable local instance : ChartedSpace EndC EndCˣ := Units.instChartedSpace
+
+/-- `GL(14) = End(ℝ¹⁴)ˣ` is a Lie group (Mathlib's units of a complete normed algebra). -/
+example : LieGroup (modelWithCornersSelf ℝ EndC) ∞ EndCˣ := inferInstance
+
+/-- **The action `FrY × GL(14) → FrY` is smooth.** -/
+theorem contMDiff_smul_FrY :
+    ContMDiff ((((modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod (modelWithCornersSelf ℝ (Fin 10 → ℝ))).prod
+      (modelWithCornersSelf ℝ EndC)).prod (modelWithCornersSelf ℝ EndC))
+      (((modelWithCornersSelf ℝ (Fin 4 → ℝ)).prod (modelWithCornersSelf ℝ (Fin 10 → ℝ))).prod
+      (modelWithCornersSelf ℝ EndC)) ∞
+      (fun q : FrY X × EndCˣ => op q.2 • q.1) := by
+  have h := (contMDiff_ract_joint (X := X)).comp
+    ((contMDiff_subtype_val (n := ∞) (U := FrY X)).prodMap (Units.contMDiff_val (n := ∞)))
+  intro q
+  rw [contMDiffAt_iff_target]
+  exact ⟨ContinuousAt.codRestrict (t := (FrY X : Set (HomTot X)))
+    (fun q : FrY X × EndCˣ => ract_mem q.1.2 q.2) (h q).continuousAt,
+    (contMDiffAt_iff_target.mp (h q)).2⟩
+
+end LieGroupAction
 
 end GU.Observerse
