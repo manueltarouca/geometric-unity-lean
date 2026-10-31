@@ -62,3 +62,5 @@ open GU
 #print axioms Spinor.Y_on_weight
 #print axioms Spinor.Q_on_weight
 #print axioms MatrixModel.matrix_no_common_convention
+#print axioms Spinor.Y_commutes_sm
+#print axioms Spinor.weinberg_angle

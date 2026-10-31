@@ -23,3 +23,4 @@ import GU.Fermion.Decoupling
 import GU.Spinor.WeightSpaces
 import GU.Spinor.HyperchargeOp
 import GU.Gauge.MatrixModel
+import GU.Spinor.SMAlgebra
