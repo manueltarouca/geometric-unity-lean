@@ -61,3 +61,4 @@ open GU
 #print axioms Spinor.gtr_all
 #print axioms Spinor.Y_on_weight
 #print axioms Spinor.Q_on_weight
+#print axioms MatrixModel.matrix_no_common_convention
