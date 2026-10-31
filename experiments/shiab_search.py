@@ -75,14 +75,17 @@ def search(eta, mode):
                 cols.append((Sm - Sm.T if mode == 'sym' else Sm + Sm.T).ravel())
             add(cols, np.zeros(len(cols[0])))
     A = np.concatenate(rows, 0); bvec = np.concatenate(rhs, 0)
+    global LAST
+    LAST = (A, bvec, ops)
     c, *_ = np.linalg.lstsq(A, bvec, rcond=None)
     resid = np.linalg.norm(A @ c - bvec) / np.linalg.norm(bvec)
     nz = [(ops[k][0], round(c[k], 4)) for k in range(K) if abs(c[k]) > 1e-8]
     print(f"  η={eta} constraint={mode}: K={K} relative residual={resid:.2e}; nonzero coeffs: {nz[:12]}{' …' if len(nz) > 12 else ''}")
 
-for eta in ([1, 1, 1, 1], [1, -1, -1, -1]):
-    for mode in ('none', 'sym', 'antisym'):
-        search(eta, mode)
+if __name__ == '__main__' and len(sys.argv) == 1:
+    for eta in ([1, 1, 1, 1], [1, -1, -1, -1]):
+        for mode in ('none', 'sym', 'antisym'):
+            search(eta, mode)
 
 def nullity_and_check(eta):
     """Dimension of the solution set (W, E, antisym) and an independent check of the
