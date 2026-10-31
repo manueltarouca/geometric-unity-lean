@@ -132,3 +132,4 @@ open GU
 #print axioms Iso77.Φiso_isometry
 #print axioms Iso77.spinToOG
 #print axioms Iso77.spinToOG_neg_one
+#print axioms lift_equivariant
