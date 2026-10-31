@@ -3,7 +3,11 @@ import GU.Observerse.ChimericFiber
 /-!
 # The chimeric metric on the fibers of `C` over `Y` (contravariant coordinates)
 
-A point of `Y` is a contravariant Lorentzian tensor `G = g⁻¹` (`GlobalSmooth.lean`). On the fiber
+A point of `Y` is a contravariant Lorentzian tensor `G = g⁻¹` (`GlobalSmooth.lean`). The draft's `Y`
+consists of covariant metrics `g`; the two are identified by the fibrewise inversion `g ↦ g⁻¹`,
+under which DeWitt (`λ = 1`) on covariant `h` becomes the formula below on contravariant `A = δG`
+(`δG = −G h G`), and the inverse metric on `H*` is `g^{ab} p_a q_b = pᵀ G q`. That identification is
+stated, not formalised. On the fiber
 `C_y = Sym² ⊕ (ℝ⁴)*` the chimeric metric (DeWitt `λ = 1` plus inverse metric) reads
 `F_G((A,p),(B,q)) = tr(gAgB) − tr(gA)tr(gB) + pᵀ G q` with `g = G⁻¹`.
 

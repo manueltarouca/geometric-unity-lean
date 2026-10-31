@@ -16,8 +16,8 @@ import GU.Spinor.CZ.Diag
 Assembled from the row-wise Gram checks in `GU/Spinor/CZ/` (compiled one file at a time).
 `centralizer_iff`: `Σ aᵢ u32ᵢ + Σ bⱼ u32cⱼ` commutes with `J` iff `b = 0`. With `u32_linIndep`,
 the centraliser within this 45-dimensional space (`= dim so(6,4)`) has dimension exactly 25 =
-`dim u(3,2)`. That this 45-dimensional span is all of the bivector algebra follows from the
-dimension count; the explicit span equality is not formalised.
+`dim u(3,2)`. The span equality with the 45 bivectors is `span_eq`, and the full statement in
+`spin(6,4)` is `centralizer_spin64` (both in `SpanFull.lean`).
 -/
 
 namespace GU.Spinor

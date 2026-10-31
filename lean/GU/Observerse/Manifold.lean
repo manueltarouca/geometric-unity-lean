@@ -15,8 +15,8 @@ is smooth.
 -- AI_BREAKTHROUGH_PATCH_V1 (synthetic choice): the fiber is the union of the (1,3) and (3,1)
 sectors rather than (1,3) alone. Separating them needs an eigenvalue/inertia argument; the
 union is the open condition `det < 0`. Note the chimeric metric is (7,7) only on the (1,3)
-component; on the (3,1) component it is (9,5) (see `Chimeric.lean`). Only charts `Y|_U` are
-built; a global `Y → X` over a manifold `X` is not.
+component; on the (3,1) component it is (9,5) (see `Chimeric.lean`). This file builds charts `Y|_U`; the global smooth `Y → X` over any smooth 4-manifold is in
+`GlobalSmooth.lean`.
 -/
 
 namespace GU.Observerse

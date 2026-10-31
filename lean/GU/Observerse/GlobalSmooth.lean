@@ -12,7 +12,9 @@ import GU.Observerse.SymSquare
 
 Points of `Y` are contravariant symmetric tensors `g^{ab}` (inverse metrics) of signature (1,3) or
 (3,1). They correspond to metrics `g_ab` by inversion, a fibrewise diffeomorphism (not formalised).
-This closes "smooth gluing of Y over X" from the open-items list.
+This closes "smooth gluing of Y over X" from the open-items list. Mathlib's `IsManifold` carries
+no Hausdorff / second-countability; these are inherited from `X` but not stated here. `X` lives in
+`Type` (universe 0).
 -/
 
 namespace GU.Observerse

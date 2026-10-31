@@ -1,18 +1,11 @@
 import GU.Spinor.Reductions
 
 /-!
-# The centraliser of `J` in `spin(6,4)` has dimension exactly 25 (`= dim u(3,2)`)
+# Definitions for the centraliser of `J` in `spin(6,4)`
 
-`u32c` lists, for each pair of planes, the two combinations that do *not* commute with `J`.
-`allU = u32 ++ u32c` has 45 elements (`= dim so(6,4)`), each a sum of at most two bivectors of
-the (6,4) block, linearly independent by a diagonal trace-Gram matrix (`allU_linIndep`). Inside
-their span `V`:
-
-`centralizer_eq`: `X ∈ V` commutes with `J` iff `X ∈ span(u32)`.
-
-Together with `u32_linIndep` this pins the centraliser at dimension 25, upgrading the lower
-bound of `Reductions.lean` (review-3 item 7). That `V` is all of `spin(6,4)` follows from the
-dimension count 45; the explicit span equality with the bivector list is not formalised.
+`u32c`, `allU = u32 ++ u32c`, and the index families `U`, `U25`, `Uc`, `V`. The theorems are in
+`CentralizerMain.lean` (`centralizer_iff`) and `SpanFull.lean` (`allU_linIndep`, `span_eq`,
+`centralizer_spin64`), with heavy Gram checks split into `CZ/` and `UG/`.
 -/
 
 namespace GU.Spinor

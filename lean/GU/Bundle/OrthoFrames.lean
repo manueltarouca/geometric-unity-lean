@@ -13,7 +13,10 @@ import GU.Observerse.ChimericMetricY
   principal `O(Bη)`-bundle (set level). `O(Bη) ≅ O(7,7)` since `Bη` has signature (7,7)
   (`chimB_basis`). Frames are stored in fiber coordinates (`C_y` is `CFib` in its chart).
 
-Still open: the spin double cover `P̃_Fr(C)` (global existence is a `w₂` obstruction question).
+As with `frameBundle`, the set-level statement has the shape `B × G`; its real content is that an
+orthonormal frame exists at every (1,3) point (`TP_isometry`). Chart covariance of the metric is
+`ChimericCovariance.lean`. Not proved: the explicit identification `Bη ≅ Q77` (both are (7,7)), and
+the O(7,7) reduction as a topological sub-bundle. Still open: the spin double cover `P̃_Fr(C)`.
 -/
 
 namespace GU

@@ -6,10 +6,13 @@ import GU.Observerse.ChimericBundle
 
 A frame at `y ∈ Y` is a linear isomorphism `CFib ≃ₗ C_y` (`CFib = ℝ¹⁰ × (ℝ⁴)*`, rank 14).
 `GL(CFib) = (CFib ≃ₗ CFib)` acts on the right by precomposition. `frameBundle` proves this is a
-principal `GL(14)`-bundle over `Y` in the sense of `GU.PrincipalBundle` (set level: free,
-transitive on fibers, `π` onto). Reduction to the orthonormal `O(7,7)` frames of the chimeric
-metric and the spin double cover `P̃_Fr(C)` remain open (topological obstruction theory is not in
-Mathlib).
+principal `GL(14)`-bundle over `Y` in the sense of `GU.PrincipalBundle`.
+
+Caveat (review 6): Mathlib's fibers are definitionally the model `CFib`, so `Frames X` is literally
+`Yobs X × GL(CFib)` and `GU.PrincipalBundle` has no topology. This statement therefore has no
+bundle content beyond the product; local triviality and smoothness of the frame bundle are not
+formalised. The O(7,7) reduction is in `OrthoFrames.lean`; the spin cover's algebraic core is in
+`SpinCover.lean`.
 -/
 
 namespace GU
@@ -35,7 +38,7 @@ noncomputable instance : MulAction GLCᵐᵒᵖ (Frames X) where
   mul_smul a b f := by cases f; rfl
 
 /-- **`P_Fr(C)` is a principal `GL(14)`-bundle over `Y`.** -/
-def frameBundle [Nonempty X] : PrincipalBundle GLC (Frames X) (Yobs X) where
+def frameBundle : PrincipalBundle GLC (Frames X) (Yobs X) where
   proj := Sigma.fst
   proj_surjective y := ⟨⟨y, LinearEquiv.refl ℝ _⟩, rfl⟩
   proj_smul _ _ := rfl
