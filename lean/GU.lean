@@ -20,3 +20,4 @@ import GU.synthetic_predictions
 import GU.Observerse.ChimericFiber
 import GU.Spinor.Hypercharge
 import GU.Fermion.Decoupling
+import GU.Spinor.WeightSpaces

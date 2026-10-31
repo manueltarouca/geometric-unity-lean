@@ -57,3 +57,5 @@ open GU
 #print axioms Spinor.ω10_planes
 #print axioms Decoupling.decouple_iff
 #print axioms Decoupling.second_order
+#print axioms Spinor.weightSpace_finrank
+#print axioms Spinor.gtr_all
