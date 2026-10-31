@@ -104,3 +104,4 @@ import GU.Spinor.TraceForm
 import GU.Spinor.SpinTop
 import GU.Spinor.SpinClosed
 import GU.Spinor.SpinCovering
+import GU.Spinor.SpinConnected

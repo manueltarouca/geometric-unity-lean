@@ -316,3 +316,6 @@ open GU
 #print axioms GU.Spinor.isOpenMap_spinToSO0
 #print axioms GU.Spinor.isQuotientCoveringMap_spinToSO0
 #print axioms GU.Spinor.isCoveringMap_spinToSO0
+#print axioms GU.Spinor.negOne_joined
+#print axioms GU.Spinor.spin_pathConnected
+#print axioms GU.Spinor.ker_spinToSO0_eq

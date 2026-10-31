@@ -64,7 +64,7 @@ lemma ker_spinToSO0_finite : (spinToSO0.ker : Set Spin77).Finite := by
   · left; exact Subtype.ext h
   · right; exact Subtype.ext h
 
-/-- **`Spin(7,7) → SO₀(7,7)` is a covering map** (a quotient covering by the kernel `{±1}`). -/
+/-- **`Spin(7,7) → SO₀(7,7)` is a covering map** (a quotient covering by its kernel, `{±1}`: `ker_spinToSO0_eq`). -/
 theorem isQuotientCoveringMap_spinToSO0 : IsQuotientCoveringMap spinToSO0 spinToSO0.ker :=
   (isOpenMap_spinToSO0.isQuotientMap continuous_spinToSO0 spinToSO0_surjective)
     |>.isQuotientCoveringMap_of_isDiscrete_ker_monoidHom ker_spinToSO0_finite.isDiscrete
