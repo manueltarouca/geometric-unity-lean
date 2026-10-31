@@ -359,6 +359,82 @@ theorem exists_local_section_Y (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
   rw [hfst] at h1
   exact cY.injOn (proj_mem_chart_source q0 _ hsrc) hys h1.symm
 
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+/-- The action preserves the base coordinate of total-space charts. -/
+lemma chart_fst_ractM (a q : HomTotM X) (hq : q ∈ (chartAt HomModel a).source) (g : Mat 14) :
+    (chartAt HomModel a (ractM q g)).1 = (chartAt HomModel a q).1 := by
+  rw [chart_ractM a q hq g]
+
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+/-- **Local trivialisation (forward map, chart coordinates)**: `Ψ(e, g) = σ(e) · g` is smooth on
+`U × O77`, lands in `OFr`, and is injective there (freeness + base coordinate). -/
+theorem localTriv_forward (q0 : HomTotM X) (hq0 : q0 ∈ OFr X) :
+    ∃ U ∈ nhds (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from (chartAt HomModel q0 q0).1),
+      ∃ σ : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) → HomTotM X,
+        ContMDiffOn (𝓘(ℝ, (Fin 4 → ℝ) × (Fin 10 → ℝ)).prod 𝓘(ℝ, Fin (fibreDim (Mat 14) (symS 14)) → ℝ))
+          𝓘(ℝ, HomModel) ∞ (fun eg : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) × O77 => ractM (σ eg.1) eg.2)
+          (U ×ˢ Set.univ) ∧
+        (∀ e ∈ U, ∀ g : O77, ractM (σ e) g ∈ OFr X ∧ (chartAt HomModel q0 (ractM (σ e) g)).1 = e) ∧
+        (∀ e ∈ U, ∀ e' ∈ U, ∀ g g' : O77, ractM (σ e) g = ractM (σ e') g' → e = e' ∧ g = g') := by
+  obtain ⟨U, hU, σ, hσ, hσp⟩ := exists_local_section q0 hq0
+  have hO : ContMDiff 𝓘(ℝ, Fin (fibreDim (Mat 14) (symS 14)) → ℝ) 𝓘(ℝ, Mat 14) ∞
+      (Subtype.val : O77 → Mat 14) :=
+    contMDiff_levelSet_val (orth_submersive _ (ηSig_mem 7 7) (ηSig_sq 7 7))
+  refine ⟨U, hU, σ, ?_, ?_, ?_⟩
+  · have hpair := (hσ.comp contMDiffOn_fst (fun (eg : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) × O77)
+        (h : eg ∈ U ×ˢ (Set.univ : Set O77)) => h.1)).prodMk (hO.comp contMDiff_snd).contMDiffOn
+    exact contMDiff_ractM_joint.comp_contMDiffOn hpair
+  · intro e he g
+    obtain ⟨hO1, hfst, hsrc⟩ := hσp e he
+    refine ⟨ractM_mem_OFr hO1 g, ?_⟩
+    rw [chart_fst_ractM q0 _ hsrc, hfst]
+  · intro e he e' he' g g' h
+    obtain ⟨hO1, hfst, hsrc⟩ := hσp e he
+    obtain ⟨hO1', hfst', hsrc'⟩ := hσp e' he'
+    have hee : e = e' := by
+      have := congrArg (fun q => (chartAt HomModel q0 q).1) h
+      rwa [chart_fst_ractM q0 _ hsrc, chart_fst_ractM q0 _ hsrc', hfst, hfst'] at this
+    subst hee
+    refine ⟨rfl, ?_⟩
+    -- freeness: σ e · (g g'⁻¹) = σ e
+    have hq : σ e ∈ orthoSetM := by rw [← levelSet_Fframe]; exact hO1
+    have h2 : ractM (σ e) (g * g'⁻¹ : O77) = σ e := by
+      rw [← ractM_mul, h, ractM_mul, mul_inv_cancel, ractM_one]
+    have := ractM_free hq _ h2
+    exact mul_inv_eq_one.mp this
+
+/-- Fibre transitivity in standard form. -/
+lemma ractM_transitive' {q q' : HomTotM X} (hq : q ∈ orthoSetM) (hq' : q' ∈ orthoSetM)
+    (hp : q.proj = q'.proj) : ∃ g : O77, ractM q g = q' := by
+  obtain ⟨b, h⟩ := q'
+  simp only at hp
+  subst hp
+  exact ractM_transitive hq h hq'
+
+set_option synthInstance.maxHeartbeats 4000000 in
+set_option maxHeartbeats 4000000 in
+/-- **Local trivialisation (surjectivity)**: every orthonormal frame in the chart domain over `U`
+is `σ(e) · g` for its base coordinate `e`. -/
+theorem localTriv_surj (q0 : HomTotM X) (hq0 : q0 ∈ OFr X)
+    (U : Set ((Fin 4 → ℝ) × (Fin 10 → ℝ))) (σ : ((Fin 4 → ℝ) × (Fin 10 → ℝ)) → HomTotM X)
+    (hσp : ∀ e ∈ U, σ e ∈ OFr X ∧ (chartAt HomModel q0 (σ e)).1 = e ∧
+      σ e ∈ (chartAt HomModel q0).source)
+    {q : HomTotM X} (hq : q ∈ OFr X) (hqs : q ∈ (chartAt HomModel q0).source)
+    (hqU : (show (Fin 4 → ℝ) × (Fin 10 → ℝ) from (chartAt HomModel q0 q).1) ∈ U) :
+    ∃ g : O77, ractM (σ (chartAt HomModel q0 q).1) g = q := by
+  obtain ⟨hO1, hfst, hsrc⟩ := hσp _ hqU
+  have hproj : (σ (chartAt HomModel q0 q).1).proj = q.proj := by
+    have h1 := chart_fst q0 _ hsrc
+    have h2 := chart_fst q0 q hqs
+    rw [hfst, h2] at h1
+    exact (chartAt (ModelProd (Fin 4 → ℝ) (Fin 10 → ℝ)) q0.proj).injOn
+      (proj_mem_chart_source q0 _ hsrc) (proj_mem_chart_source q0 q hqs) h1.symm
+  have ha : σ (chartAt HomModel q0 q).1 ∈ orthoSetM := by rw [← levelSet_Fframe]; exact hO1
+  have hb : q ∈ orthoSetM := by rw [← levelSet_Fframe]; exact hq
+  exact ractM_transitive' ha hb hproj
+
 end Section
 
 end GU.Library

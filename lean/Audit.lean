@@ -369,3 +369,6 @@ open GU
 #print axioms GU.Library.mem_chart_target_iff
 #print axioms GU.Library.exists_local_section_Y
 #print axioms GU.Library.chart_fst
+#print axioms GU.Library.localTriv_forward
+#print axioms GU.Library.localTriv_surj
+#print axioms GU.Library.ractM_transitive'
