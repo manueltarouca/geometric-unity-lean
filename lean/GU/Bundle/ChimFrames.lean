@@ -30,4 +30,21 @@ theorem orthoM_cond_iff (s : Fin 10 → ℝ) (h : HomF) :
     rw [← homMat_apply, ContinuousLinearEquiv.apply_symm_apply]
   simp only [hq, Bm_eq_polar]
 
+section Global
+
+open Bundle
+open scoped ContDiff
+
+variable {X : Type} [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
+  [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X]
+
+/-- **`orthoSetM` in matrix form**: a frame `q` over `y` is orthonormal iff its matrix satisfies
+`qᵀ Gchim(s) q = η₇₇` at the fibre coordinate `s = y.2` (with `Gpt y = symMat s`). -/
+theorem mem_orthoSetM_iff_mat (q : HomTotM X) :
+    q ∈ orthoSetM ↔
+      bil (Gchim ((q.proj : Sym2TX X).2)) (homMat.symm q.2) (homMat.symm q.2) = η77 :=
+  orthoM_cond_iff _ q.2
+
+end Global
+
 end GU.Library
