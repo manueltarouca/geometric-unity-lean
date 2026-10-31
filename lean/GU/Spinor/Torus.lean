@@ -1,4 +1,5 @@
 import GU.Spinor.PatiSalamGroup
+import GU.Spinor.Pauli
 
 /-!
 # A maximal torus of (the double cover of) `U(3,2)` in `Spin(7,7)`, and hypercharge `U(1)_Y`
@@ -21,7 +22,8 @@ The five complex planes of `N^{6,4} ≅ ℂ^{3,2}` (`planes` in `Reductions.lean
   not stated.
 * **`U1Y : Multiplicative ℝ →* Spin(7,7)`**: the hypercharge one-parameter subgroup
   `t ↦ torus(−2t,−2t,−2t,3t,3t)` (direction forced by `hypercharge_forced`), inside `centJfib`. By
-  hand it has period `π` (so it is a circle); periodicity is not formalised.
+  `U1Y_pi : U1Y π = 1` and `U1Y_half_ne : U1Y (π/2) ≠ 1` (by traces in `ℝ(128)`): it is periodic,
+  so a circle, and not of period `π/2`. That the minimal period is exactly `π` is by hand.
 -/
 
 namespace GU.Spinor
@@ -216,5 +218,60 @@ theorem torus_le_centJfib : torus.range ≤ centJfib := by
 
 theorem U1Y_le_centJfib (t : Multiplicative ℝ) : U1Y t ∈ centJfib :=
   torus_le_centJfib ⟨fun k => Multiplicative.ofAdd (ycoef k * Multiplicative.toAdd t), rfl⟩
+
+/-- The torus is the ordered product of its five circles. -/
+lemma torus_eq (f : Fin 5 → Multiplicative ℝ) :
+    torus f = planeCircle 0 (f 0) * planeCircle 1 (f 1) * planeCircle 2 (f 2) * planeCircle 3 (f 3) *
+      planeCircle 4 (f 4) := by
+  have hf : f = Pi.mulSingle 0 (f 0) * Pi.mulSingle 1 (f 1) * Pi.mulSingle 2 (f 2) *
+      Pi.mulSingle 3 (f 3) * Pi.mulSingle 4 (f 4) := by
+    funext k; fin_cases k <;> simp
+  conv_lhs => rw [hf]
+  simp only [map_mul, torus, MonoidHom.noncommPiCoprod_mulSingle]
+
+lemma U1Y_val (t : ℝ) : ((U1Y (Multiplicative.ofAdd t) : Spin77) : Cl77) =
+    planeRot 0 (-2 * t) * planeRot 1 (-2 * t) * planeRot 2 (-2 * t) * planeRot 3 (3 * t) *
+      planeRot 4 (3 * t) := by
+  show ((torus _ : Spin77) : Cl77) = _
+  rw [torus_eq]
+  simp [planeCircle, ycoef]
+
+/-- **`U(1)_Y` closes up after `π`**: `U1Y π = 1`. -/
+theorem U1Y_pi : ((U1Y (Multiplicative.ofAdd π) : Spin77) : Cl77) = 1 := by
+  rw [U1Y_val]
+  have h2 : ∀ k, planeRot k (-2 * π) = 1 := fun k => by
+    simp [planeRot, show -2 * π = -(2 * π) by ring]
+  have h3 : ∀ k, planeRot k (3 * π) = -1 := fun k => by
+    have : 3 * π = π + 2 * π := by ring
+    simp [planeRot, this, Algebra.algebraMap_eq_smul_one]
+  rw [h2, h2, h2, h3, h3]; simp
+
+/-- **…and not before `π/2`**: `U1Y (π/2) ≠ 1` (it equals `−P₄P₅`). -/
+theorem U1Y_half_ne : ((U1Y (Multiplicative.ofAdd (π / 2)) : Spin77) : Cl77) ≠ 1 := by
+  rw [U1Y_val]
+  have h2 : ∀ k, planeRot k (-2 * (π / 2)) = -1 := fun k => by
+    simp [planeRot, show -2 * (π / 2) = -π by ring, Algebra.algebraMap_eq_smul_one]
+  have h3 : ∀ k, planeRot k (3 * (π / 2)) = -planeP k := fun k => by
+    have hc : cos (3 * (π / 2)) = 0 := by
+      rw [show 3 * (π / 2) = π / 2 + π by ring, cos_add_pi, cos_pi_div_two, neg_zero]
+    have hs : sin (3 * (π / 2)) = -1 := by
+      rw [show 3 * (π / 2) = π / 2 + π by ring, sin_add_pi, sin_pi_div_two]
+    simp [planeRot, hc, hs]
+  rw [h2, h2, h2, h3, h3]
+  intro h
+  have h' : planeP 3 * planeP 4 = -1 := by
+    have e : (-1 : Cl77) * -1 * -1 * -planeP 3 * -planeP 4 = -(planeP 3 * planeP 4) := by
+      simp only [neg_mul, mul_neg, neg_neg, one_mul]
+    rw [e] at h
+    rw [← neg_neg (planeP 3 * planeP 4), h]
+  have hg : ∀ i, gammaMap (eb i) = gamma (gen i) := fun i => by
+    simp [gammaMap, eb, Pi.single_apply]
+  have hrep : cliffordRep (planeP 3 * planeP 4) = (gprod [gen 10, gen 11, gen 12, gen 13]).toMat := by
+    rw [toMat_gprod]
+    simp [planeP, pa, pb, hg, mul_assoc]
+  have htr : (gprod [gen 10, gen 11, gen 12, gen 13]).tr = 0 := by decide
+  have := congrArg (fun z => Matrix.trace (cliffordRep z)) h'
+  simp only [hrep, PString.trace_toMat, htr, map_neg, map_one, Matrix.trace_neg, Matrix.trace_one] at this
+  norm_num [Idx] at this
 
 end GU.Spinor

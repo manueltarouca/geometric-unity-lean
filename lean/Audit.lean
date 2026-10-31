@@ -201,3 +201,5 @@ open GU
 #print axioms GU.Spinor.U1Y_le_centJ
 #print axioms GU.Spinor.torus_le_centJfib
 #print axioms GU.Spinor.U1Y_le_centJfib
+#print axioms GU.Spinor.U1Y_pi
+#print axioms GU.Spinor.U1Y_half_ne
