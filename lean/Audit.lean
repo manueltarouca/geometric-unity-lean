@@ -34,3 +34,7 @@ open GU
 #print axioms Spinor.Γ_factorises
 #print axioms Spinor.joint_eigenspace_dim
 #print axioms Spinor.ω4_anticomm_gens4
+#print axioms CliffordBianchi.three_gamma
+#print axioms CliffordBianchi.lichnerowicz
+#print axioms CliffordBianchi.shiab_einstein
+#print axioms Spinor.shiab_einstein_77

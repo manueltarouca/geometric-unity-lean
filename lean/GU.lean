@@ -10,3 +10,5 @@ import GU.Spinor.Basis
 import GU.Spinor.Faithful
 import GU.Spinor.Pauli
 import GU.Spinor.Branching
+import GU.Shiab.CliffordBianchi
+import GU.Shiab.Einstein
