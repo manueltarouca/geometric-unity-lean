@@ -248,3 +248,8 @@ open GU
 #print axioms GU.Spinor.spin4QuatEquiv
 #print axioms GU.Spinor.sp1EquivSU2
 #print axioms GU.Spinor.spin4SU2Equiv
+#print axioms GU.Spinor.σ_mul_conj
+#print axioms GU.Spinor.det_σM
+#print axioms GU.Spinor.detU_eq_one
+#print axioms GU.Spinor.spinSU4
+#print axioms GU.Spinor.spinSU4_negOne
