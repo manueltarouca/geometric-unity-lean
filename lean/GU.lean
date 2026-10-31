@@ -42,3 +42,4 @@ import GU.Bundle.LocalPH
 import GU.Spinor.SMGroup
 import GU.Observerse.Observation
 import GU.Spinor.SU3Closure
+import GU.Shiab.EinsteinEquation

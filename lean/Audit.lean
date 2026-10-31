@@ -102,3 +102,5 @@ open GU
 #print axioms Observerse.contMDiff_observe
 #print axioms Spinor.su3_closed
 #print axioms Spinor.su2_closed
+#print axioms Spinor.shiab_equation_gives_einstein
+#print axioms Spinor.gamma_linIndep
