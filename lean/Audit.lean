@@ -149,3 +149,6 @@ open GU
 #print axioms GU.Observerse.contMDiff_smul_FrY
 #print axioms GU.Spinor.ker_eq
 #print axioms GU.Spinor.fiber_ncard
+#print axioms GU.Observerse.Cb_triv_apply
+#print axioms GU.Observerse.frameCore_localTriv_eq
+#print axioms GU.Observerse.Cb_coordChange
