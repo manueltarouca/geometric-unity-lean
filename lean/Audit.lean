@@ -372,3 +372,4 @@ open GU
 #print axioms GU.Library.localTriv_forward
 #print axioms GU.Library.localTriv_surj
 #print axioms GU.Library.ractM_transitive'
+#print axioms GU.Library.contMDiffOn_levelSet_iff

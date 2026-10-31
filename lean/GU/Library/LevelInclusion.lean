@@ -56,6 +56,28 @@ theorem contMDiff_levelSet_iff (h : SmoothSubmersive f c) {g : M → levelSet f 
   refine (hL.comp_contDiffOn (hx.mono Set.inter_subset_left)).congr (fun w _ => ?_)
   rfl
 
+/-- **Universal property on a set**: a map into a regular level set is smooth on `t` iff it is
+smooth on `t` into `E`. -/
+theorem contMDiffOn_levelSet_iff (h : SmoothSubmersive f c) {g : M → levelSet f c} {t : Set M} :
+    letI := smoothLevelCharted h
+    haveI := isManifold_level h
+    ContMDiffOn I 𝓘(ℝ, Fin (fibreDim E F) → ℝ) ∞ g t ↔
+      ContMDiffOn I 𝓘(ℝ, E) ∞ (fun x => (g x : E)) t := by
+  let _ := smoothLevelCharted h
+  have _ := isManifold_level h
+  refine ⟨fun hg => (contMDiff_levelSet_val h).comp_contMDiffOn hg, fun hg => ?_⟩
+  rw [contMDiffOn_iff] at hg ⊢
+  refine ⟨(Topology.IsInducing.subtypeVal.continuousOn_iff).mpr hg.1, fun x y => ?_⟩
+  have hx := hg.2 x (0 : E)
+  simp only [extChartAt_model_space_eq_id, PartialEquiv.refl_coe, Function.id_comp,
+    PartialEquiv.refl_source, Set.preimage_univ, Set.inter_univ] at hx
+  have hL : ContDiff ℝ ∞ (fun z : E => kerEquiv (h.surj y y.2) (kerProj (fderiv ℝ f y) (z - y))) :=
+    (kerEquiv (h.surj y y.2)).contDiff.comp
+      ((kerProj (fderiv ℝ f y)).contDiff.comp (contDiff_id.sub contDiff_const))
+  refine (hL.comp_contDiffOn (hx.mono ?_)).congr (fun w _ => ?_)
+  · exact fun w hw => ⟨hw.1, hw.2.1⟩
+  · rfl
+
 end Universal
 
 end GU.Library
