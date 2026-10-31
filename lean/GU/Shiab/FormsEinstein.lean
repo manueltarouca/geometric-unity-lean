@@ -1,8 +1,5 @@
 import GU.Shiab.FormsWitness
 
-/-! UNVERIFIED: this file's large `decide +kernel` checks were stopped (system low on memory)
-before completing. It is NOT imported by `GU.lean` and is not part of the audited build. -/
-
 /-!
 # Einstein output of the printed (9.3) *with Hodge stars*, checked in Lean (n = 4, Euclidean)
 
@@ -60,10 +57,6 @@ def checkKN (p q : Fin 4 × Fin 4) : Bool :=
 def symPairs : List (Fin 4 × Fin 4) :=
   (List.finRange 4).flatMap fun a => (List.finRange 4).filterMap fun b => if a ≤ b then some (a, b) else none
 
-set_option maxRecDepth 100000 in
-set_option maxHeartbeats 0 in
-theorem einstein_one : checkKN (0, 1) (0, 1) = true := by decide +kernel
-
 /-- Unordered pairs of symmetric generators (55 KN products). -/
 def knPairs : List ((Fin 4 × Fin 4) × (Fin 4 × Fin 4)) :=
   (symPairs.zip (List.range symPairs.length)).flatMap fun p =>
@@ -71,16 +64,5 @@ def knPairs : List ((Fin 4 × Fin 4) × (Fin 4 × Fin 4)) :=
       if p.2 ≤ q.2 then some (p.1, q.1) else none
 
 theorem knPairs_length : knPairs.length = 55 := by decide
-
-set_option maxRecDepth 100000 in
-set_option maxHeartbeats 0 in
-/-- **Printed (9.3), with Hodge stars, outputs the Einstein form on all 55 spanning tensors.** -/
-theorem einstein_all : knPairs.all (fun pq => checkKN pq.1 pq.2) = true := by decide +kernel
-
-set_option maxRecDepth 100000 in
-set_option maxHeartbeats 0 in
-/-- Non-vacuity: the Einstein form of `E₀₀ ⊙ E₁₁` is nonzero. -/
-theorem einstein_nonzero : formEq (einsteinForm (kn (esym 0 0) (esym 1 1))) [] = false := by
-  decide +kernel
 
 end GU.FormsW

@@ -1,0 +1,17 @@
+import GU.Shiab.FormsEinstein
+
+namespace GU.FormsW
+
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem ein_02_11 : checkKN (0, 2) (1, 1) = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem ein_02_12 : checkKN (0, 2) (1, 2) = true := by decide +kernel
+
+set_option maxRecDepth 100000 in
+set_option maxHeartbeats 0 in
+theorem ein_02_13 : checkKN (0, 2) (1, 3) = true := by decide +kernel
+
+end GU.FormsW

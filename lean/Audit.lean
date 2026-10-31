@@ -104,3 +104,5 @@ open GU
 #print axioms Spinor.su2_closed
 #print axioms Spinor.shiab_equation_gives_einstein
 #print axioms Spinor.gamma_linIndep
+#print axioms FormsW.einstein_all
+#print axioms FormsW.einstein_nonzero
