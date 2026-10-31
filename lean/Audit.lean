@@ -308,3 +308,6 @@ open GU
 #print axioms GU.Spinor.uC_trace_neg
 #print axioms GU.Spinor.uC_trace_pos
 #print axioms GU.Spinor.uC_nilpotent
+#print axioms GU.Spinor.spinTopGroup
+#print axioms GU.Spinor.continuous_spinToO77
+#print axioms GU.Spinor.spinMat_apply_trace

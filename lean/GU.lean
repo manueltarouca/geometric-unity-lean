@@ -101,3 +101,4 @@ import GU.Bundle.OrthoLie
 import GU.Bundle.OrthoSpin
 import GU.Spinor.LieU6464
 import GU.Spinor.TraceForm
+import GU.Spinor.SpinTop
