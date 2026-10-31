@@ -9,8 +9,7 @@ homeomorphism onto `ℝ(128)` (`clTop`, `cl77Homeomorph`), the canonical module 
 * **`IsTopologicalGroup Spin77`**: `ρ(xy) = ρ(x)ρ(y)` and `ρ(x⁻¹) = ρ(x*) = C ρ(x)ᵀ C`;
 * **`continuous_spinToO77`**: the matrix of `vecRep x` has entries
   `tr(ρ(x) γ_j C ρ(x)ᵀ C γ_i) / (128 w_i)` (`spinMat_apply_trace`), which are polynomial in `ρ(x)`.
-This is the first topological input towards the spin double cover; the covering-map property and
-connectedness of `Spin77` remain open.
+The covering-map property is `isCoveringMap_spinToSO0` (`SpinCovering.lean`).
 -/
 
 namespace GU.Spinor

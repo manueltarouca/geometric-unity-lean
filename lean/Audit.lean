@@ -311,3 +311,8 @@ open GU
 #print axioms GU.Spinor.spinTopGroup
 #print axioms GU.Spinor.continuous_spinToO77
 #print axioms GU.Spinor.spinMat_apply_trace
+#print axioms GU.Spinor.isClosed_spin
+#print axioms GU.Spinor.spin_eq_S
+#print axioms GU.Spinor.isOpenMap_spinToSO0
+#print axioms GU.Spinor.isQuotientCoveringMap_spinToSO0
+#print axioms GU.Spinor.isCoveringMap_spinToSO0

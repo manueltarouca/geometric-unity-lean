@@ -102,3 +102,5 @@ import GU.Bundle.OrthoSpin
 import GU.Spinor.LieU6464
 import GU.Spinor.TraceForm
 import GU.Spinor.SpinTop
+import GU.Spinor.SpinClosed
+import GU.Spinor.SpinCovering
