@@ -54,7 +54,7 @@ they retracted an earlier, unconditional version.) Details:
 ## E. Not done / open
 
 - The global spin lift (w₂).
-- The submanifold structure of the orthonormal frames.
+- ~~The submanifold structure of the orthonormal frames.~~ Done: the (7,7)-orthonormal frames of C form a smooth 105-dimensional submanifold of the frame bundle (`isManifold_orthoFrames`, `contMDiff_orthoFrames_val`; regular value theorem `isManifold_regularLevel`). Still open: the principal O(7,7)-bundle structure (action, local triviality).
 
 ## Literature comparison (first pass, 2026-10-31)
 

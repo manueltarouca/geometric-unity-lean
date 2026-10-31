@@ -341,3 +341,8 @@ open GU
 #print axioms GU.Library.contMDiff_regularLevel_val
 #print axioms GU.Library.homTot_isManifold
 #print axioms GU.Library.levelSet_Fframe
+#print axioms GU.Library.Fframe_chart
+#print axioms GU.Library.Fframe_regular
+#print axioms GU.Library.isManifold_orthoFrames
+#print axioms GU.Library.contMDiff_orthoFrames_val
+#print axioms GU.Library.fibreDim_orthoFrames
