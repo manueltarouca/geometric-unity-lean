@@ -236,3 +236,7 @@ open GU
 #print axioms GU.Spinor.joined_iff_spin
 #print axioms GU.Spinor.cc_iff_spin
 #print axioms GU.Spinor.joined_iff_spin_mat
+#print axioms GU.Spinor.finrank_Cl4
+#print axioms GU.Spinor.Φ4_injective
+#print axioms GU.Spinor.spin4_le_range
+#print axioms GU.Spinor.spin4Equiv

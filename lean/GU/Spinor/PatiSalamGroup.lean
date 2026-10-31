@@ -23,7 +23,8 @@ gamma-matrix `pos6`/`neg4` of `PatiSalam.lean` (via `gen i = (i % 7, 7 ≤ i)`, 
 On `W6` (positive definite) and `W4` (negative definite) the spinor-norm condition is automatic, so the
 generators are the standard ones for `Spin(6)` and `Spin(0,4) ≅ Spin(4)`. `BlockSpin.lean`: each is a
 non-split double cover of its block `SO(6)` / `SO(4)` (`range_spin6/4`, `spin6/4_ker`, `spin6/4_nonsplit`).
-Not proved: abstract uniqueness of the spin extension, topology (no Lie group theory here). **`spin6_inf_spin4_eq`**:
+`Spin4 ≃* spinGroup Q₄` (Mathlib's abstract `Spin(0,4)`): `spin4Equiv`, `SpinIso.lean`. Not proved: the
+analogous `Spin6 ≅ spinGroup Q₆`, the exceptional isomorphisms, topology (no Lie group theory here). **`spin6_inf_spin4_eq`**:
 `Spin6 ∩ Spin4 = {±1}`, and the product map has kernel exactly `{(1,1), (−1,−1)}` (`product_kernel`).
 -/
 

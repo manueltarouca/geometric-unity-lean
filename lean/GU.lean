@@ -79,3 +79,4 @@ import GU.Spinor.TorusKernelGroup
 import GU.Spinor.SpinImage
 import GU.Spinor.BlockSpin
 import GU.Spinor.SpinComponent
+import GU.Spinor.SpinIso

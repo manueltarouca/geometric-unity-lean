@@ -22,8 +22,8 @@ import GU.Spinor.SpinImage
 So `Spin6 → SO(6)` and `Spin4 → SO(4)` are **non-split double covers**: surjective, kernel `{±1}`
 of two distinct elements (`negOne_ne_one`), and not isomorphic to `SO(n) × ℤ/2` as extensions (in a
 split extension every lift of an involution can be chosen to square to `1`; here `x² = −1`). This is
-the algebraic shape of `Spin(6)`, `Spin(4)`. Not proved: that this extension class is *the* spin
-class (abstract uniqueness), topology or connectedness, and the exceptional isomorphisms
+the algebraic shape of `Spin(6)`, `Spin(4)`. For `Spin4` the identification with Mathlib's `spinGroup` is
+proved directly (`spin4Equiv`, `SpinIso.lean`). Not proved: the same for `Spin6`, topology or connectedness, and the exceptional isomorphisms
 `Spin(6) ≅ SU(4)`, `Spin(4) ≅ SU(2) × SU(2)`.
 -/
 
