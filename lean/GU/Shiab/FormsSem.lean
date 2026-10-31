@@ -79,4 +79,77 @@ lemma sum_regroup (g : Idx4 → M128 →+ M128) (A : Form) (hA : Canon A) :
     rw [← List.sum_toFinset _ allIdx_nodup, Finset.sum_ite_eq]
     simp [hy]
 
+/-! ### CSum-level semantics and canonicity -/
+
+lemma toMat_smul (c : ℤ) (L : CSum) : CSum.toMat (smul c L) = (c : ℝ) • CSum.toMat L := by
+  induction L with
+  | nil => simp [smul]
+  | cons p L ih =>
+    rw [smul, List.map_cons, toMat_cons, ← smul, ih, toMat_cons, smul_add]
+    congr 1
+    simp [PString.toMat, mul_smul, Int.cast_mul]
+
+lemma toMat_flatMap {α : Type*} (L : List α) (g : α → CSum) :
+    CSum.toMat (L.flatMap g) = (L.map fun a => CSum.toMat (g a)).sum := by
+  induction L with
+  | nil => rfl
+  | cons a L ih => simp [List.flatMap_cons, ih]
+
+lemma toMat_acm (x y : CSum) : CSum.toMat (acm x y) = CSum.toMat x * CSum.toMat y + CSum.toMat y * CSum.toMat x := by
+  simp [acm, toMat_mul]
+
+lemma toMat_cm (x y : CSum) : CSum.toMat (cm x y) = CSum.toMat x * CSum.toMat y - CSum.toMat y * CSum.toMat x :=
+  toMat_comm x y
+
+theorem filter_mem_allIdx (p : Fin 4 → Bool) : (List.finRange 4).filter p ∈ allIdx := by
+  revert p; decide
+
+lemma sortIdx_mem (I : Idx4) : sortIdx I ∈ allIdx := filter_mem_allIdx _
+lemma compl_mem (I : Idx4) : compl I ∈ allIdx := filter_mem_allIdx _
+
+lemma canon_star (A : Form) : Canon (star A) := by
+  intro x hx
+  obtain ⟨y, -, rfl⟩ := List.mem_map.mp hx
+  exact compl_mem _
+
+lemma canon_wedge (br : CSum → CSum → CSum) (A B : Form) : Canon (wedge br A B) := by
+  intro x hx
+  simp only [wedge, List.mem_flatMap, List.mem_filterMap] at hx
+  obtain ⟨a, -, b, -, hb⟩ := hx
+  split_ifs at hb with hs
+  simp only [Option.some.injEq] at hb; rw [← hb]; exact sortIdx_mem _
+
+lemma canon_append {A B : Form} (hA : Canon A) (hB : Canon B) : Canon (A ++ B) := by
+  intro x hx
+  rcases List.mem_append.mp hx with h | h
+  · exact hA x h
+  · exact hB x h
+
+lemma canon_map_snd (A : Form) (f : CSum → CSum) (hA : Canon A) : Canon (A.map fun x => (x.1, f x.2)) := by
+  intro x hx
+  obtain ⟨y, hy, rfl⟩ := List.mem_map.mp hx
+  exact hA y hy
+
+lemma canon_twoShiab (ξ : Form) : Canon (twoShiab ξ) :=
+  canon_append (canon_map_snd _ _ (canon_wedge _ _ _)) (canon_map_snd _ _ (canon_star _))
+
+/-- Canonical forms vanish semantically off the 16 index sets. -/
+lemma semF_zero_off {A : Form} (hA : Canon A) {I : Idx4} (hI : I ∉ allIdx) : semF A I = 0 := by
+  induction A with
+  | nil => rfl
+  | cons x A ih =>
+    rw [semF_cons, ih fun y hy => hA y (List.mem_cons_of_mem _ hy)]
+    have : x.1 ≠ I := fun h => hI (h ▸ hA x (List.mem_cons_self ..))
+    simp [this]
+
+/-- `semF` of a coefficientwise map by a semantically linear operation. -/
+lemma semF_map_snd (A : Form) (f : CSum → CSum) (F : M128 →+ M128)
+    (hf : ∀ c, CSum.toMat (f c) = F (CSum.toMat c)) (I : Idx4) :
+    semF (A.map fun x => (x.1, f x.2)) I = F (semF A I) := by
+  induction A with
+  | nil => simp
+  | cons x A ih =>
+    simp only [List.map_cons, semF_cons, ih, map_add, hf]
+    split_ifs <;> simp
+
 end GU.FormsW
