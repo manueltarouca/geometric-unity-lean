@@ -74,3 +74,4 @@ import GU.Spinor.SpinDet
 import GU.Spinor.PatiSalamGroup
 import GU.Spinor.Torus
 import GU.Spinor.TorusPeriod
+import GU.Spinor.TorusKernel

@@ -206,3 +206,6 @@ open GU
 #print axioms GU.Spinor.cliffordRep_Jt
 #print axioms GU.Spinor.vecRep_circle
 #print axioms GU.Spinor.U1Y_eq_one_iff
+#print axioms GU.Spinor.torus_eq_one_iff
+#print axioms GU.Spinor.torus_eq_one_iff_fundamental
+#print axioms GU.Spinor.kernel_reps_card
