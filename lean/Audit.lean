@@ -339,3 +339,5 @@ open GU
 #print axioms GU.Library.isManifold_regularLevel
 #print axioms GU.Library.regTrans_eq
 #print axioms GU.Library.contMDiff_regularLevel_val
+#print axioms GU.Library.homTot_isManifold
+#print axioms GU.Library.levelSet_Fframe

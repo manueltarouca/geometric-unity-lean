@@ -111,3 +111,4 @@ import GU.Spinor.SpinCovering
 import GU.Spinor.SpinConnected
 import GU.Bundle.ChimGram
 import GU.Bundle.ChimFrames
+import GU.Bundle.FrameRegular
