@@ -111,3 +111,5 @@ open GU
 #print axioms Spinor.centralizer_spin64
 #print axioms Spinor.u32_span_finrank
 #print axioms Spinor.span_eq
+#print axioms Observerse.det_congr_sign
+#print axioms Observerse.fiberEquiv
