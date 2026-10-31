@@ -268,3 +268,5 @@ open GU
 #print axioms GU.Spinor.spinSU4_surjective
 #print axioms GU.Spinor.spin6SU4Equiv
 #print axioms GU.Spinor.Spin6SU4
+#print axioms GU.FormsW.semF_of_formEq
+#print axioms GU.FormsW.sum_regroup
