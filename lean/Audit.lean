@@ -258,3 +258,9 @@ open GU
 #print axioms GU.Spinor.lam2
 #print axioms GU.Spinor.σK_eq
 #print axioms GU.Spinor.su4_preserves
+#print axioms GU.Spinor.pf_conj
+#print axioms GU.Spinor.σK_TU
+#print axioms GU.Spinor.TU_isometry
+#print axioms GU.Spinor.TU_mul
+#print axioms GU.Spinor.unitary_sqrt
+#print axioms GU.Spinor.det_TUL

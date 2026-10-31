@@ -8,8 +8,8 @@ For an antisymmetric `4 × 4` matrix `A`, `⋆A` is its Hodge dual, `(⋆A)ᵢ�
 This is the identity behind `SU(4) → SO(6)`. For unitary `U` with `det U = 1` it says that
 `A ↦ U A Uᵀ` commutes with `⋆` up to complex conjugation, so it preserves the 6-dimensional real
 form of `Λ²ℂ⁴`. Track 1 of `MULTISESSION_PLAN.md`: S1 (`lam2`), S2 partly (`σK_eq`, `σK_vOf`: the
-real form is `{A antisym : ⋆A = Ā}`), S3 partly (`su4_preserves`: pointwise existence; `T_U` as a
-map, linearity, isometry and multiplicativity are not yet done).
+real form is `{A antisym : ⋆A = Ā}`), S3 (`su4_preserves`, the linear map `TUL`, `σK_TU`, `TU_isometry` via the Pfaffian `pf_conj`,
+`TU_mul`). S4 is `SU4Det.lean`.
 -/
 
 namespace GU.Spinor
@@ -134,5 +134,83 @@ theorem su4_preserves {U : Matrix (Fin 4) (Fin 4) ℂ} (hU : U ∈ Matrix.specia
   refine ⟨A' 0 1, A' 0 2, A' 0 3, ?_⟩
   calc A' = asym (A' 0 1) (A' 0 2) (A' 0 3) (A' 1 2) (A' 1 3) (A' 2 3) := hA
     _ = RF (A' 0 1) (A' 0 2) (A' 0 3) := by rw [e01, e02, e03]; rfl
+
+/-! ### S3: the map `T_U` -/
+
+/-- Pfaffian of a `4 × 4` matrix (from its upper triangle). -/
+def pf {R : Type*} [CommRing R] (A : Matrix (Fin 4) (Fin 4) R) : R :=
+  A 0 1 * A 2 3 - A 0 2 * A 1 3 + A 0 3 * A 1 2
+
+/-- **`Pf(U A Uᵀ) = det U · Pf A`** for antisymmetric `A`. -/
+theorem pf_conj {R : Type*} [CommRing R] (U : Matrix (Fin 4) (Fin 4) R) (a b c d e f : R) :
+    pf (U * asym a b c d e f * Uᵀ) = U.det * pf (asym a b c d e f) := by
+  simp [pf, asym, Matrix.mul_apply, Fin.sum_univ_four, Matrix.det_succ_row_zero,
+    Fin.sum_univ_succ, Fin.succAbove]
+  ring
+
+lemma pf_σK (v : Fin 6 → ℝ) : pf (σM v * Kc) = ((Q6 v : ℝ) : ℂ) := by
+  rw [σK_eq]
+  apply Complex.ext
+  · rw [Complex.ofReal_re, Q6_apply]
+    simp [pf, asym, ca, cb, cc, Fin.sum_univ_succ]; ring
+  · rw [Complex.ofReal_im]
+    simp [pf, asym, ca, cb, cc]; ring
+
+lemma Kc_sq : Kc * Kc = 1 := by
+  refine Matrix.ext fun i j => ?_
+  fin_cases i <;> fin_cases j <;> simp [Kc, Matrix.mul_apply, Fin.sum_univ_four, Matrix.one_apply]
+
+lemma σK_injective {v w : Fin 6 → ℝ} (h : σM v * Kc = σM w * Kc) : v = w := by
+  apply σM_injective
+  have := congrArg (· * Kc) h
+  simpa [Matrix.mul_assoc, Kc_sq] using this
+
+lemma σK_RF (v : Fin 6 → ℝ) : σM v * Kc = RF (ca v) (cb v) (cc v) := σK_eq v
+
+/-- `T_U v`: the real-form coordinates of `U σ(v) K Uᵀ`. Meaningful for `U ∈ SU(4)` (`σK_TU`);
+for other `U` it only reads off the first row. -/
+noncomputable def TU (U : Matrix (Fin 4) (Fin 4) ℂ) (v : Fin 6 → ℝ) : Fin 6 → ℝ :=
+  vOf ((U * (σM v * Kc) * Uᵀ) 0 1) ((U * (σM v * Kc) * Uᵀ) 0 2) ((U * (σM v * Kc) * Uᵀ) 0 3)
+
+/-- **Defining property**: `σ(T_U v) K = U σ(v) K Uᵀ` for `U ∈ SU(4)`. -/
+theorem σK_TU {U : Matrix (Fin 4) (Fin 4) ℂ} (hU : U ∈ Matrix.specialUnitaryGroup (Fin 4) ℂ)
+    (v : Fin 6 → ℝ) : σM (TU U v) * Kc = U * (σM v * Kc) * Uᵀ := by
+  obtain ⟨a', b', c', h⟩ := su4_preserves hU (ca v) (cb v) (cc v)
+  rw [← σK_RF] at h
+  rw [TU, σK_vOf, h]
+  have e1 : (RF a' b' c') 0 1 = a' := rfl
+  have e2 : (RF a' b' c') 0 2 = b' := rfl
+  have e3 : (RF a' b' c') 0 3 = c' := rfl
+  rw [e1, e2, e3]
+
+lemma TU_isometry {U : Matrix (Fin 4) (Fin 4) ℂ} (hU : U ∈ Matrix.specialUnitaryGroup (Fin 4) ℂ)
+    (v : Fin 6 → ℝ) : Q6 (TU U v) = Q6 v := by
+  have h := congrArg pf (σK_TU hU v)
+  rw [pf_σK, σK_RF, show RF (ca v) (cb v) (cc v) = asym _ _ _ _ _ _ from rfl, pf_conj,
+    show asym (ca v) (cb v) (cc v) _ _ _ = RF (ca v) (cb v) (cc v) from rfl, ← σK_RF, pf_σK,
+    (Matrix.mem_specialUnitaryGroup_iff.mp hU).2, one_mul] at h
+  exact_mod_cast h
+
+lemma TU_mul {U V : Matrix (Fin 4) (Fin 4) ℂ} (hU : U ∈ Matrix.specialUnitaryGroup (Fin 4) ℂ)
+    (hV : V ∈ Matrix.specialUnitaryGroup (Fin 4) ℂ) (v : Fin 6 → ℝ) :
+    TU (U * V) v = TU U (TU V v) := by
+  apply σK_injective
+  rw [σK_TU (Submonoid.mul_mem _ hU hV), σK_TU hU, σK_TU hV, Matrix.transpose_mul]
+  simp only [Matrix.mul_assoc]
+
+/-- `T_U` as a real-linear map. -/
+noncomputable def TUL {U : Matrix (Fin 4) (Fin 4) ℂ} (hU : U ∈ Matrix.specialUnitaryGroup (Fin 4) ℂ) :
+    Module.End ℝ (Fin 6 → ℝ) where
+  toFun := TU U
+  map_add' v w := by
+    apply σK_injective
+    have hl : ∀ u : Fin 6 → ℝ, σM u = σL u := fun _ => rfl
+    rw [σK_TU hU, hl (TU U v + TU U w), map_add, ← hl, ← hl, Matrix.add_mul, σK_TU hU, σK_TU hU,
+      hl (v + w), map_add, ← hl, ← hl, Matrix.add_mul, Matrix.mul_add, Matrix.add_mul]
+  map_smul' c v := by
+    apply σK_injective
+    have hl : ∀ u : Fin 6 → ℝ, σM u = σL u := fun _ => rfl
+    rw [σK_TU hU, RingHom.id_apply, hl (c • TU U v), map_smul, ← hl, Matrix.smul_mul, σK_TU hU,
+      hl (c • v), map_smul, ← hl, Matrix.smul_mul, Matrix.mul_smul, Matrix.smul_mul]
 
 end GU.Spinor
