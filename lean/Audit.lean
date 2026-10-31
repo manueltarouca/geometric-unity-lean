@@ -270,3 +270,4 @@ open GU
 #print axioms GU.Spinor.Spin6SU4
 #print axioms GU.FormsW.semF_of_formEq
 #print axioms GU.FormsW.sum_regroup
+#print axioms GU.FormsW.semF_twoShiab
