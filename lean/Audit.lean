@@ -142,3 +142,5 @@ open GU
 #print axioms GU.Observerse.contMDiff_ract
 #print axioms GU.Observerse.frYBundle
 #print axioms GU.Observerse.contMDiff_ract_joint
+#print axioms GU.Spinor.vecRep_ker
+#print axioms GU.Spinor.vecRep_eq_iff
