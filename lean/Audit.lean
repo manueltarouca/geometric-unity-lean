@@ -77,3 +77,4 @@ open GU
 #print axioms Chimeric.chimB_basis
 #print axioms Spinor.checkerboard
 #print axioms Spinor.eps_table
+#print axioms Spinor.anomaly_free

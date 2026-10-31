@@ -28,3 +28,4 @@ import GU.Fermion.Bilinear
 import GU.Spinor.DetOne
 import GU.Observerse.ChimericBasis
 import GU.Spinor.Checkerboard
+import GU.Spinor.Anomaly
