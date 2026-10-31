@@ -56,9 +56,40 @@ is no anomaly-cancellation mechanism. The global spin structure (w₂) is not di
 - Linearity of the forms layer, which would extend B3 from the 55 spanning tensors to all tensors
   formally.
 
+## Literature comparison (first pass, 2026-10-31)
+
+Source read: T. Nguyen, T. Polya, *A Response to Geometric Unity*, 23 February 2021
+(files.timothynguyen.org/geometric_unity.pdf). It analyses the 2013/2020 **video** presentation and
+predates the April 2021 draft that this audit targets. Its objections:
+1. the Shiab operator needs an unannotated complexification (u(128) ≇ Λ•T*U over ℝ);
+2. U(128) as the gauge group gives an abelian chiral anomaly, and removing it via Spin(14) kills
+   the Shiab;
+3. supersymmetry in d = 14 forces higher-spin fields;
+4. missing details: "certain differential forms are exact", "sign calculations work out"; recovering
+   4d physics.
+It also notes that spinors still need a metric or connection on U, and that a spin structure
+needs w₂(TU) = 0.
+
+Status of our items relative to it:
+- **Addresses or sharpens objection 1:** B1 and blueprint B7. In the draft, signature (7,7) gives
+  Cl(7,7) ≅ ℝ(128) real and u(64,64) of dimension 16384 = 2¹⁴ = dim Λ•. So the dimension mismatch
+  behind objection 1 is removed in the draft. Whether the draft's i-factor placement makes the
+  isomorphism equivariant is not checked (blueprint B7 caveat).
+- **Known (N–P):** anomaly concerns (objection 2; our blueprint row "anomaly cancellation absent");
+  w₂ / spin structure (our open item E); "spinors need a choice of connection" (our blueprint B5,
+  "semi-canonical").
+- **Not in N–P, and plausibly new** (they predate the draft and treat these points only generically
+  under "omissions"): A1 (§6–7 sign inconsistency, with an explicit repair), A2 ((7,3) vs (6,4)),
+  A3, A4 (printed Shiab not self-adjoint), A5 (cubic obstruction), A6 (deformation complex not
+  exact), B3 (Einstein only with mixed brackets), B4, C1 (signature selection: (1,3) points only),
+  C2–C4 (group-level structure).
+- A search for detailed technical critiques of the April 2021 draft itself found none (only
+  popular-press summaries). This is a weak negative; a proper search of arXiv, MathOverflow and
+  Physics StackExchange is still needed.
+
 ## Before any publication
 
-1. Read Nguyen–Polya (2021) and mark each A/B/C item as already known, sharpened, or new.
+1. ~~Read Nguyen–Polya (2021)~~ done (first pass above). Still to do: a wider literature search for critiques of the April 2021 draft.
 2. Get an independent read by a mathematician or physicist, to check that each formal statement
    matches the intended reading of the draft. That matters most for A1, A4–A6 and B3, which depend
    on bracket and sign conventions.
