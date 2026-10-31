@@ -73,3 +73,5 @@ open GU
 #print axioms Predictions.hypercharge_forced
 #print axioms Decoupling.mirror
 #print axioms Observerse.proj_surjective
+#print axioms Chimeric.chimVec_basis
+#print axioms Chimeric.chimB_basis
