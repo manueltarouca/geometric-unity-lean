@@ -157,3 +157,4 @@ import GU.Bundle.SpinGeneric
 import GU.Bundle.CoverSpinAPI
 import GU.Bundle.CoverSmooth
 import GU.Bundle.CoverSpinLocal
+import GU.Bundle.TwoComponent

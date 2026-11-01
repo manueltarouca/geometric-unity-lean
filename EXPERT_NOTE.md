@@ -66,7 +66,7 @@ structure on the cover for general X is expected to need a w₂ condition on X; 
 | Fibre ≃ RP³, cover fibre ≃ S³, w₁(C⁺) ≠ 0, cones are connected components | Informal; w₁ and w₂ are not defined in the repo |
 | The Spin⁺ reading of the draft's "double cover" | Our interpretation; the draft does not say |
 | A two-component Spin(7,7) over Y¹³ | Neither excluded nor constructed |
-| Non-identity component flips the spinor forms | Hand argument, numerics up to Cl(7,7) (`experiments/spin_form_sign.py`) |
+| Non-identity component flips the spinor forms | Lean (`flip_nonidentity`, `flip_omega`; instance `isInvariant_formC`) |
 | Reduction and spin structure on the cover for general X | Open |
 
 We searched for prior statements and did not find that the (7,7) bundle over Lorentzian metrics is not
@@ -77,10 +77,12 @@ time-orientable, nor a critic treating the SO₀ reduction (`FINDINGS.md`, a wea
 1. **Is this known?** Has the failure of time orientability for the chimeric or DeWitt-type (7,7) bundle over the
    full space of Lorentzian metrics been stated anywhere?
 2. **Which group is meant?** Does the draft intend the connected Spin⁺(7,7) or the two-component group? A
-   two-component structure is not excluded by our result, but its non-identity component acts on the Dirac module
-   by g = e f, with g^T C g = −C for every invariant bilinear form C (informal). So in the Clifford action it does
-   not land in U(64,64) as (3.28) requires. Informally, Spin(7,7) ≅ Spin⁺(7,7) × {1, ω} (ω the
-   volume element), and twisting S⁻ by the sign character is ρ∘pr, pr killing ω: isometric, but equivariant only
+   two-component structure is not excluded by our result, but in Lean (`TwoComponent.lean`) the group
+   Spin⁺(7,7) × {1, ω} (ω a volume element; our model of the two-component group, `emb_injective`) maps to
+   O(7,7) with kernel ±1 onto SO₀ ∪ (−1)·SO₀ inside det = 1 (`toO_ker`, `range_toO`, `det_toO`; that this is all
+   of SO(7,7) is not formalised), and its non-identity component changes the sign of every Spin⁺-invariant
+   bilinear form on the Dirac module (`flip_nonidentity`). So in the Clifford action it does not land in
+   U(64,64) as (3.28) requires (informal step from the sign flip). Informally, twisting S⁻ by the sign character is ρ∘pr, pr killing ω: isometric, but equivariant only
    for a vector action through SO₀, which forgets exactly the component gHol lies in. The draft reaches (3.28)
    "by exponentiation" (p. 23), which gives only the identity component. Is that the right reading, and is there a way round it?
 3. **Is the fibre notation the resolution?** The draft writes the fibre as GL̃(4,ℝ)/Spin(1,3) ((3.33), (3.38),

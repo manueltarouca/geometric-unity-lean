@@ -1,5 +1,8 @@
 """Does the non-identity component of Spin(n,n) preserve the invariant spinor forms?
 
+Superseded by lean/GU/Bundle/TwoComponent.lean (`flip_hyp`, `flip_omega`, `flip_nonidentity`): proved
+for every Spin+-invariant form, with no irreducibility assumption. Kept as a numerical cross-check.
+
 Real Clifford module of Cl(n,n) on R^(2^n). g = e0 f0 (one spacelike, one timelike unit vector) lies in
 the two-component Spin(n,n), outside its identity component. For n <= 5 the script computes all bilinear
 forms invariant under the bivectors (the Lie algebra) and checks g^T C g = -C. For n = 7 the null space is
