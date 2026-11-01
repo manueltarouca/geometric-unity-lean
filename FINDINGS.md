@@ -41,7 +41,7 @@ nothing here proves or refutes GU as a physical theory.
 | C2 | The image of Spin(7,7) in O(7,7) is exactly SO⁺ (the spinor-norm kernel), of index 2 in SO. It equals the identity component SO₀, both connected and path component. | `range_vecRep`, `cc_iff_spin` |
 | C3 | Pati–Salam at the group level. Spin6 and Spin4 inside Spin(7,7) commute and meet in ±1. Spin6 ≅ Mathlib's Spin(6) ≅ SU(4); Spin4 ≅ SU(2) × SU(2). | `product_kernel`, `spin6Equiv`, `Spin6SU4`, `spin4SU2Equiv` |
 | C4 | Hypercharge circle U(1)_Y ⊂ Spin(7,7) has minimal period π. The maximal torus kernel on U(1)⁵ is (ℤ/2)⁴. | `U1Y_eq_one_iff`, `torusKer_quot_equiv_four` |
-| C5 | **No Spin⁺(7,7) structure (equivalently no cocycle lift, `SpinLiftData`) exists over the full (1,3) observerse, for any nonempty X, including ℝ⁴.** Rotating the timelike axis by π in one fibre gives a closed loop of Lorentzian metrics whose frame holonomy reverses the orientation of the positive 7-plane (positive-block determinant −1; determinant 1 overall, informal), so it lies outside SO₀(7,7). The same argument excludes any SO₀(7,7)-reduction as required by §3.6, but that is not stated separately in Lean. Limits: this concerns the connected group; a two-component Spin(7,7) → SO(7,7) structure is not excluded (not formalised); it holds as formalised, for the chimeric (7,7) metric on C with the fibre of all (1,3) metrics. We make no claim that it is new. | `no_spinStructure_univ`, `no_spinLiftData`, `qLoop_pi`, `gHol_not_mem_SO0` |
+| C5 | **No Spin⁺(7,7) structure (equivalently no cocycle lift, `SpinLiftData`) exists over the full (1,3) observerse, for any nonempty X, including ℝ⁴.** Rotating the timelike axis by π in one fibre gives a closed loop of Lorentzian metrics whose frame holonomy reverses the orientation of the positive 7-plane (positive-block determinant −1; determinant 1 overall, `det_gHol`), so it lies outside SO₀(7,7). The same holonomy excludes any clopen SO₀(7,7)-reduction of the frames over all of Y13, a statement with no spin group in it (`no_SO0_reduction_univ`). A reduction to SO₀ is our reading of what a Spin⁺ structure needs; the draft does not mention it (§3.6, p. 24). Limits: this concerns the connected group; a two-component Spin(7,7) → SO(7,7) structure is not excluded (not formalised); it holds as formalised, for the chimeric (7,7) metric on C with the fibre of all (1,3) metrics. We make no claim that it is new. | `no_spinStructure_univ`, `no_SO0_reduction_univ`, `no_spinLiftData`, `qLoop_pi`, `gHol_not_mem_SO0`, `det_gHol` |
 
 ## D. Underspecified in the draft (not formalisable as stated)
 
@@ -129,6 +129,88 @@ Status of our items relative to it:
   summary claimed Nguyen–Polya is arXiv:2106.07852; **checked: false** (that ID is an unrelated CV
   paper), so cite the PDF URL instead. Still recommended before posting: ask a GU-literate
   physicist and check Weinstein's own later responses or talks.
+
+## Literature check: time orientation of the (7,7) bundle (Phase 5 item 2, 2026-11-01)
+
+Question: has anyone stated that the chimeric or DeWitt-type (7,7) bundle over the space of Lorentzian
+metrics is not time-orientable, that Lorentzian metrics on ℝ⁴ retract to RP³, or how the SO₀ reduction
+is handled? Read-only web and local search. Page text was treated as data. Quotes were read from
+extracted PDF text unless marked otherwise.
+
+**Prior statements, with a source**
+- *The fibre retracts to RP³.* C. G. Torre, *Local cohomology in field theory*, arXiv:hep-th/9706092,
+  §7 (pp. 18–20): "the bundle of Lorentzian signature metrics over an n-dimensional spacetime manifold
+  admits a deformation retraction to a bundle E′ over spacetime whose typical fiber is diffeomorphic
+  to the real projective space RP^{n−1}", attributed to Steenrod, *The Topology of Fibre Bundles*
+  (1951). We did not read Steenrod and have no section number. So the RP³ statement in FINDINGS is classical, not ours.
+- *The fibre's topology has been used physically.* The same source links the RP³ volume form to the
+  Finkelstein–Misner "kink number" (1959), "the number of times a light cone tumbles". Also
+  arXiv:gr-qc/9509048 and Mounoud, math/0110082 (search hits, not read in full).
+- *Time-orientable double covers of one Lorentzian manifold are standard.* Chruściel, *Elements of
+  causality theory*, arXiv:1110.6706, Remark 2.1.2; Natário, *Mathematical Relativity*,
+  arXiv:2003.02855. These cover one spacetime (M, g), not the universal bundle of metrics. Hadley,
+  arXiv:1703.05573, is a related use.
+- *Universal spinor bundle over all metrics, any signature.* Müller–Nowaczyk, arXiv:1504.01034
+  (Lett. Math. Phys. 2017), Remark 2.2: GL̃⁺V / Spin_{r,s} ≅ GL⁺V / SO_{r,s} ≅ S_{r,s}V, with Spin_{r,s}
+  the double cover of the **full** SO_{r,s}. Spinors there are built from a spin structure on the base
+  M, using the two-component group. The extracted text has no occurrence of "time orient". This is the
+  closest rigorous prior construction. It sits on GL̃⁺, not on a (7,7) bundle.
+- *w₂ of Y¹⁴, external and unverified.* disruptionjoe/gu-formalization,
+  `canon/w2-y14-spin-structure.md`, claims w₂(Y¹⁴) = π\*w₂(X⁴), fibre F = GL(4,ℝ)/O(3,1) ≅ RP³ up to
+  homotopy. It takes a time line bundle L ⊂ TX⁴ with w₁(L) = 0 for oriented X⁴, a step that does not follow
+  from w₁(V) + w₁(L) = 0 alone. It uses the tautological line γ¹ → RP³ only fibrewise, for the monodromy
+  of H¹(RP³; ℤ/2), and never names w₁ of the resulting line bundle on Y¹⁴ as an obstruction.
+  It does not mention SO(7,7) or the chimeric bundle. No conflict with C5: w₂ of TY is a different
+  obstruction from the time-orientation one, which is a w₁(C⁺) question (the identification with w₁ is
+  informal). Lean proves the holonomy statement, not a w₁ statement.
+- *Nguyen–Polya* (Feb 2021), §2.2 footnotes a–b: the chimeric bundle has a natural metric from a
+  **Riemannian** fibre point, spin structures need w₂(TU) = 0. No (7,7), no time orientation.
+
+**What the draft says (local PDF, printed page numbers)**
+- p. 4: "X⁴ … with a chosen orientation and unique spin structure". The word "orient" otherwise appears
+  once in a non-mathematical sense and twice in the Hodge-star passage ("we have assumed our manifold to
+  be oriented"). There is no time orientation, no SO₀, and no identity component of SO(7,7) anywhere.
+- p. 24 (3.32): "P̃_Fr(C^{7,7}) is the double cover of the frame bundle of the Chimeric bundle". Its
+  existence is assumed. So the "SO₀ reduction" in our blueprint is **our reading** of what a Spin⁺
+  structure needs, not a step the draft takes. Lean now states that reduction directly
+  (`no_SO0_reduction_univ`).
+- pp. 24–25, (3.33) and (3.38), and again in a later diagram: the fibre is written **GL̃(4,ℝ)/Spin(1,3)**.
+  The draft's opening table has "L = Sl(2,ℂ) Lorentz Group". Informal, our computation, reading GL̃(4,ℝ)
+  as GL̃⁺(4,ℝ) since X⁴ is oriented (the "connected two-fold double cover" of GL(N,ℝ) on p. 20 cannot be
+  literal, as GL(N,ℝ) has two components): if Spin(1,3) is
+  the connected Sl(2,ℂ), this quotient is GL⁺(4,ℝ)/SO₀(1,3) ≃ S³, which is the *time- and space-oriented*
+  metrics, i.e. the double cover Phase 5 builds, and not the metrics the draft defines Y by. If Spin(1,3)
+  is the two-component cover of SO(1,3), it is GL⁺(4,ℝ)/SO(1,3) ≃ RP³, the metrics themselves. The draft
+  does not say which. So the draft's notation may already contain the resolution, or may conceal the
+  obstruction; this is a reading, not a claim about intent.
+- p. 25: "all that has been chosen is the signature of a (1, 3)-metric". The time orientation is not
+  listed as a choice.
+
+**A claim that conflicts with this**
+- S. Austermann, *Pati-Salam gauge unification from the Lorentzian DeWitt metric*, Phys. Lett. B 877
+  (2026) 140447: "The fibre F = GL⁺(4,ℝ)/SO(3,1) is contractible and contributes no topological
+  multiplicity." This contradicts Steenrod via Torre, and the elementary (informal) computation GL⁺(4)/SO(3,1) ≃
+  SO(4)/S(O(1)×O(3)) ≅ RP³ (contractible is the *Riemannian* fibre GL⁺(4)/SO(4)). Our Lean holonomy
+  theorem does not itself state non-contractibility. We make no claim about the paper's other results;
+  its (6,4) signature agrees with ours (A2 context). Single-author, not checked further.
+
+**Searched for and not found** (weak negatives: a few searches, English, open web)
+- Any statement that the chimeric or DeWitt-type (7,7) bundle over Lorentzian metrics is not
+  time-orientable, or that C⁺ has nonzero w₁ on the metric bundle.
+- Any critic of GU discussing the SO₀ reduction or time orientation. Nguyen–Polya does not; Woit's post
+  ?p=5927 and its comments do not (full-text search of the page); Physics Forums, Substack explainers do not (search
+  summaries only).
+- Any treatment by Weinstein of time orientation. A summary of the 2020 talk mentions a "double cover";
+  it is an AI-generated summary and it was not confirmed, and `transcript.txt` in this repo has no hit
+  for "orientab", "time orient", "double cover" or "spin structure".
+- DeWitt-signature papers: Giulini (gr-qc/9311017), Giulini–Kiefer (gr-qc/9405040), Hartle–Miller–
+  Williams (gr-qc/9609028): signature results only, nothing on orientability of the subbundles (search summaries, not read in full).
+- Not checked: Steenrod's text, Weinstein's later talks, non-English sources, paywalled journals.
+
+**Status of C5 relative to this:** RP³ is classical, the double cover of one spacetime is classical, the
+universal two-component spinor bundle exists. The specific statement that a Spin⁺(7,7) structure on the
+chimeric bundle cannot exist over all of Y13 for nonempty X, with its Lean proof, was not found in what
+we read. That is "not found", not "new"; an expert should confirm (see "Before any publication").
 
 ## Before any publication
 
