@@ -124,3 +124,7 @@ import GU.Bundle.FramePrincipal
 import GU.Bundle.AdaptedBundle
 import GU.Bundle.AdaptedSection
 import GU.Bundle.AdaptedReduction
+import GU.Bundle.AdaptedGram
+import GU.Bundle.BlockGroup
+import GU.Bundle.AdaptedManifold
+import GU.Bundle.AdaptedPrincipal

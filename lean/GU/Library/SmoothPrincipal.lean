@@ -50,7 +50,8 @@ variable {IB : ModelWithCorners 𝕜 EB HB} {IG : ModelWithCorners 𝕜 EG HG}
 local sections of `P` with values in `Q` (`locSec`; so `Q` meets every fibre). This is a
 local-section characterisation; it is equivalent to the sub-bundle definition (a principal
 `H`-bundle with an equivariant embedding into `P`) when `H` is an embedded Lie subgroup, which is
-not proved here. `SmoothReduction.locTriv` derives smooth local trivialisations whose division maps
+not proved here in general (for the adapted frames the sub-bundle is built directly:
+`adaptedBundle`, `adaptedSubBundle`). `SmoothReduction.locTriv` derives smooth local trivialisations whose division maps
 are `H`-valued on `Q` (smooth as `G`-valued maps). -/
 structure SmoothReduction (Pb : SmoothPrincipalBundle IB IG IP B G P) (H : Subgroup G) where
   carrier : Set P

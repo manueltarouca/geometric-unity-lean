@@ -11,8 +11,9 @@ adapted sections (`adapted_locSec`, from `exists_local_section_adapted`). So
 `SmoothReduction.locTriv` gives smooth local trivialisations whose division maps are
 `Gblk`-valued on `AFr`. The aligned Pati–Salam groups act on the carrier
 (`adaptedReduction_PS6'`, `_PS4'`, via `PS6'_le_Gblk`, `PS4'_le_Gblk`).
-**Not shown**: that `AFr` is an embedded submanifold, or `Gblk` an embedded Lie subgroup (only
-closed, `isClosed_Gblk`), so there is no `SmoothPrincipalBundle … Gblk AFr` object yet.
+The smooth sub-bundle itself (AFr as a regular-level submanifold, structure group the Lie group
+`O(6,4) × O(1,3)`, mapped injectively onto `Gblk` by `ιB`) is `adaptedBundle`/`adaptedSubBundle` in
+`AdaptedPrincipal.lean`.
 -/
 
 namespace GU.Library

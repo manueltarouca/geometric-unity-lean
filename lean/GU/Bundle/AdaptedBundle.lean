@@ -6,8 +6,8 @@ import GU.Bundle.AdaptedFrames
 
 `Gblk ≤ O77`: matrices with no entries between the horizontal indices `SH = {6, 11, 12, 13}` and
 the rest. `η₇₇` has signature (1,3) on `SH` and (6,4) on `SHᶜ = {0..5} ∪ {7..10}`
-(`SH_signature`), so `Gblk` is the block group `O(6,4) × O(1,3)` in the `Φ` basis (this
-identification is by these index counts; no `MulEquiv` is stated). Results:
+(`SH_signature`), so `Gblk` is the block group `O(6,4) × O(1,3)` in the `Φ` basis (formally:
+`range_ιB`, proved downstream in `BlockGroup.lean`, `ιB : O(6,4) × O(1,3) →* O77` injective). Results:
 * `Gblk` is closed (`isClosed_Gblk`) and preserves adapted frames (`ractM_mem_AFr_blk`);
 * an `O77`-element relating two adapted frames lies in `Gblk` (`mem_Gblk_of_ractM_mem_AFr`), so
   adapted frames over one point differ by `Gblk` (`adapted_fibre_transitive`);
