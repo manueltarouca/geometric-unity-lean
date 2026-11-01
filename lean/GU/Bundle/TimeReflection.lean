@@ -12,10 +12,9 @@ Lorentz frame through `rR = diag(1, −1, 1, 1)`, which preserves time.
 Contrast `gHol`, the time-reversing holonomy, where `tdet = −1` (`tdet_gHol`).
 
 So reflection does not reverse the orientation of the positive part of `C`, and orientability of `X`
-is expected not to be needed (informal; see the log). Not formalised: the general-`X` reduction, the
-chart transition of frames, that `gRefl ∈ SO₀`, that every time-preserving Lorentz transformation
-has positive block determinants, and that the identity component of `O(1,3)` maps into `SO₀` (by
-connectedness and continuity of `TP`).
+is not needed. All of this is now proved: `gRefl_mem_SO0`, `lorO_mem_SO0` (every orthochronous Lorentz
+transformation acts through `SO₀`), `Tz_eq_TP` (chart transitions of frames) and the general-`X`
+reduction `redT_reduction` (`TimeCoverReduction.lean`).
 -/
 
 namespace GU.Library
