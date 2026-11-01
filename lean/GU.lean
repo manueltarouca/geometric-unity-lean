@@ -145,3 +145,4 @@ import GU.Bundle.SmoothSpin
 import GU.Bundle.SpinLargest
 import GU.Bundle.TimeGaugeLargest
 import GU.Bundle.SO0Reduction
+import GU.Bundle.SpinNonIso

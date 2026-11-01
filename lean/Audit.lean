@@ -514,3 +514,8 @@ open GU
 #print axioms GU.Library.reduction_of_spinLiftData
 #print axioms GU.Library.no_spinLiftData_of_univ
 #print axioms GU.Library.exists_reduction_timeGaugeLocus
+#print axioms GU.Library.holeW_nonempty
+#print axioms GU.Library.holeLoop_not_nullhomotopic
+#print axioms GU.Library.not_simplyConnected_holeW
+#print axioms GU.Library.holeSign_not_coboundary
+#print axioms GU.Library.not_iso_holeSpin
