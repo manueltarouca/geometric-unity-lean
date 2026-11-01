@@ -531,3 +531,16 @@ open GU
 #print axioms GU.Library.mem_futureCone_or
 #print axioms GU.Library.isManifold_tilde
 #print axioms GU.Library.isLocalDiffeomorph_tilde
+#print axioms GU.Library.convex_future
+#print axioms GU.Library.exists_future_covector
+#print axioms GU.Library.exists_frame_tilde
+#print axioms GU.Library.QT_reduction
+#print axioms GU.Library.exists_SO0_reduction_cover
+#print axioms GU.Library.deck_not_SO0
+#print axioms GU.Library.coverSpin
+#print axioms GU.Library.coverSpin_Φ_eq_iff
+#print axioms GU.Library.range_coverSpin
+#print axioms GU.Library.TP_rR
+#print axioms GU.Library.tdet_gRefl
+#print axioms GU.Library.ndet_gRefl
+#print axioms GU.Library.det_gRefl

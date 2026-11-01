@@ -147,3 +147,5 @@ import GU.Bundle.TimeGaugeLargest
 import GU.Bundle.SO0Reduction
 import GU.Bundle.SpinNonIso
 import GU.Bundle.TimeCover
+import GU.Bundle.TimeCoverSpin
+import GU.Bundle.TimeReflection
