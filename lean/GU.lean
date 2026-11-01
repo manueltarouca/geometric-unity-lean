@@ -128,3 +128,4 @@ import GU.Bundle.AdaptedGram
 import GU.Bundle.BlockGroup
 import GU.Bundle.AdaptedManifold
 import GU.Bundle.AdaptedPrincipal
+import GU.Bundle.SpinStructure

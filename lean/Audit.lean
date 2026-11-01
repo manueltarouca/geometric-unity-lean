@@ -432,3 +432,9 @@ open GU
 #print axioms GU.Library.adaptedBundle_PS4'
 #print axioms GU.Library.fibreDim_AFrM
 #print axioms GU.Library.ιinv_mul
+#print axioms GU.Library.spinLift_defect_mem
+#print axioms GU.Library.SpinLiftData.spin_lift
+#print axioms GU.Library.SpinLiftData.isCoveringMap_Φ
+#print axioms GU.Library.spin_structure_of_lift
+#print axioms GU.Library.SpinLiftData.ofGlobalSection
+#print axioms GU.Library.SpinLiftData.continuous_actS₂
