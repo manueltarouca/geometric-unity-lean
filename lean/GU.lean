@@ -131,3 +131,4 @@ import GU.Bundle.AdaptedPrincipal
 import GU.Bundle.SpinStructure
 import GU.Bundle.SpinConverse
 import GU.Bundle.SpinTwist
+import GU.Bundle.Immersions

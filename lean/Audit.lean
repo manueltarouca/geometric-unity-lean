@@ -451,4 +451,8 @@ open GU
 #print axioms GU.Library.SpinStructure.Φ_eq_iff
 #print axioms GU.Library.SpinStructure.isCoveringMap_Φ
 #print axioms GU.Library.nonempty_data_iff_nonempty_structure
+#print axioms GU.Library.injective_mfderiv_of_chart_factor
+#print axioms GU.Library.injective_mfderiv_frameA
+#print axioms GU.Library.injective_mfderiv_inclA
+#print axioms GU.Library.injective_mfderiv_ιB
 #print axioms GU.Library.defect_of_lifts

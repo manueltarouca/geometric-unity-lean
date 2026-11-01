@@ -10,7 +10,7 @@ import GU.Bundle.AdaptedGram
 * **`ιB : Gp →* O77`**, injective (`ιB_injective`), smooth (`contMDiff_ιB`), with range the closed
   subgroup `Gblk` (`range_ιB`); a block inverse `ιinv` with `ιB (ιinv g) = g` on `Gblk`
   (`ιB_ιinv`), multiplicative there (`ιinv_mul`), and smooth along maps with values in `Gblk`
-  (`contMDiffOn_ιinv_comp`). (That `ιB` is an immersion is not stated.)
+  (`contMDiffOn_ιinv_comp`). (`ιB` has injective derivative: `injective_mfderiv_ιB`, `Immersions.lean`.)
 -/
 
 namespace GU.Library
@@ -133,7 +133,7 @@ lemma blkM_apply (A : Matrix (Fin 10) (Fin 10) ℝ) (B : Matrix (Fin 4) (Fin 4) 
   by_cases hi : i ∈ SH <;> by_cases hj : j ∈ SH <;>
     simp [blkM, hi, hj, e14_symm_of_mem, e14_symm_of_not_mem]
 
-/-! ### The embedding `ιB : O(6,4) × O(1,3) → O(7,7)` -/
+/-! ### The block homomorphism `ιB : O(6,4) × O(1,3) → O(7,7)` -/
 
 /-- The block matrix of `g ∈ Gp`. -/
 def ιBmat (g : Gp) : Mat 14 :=

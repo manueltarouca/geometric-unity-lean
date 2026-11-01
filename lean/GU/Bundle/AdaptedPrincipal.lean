@@ -5,14 +5,15 @@ import GU.Bundle.AdaptedManifold
 
 **`adaptedBundle`**: `AFrM → Y13` (the adapted orthonormal frames, a smooth submanifold of
 `HomTotM` by `fA_regular`) is a `SmoothPrincipalBundle` with group the Lie group
-`Gp = O(6,4) × O(1,3)`, acting through the block embedding `ιB : Gp →* O77` (injective, smooth,
+`Gp = O(6,4) × O(1,3)`, acting through the block homomorphism `ιB : Gp →* O77` (injective, smooth,
 range `Gblk`). Local triviality comes from `adaptedReduction.locTriv` (adapted local sections and
 `Gblk`-valued division maps), pulled back along the smooth block inverse `ιinv`.
 **`adaptedSubBundle`**: the inclusion `inclA : AFrM → OFr` is smooth, injective, covers the
 identity of `Y13`, and is `ιB`-equivariant, i.e. `AFrM` is a smooth principal sub-bundle of the
 frame bundle `OFr`, the structure group `O(6,4) × O(1,3)` mapping into `O(7,7)` by the injective
-smooth homomorphism `ιB` onto the closed subgroup `Gblk` (immersivity of `ιB`, `inclA` is not
-stated). The aligned Pati–Salam groups `PS6', PS4' ≤ Gblk = range ιB` act on it through the
+smooth homomorphism `ιB` onto the closed subgroup `Gblk`; both `ιB` and `inclA` are immersions
+(`injective_mfderiv_ιB`, `injective_mfderiv_inclA`, `Immersions.lean`). The aligned Pati–Salam
+groups `PS6', PS4' ≤ Gblk = range ιB` act on it through the
 homomorphism `ιinv` on `Gblk` (`PS6'_le_range_ιB`, `adaptedBundle_PS6'`, `ιinv_mul`).
 -/
 
