@@ -488,3 +488,12 @@ open GU
 #print axioms GU.Library.exists_smoothSpin_near
 #print axioms GU.Library.SpinLiftData.range_Φ_act_mem
 #print axioms GU.Library.SpinLiftData.range_Φ_transitive
+#print axioms GU.Library.no_largest_spinStructure
+#print axioms GU.Library.etaF_neg
+#print axioms GU.Library.mem_gaugeSet_iff
+#print axioms GU.Library.exists_spinLiftData_R4
+#print axioms GU.Library.twoChart
+#print axioms GU.Library.twoCharts_iso
+#print axioms GU.Library.twoCharts_lift_ne
+#print axioms GU.Library.exists_twoChart_near
+#print axioms GU.Library.no_largest_frameSet

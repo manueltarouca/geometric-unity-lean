@@ -8,7 +8,7 @@ a spin structure (`exists_spinLiftData_near`, `exists_spinStructure_near`), from
 of the frame bundle (`frame_locTriv`) with trivial lifts (`SpinLiftData.ofSection`). Together with
 `no_spinStructure_univ`, this says a spin structure (for the connected group `Spin77`, i.e. `Spin⁺(7,7)`)
 exists locally on `Y13` but not on all of it when `X` is nonempty. These instances use one chart and
-trivial lifts, so the cocycle and coboundary content is not exercised by them.
+trivial lifts; `SpinLargest.lean` has a two-chart instance with constant lifts `≠ 1` (a trivial gluing).
 -/
 
 namespace GU.Library

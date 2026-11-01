@@ -29,13 +29,13 @@ noncomputable section
 variable {X : Type} [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
   [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X]
 
-/-- **A spin structure on the frame bundle over an open `W ⊆ Y13`** (`W` cannot be all of `Y13`:
+/-- **A spin structure on the frame bundle over an open `W ⊆ Y13`** (for nonempty `X`, `W` cannot be all of `Y13`:
 `no_spinStructure`): a principal `Spin(7,7)`-bundle `P → W`
 (local trivialisations `e i` over an open cover in which the action is right multiplication) with a
 continuous, base-preserving, `ρ`-equivariant map `Φ : P → OFr`. Not assumed, but derived: freeness
 (`act_free`), the two-point fibres of `Φ` (`Φ_eq_iff`), that `Φ` covers an `SO₀`-reduction
-(`range_Φ_eq`, `isCoveringMap_Φ`). `act_one`, `act_mul`, `proj_act`, `continuous_act` are in fact
-redundant given `e_act`; they are kept for convenience. -/
+(`range_Φ_eq`, `isCoveringMap_Φ`). `act_one`, `act_mul`, `continuous_act` are in fact
+redundant given `e_act` and `proj_act`; they are kept for convenience. -/
 structure SpinStructure (X : Type) [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
     [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X] where
   W : Set (Y13o X)

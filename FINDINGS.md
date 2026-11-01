@@ -70,7 +70,7 @@ pointwise), not to the old blocks.
 - ~~The principal O(7,7)-bundle structure.~~ Done (`frameBundle`, `localTriv_diffeo`).
 - The time-orientation double cover of Y13 (fibre S³ up to homotopy, informal), the natural base for an SO₀-reduction and a spin structure: not formalised (plan item W3).
 - w₁, w₂, ℤ/2 cohomology of manifolds: not available in the pinned Mathlib, so not defined here. Statements about them in this repo are informal. The formal content is cocycle data and an explicit holonomy.
-- Spin-structure instances so far use one chart with trivial cocycle, so the cocycle and coboundary theorems are not yet exercised by a multi-chart example.
+- No nontrivial gluing has been exercised: instances use one chart, or two charts with a trivial gluing. No example yet of two non-isomorphic spin structures on the same frames.
 
 ## F. Phases 3–4: claim-to-theorem map (`GU/Bundle/`, Lean-checked, standard axioms only)
 
@@ -82,7 +82,9 @@ pointwise), not to the old blocks.
 | Φ is a double cover: fibres {p, p·(−1)}, covering map onto its image | `Φ_eq_iff`, `isCoveringMap_Φ` | |
 | Defect of lifts lies in {±1} and changes by δη; same frames give isomorphic structures iff the lifts differ by a coboundary | `spinLift_defect_mem`, `defect_of_lifts`, `iso_iff_coboundary` | Identification with w₂ and H¹(·; ℤ/2) is informal |
 | No spin structure over all of Y13 | C5 above | |
-| Spin structures exist near every point, and over a chart-local time-gauge locus | `exists_spinStructure_near`, `exists_spinLiftData_gauge`, `gaugeP_eq` | The locus is neither maximal nor canonical |
+| Spin structures exist near every point, and over a time-gauge locus; for X = ℝ⁴ on all of `{G₀₀ > 0}` | `exists_spinStructure_near`, `exists_spinLiftData_gauge`, `mem_gaugeSet_iff`, `exists_spinLiftData_R4` | Natural but not canonical: it depends on the coordinate `x⁰` |
+| There is no largest open subset of Y13 with a spin structure or a global frame | `no_largest_spinStructure`, `no_largest_frameSet` | A canonical base, the double cover of Y13, is open |
+| Two charts with constant lift t; a sign change alters the lift but gives an isomorphic structure | `twoChart`, `twoCharts_iso`, `twoCharts_lift_ne`, `exists_twoChart_near` | Same domain and a Spin77-coboundary, so the gluing is trivial; not a nontrivial gluing |
 | Spin(7,7) is a Lie group; ρ is a local diffeomorphism with image SO₀ | `lieGroup_spin`, `isLocalDiffeomorph_ρ`, `range_ρ` | Stated into O77, where SO₀ is open |
 | Smooth data gives a smooth principal Spin(7,7)-bundle over W, Φ a local diffeomorphism | `smoothSpinBundle`, `isLocalDiffeomorph_Φ`, `exists_smoothSpin_near` | |
 
