@@ -153,3 +153,5 @@ import GU.Bundle.LorentzFrames
 import GU.Bundle.LorentzPaths
 import GU.Bundle.TimeCoverReduction
 import GU.Bundle.Y13Hausdorff
+import GU.Bundle.SpinGeneric
+import GU.Bundle.CoverSpinAPI

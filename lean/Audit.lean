@@ -564,3 +564,16 @@ open GU
 #print axioms GU.Library.t2_Ytilde
 #print axioms GU.Library.t2_Sym2TX
 #print axioms GU.Library.t2_Ytilde_R4
+#print axioms GU.Library.ofrFS
+#print axioms GU.Library.Gen.SpinStructure.Φ_eq_iff
+#print axioms GU.Library.Gen.SpinStructure.isCoveringMap_Φ
+#print axioms GU.Library.Gen.exists_data_iff_exists_structure
+#print axioms GU.Library.coverFS
+#print axioms GU.Library.CoverSpin.Φ_eq_iff
+#print axioms GU.Library.CoverSpin.isCoveringMap_Φ
+#print axioms GU.Library.coverSpin_iff_data
+#print axioms GU.Library.coverSpin_Φ_eq_iff_actS
+#print axioms GU.Library.exists_gen_data_near
+#print axioms GU.Library.CoverSpin.isoToData
+#print axioms GU.Library.isCoveringMap_coverSpin
+#print axioms GU.Library.exists_data_cover_R4

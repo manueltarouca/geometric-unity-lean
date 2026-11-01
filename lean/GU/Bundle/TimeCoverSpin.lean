@@ -665,9 +665,8 @@ variable {X : Type} [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
   [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X]
 
 /-- **A spin structure on the frames pulled back to the cover**: `SpinStructure` with base `Ytilde X` in
-place of an open subset of `Y13`. An instance over `ℝ⁴` is `coverSpin`. The general lemmas of
-`SpinStructure` (`Φ_eq_iff`, `isCoveringMap_Φ`) are not ported; for `coverSpin` the first is
-`coverSpin_Φ_eq_iff`. -/
+place of an open subset of `Y13`. An instance over `ℝ⁴` is `coverSpin`. The general lemmas are in
+`CoverSpinAPI.lean`: `CoverSpin.Φ_eq_iff`, `CoverSpin.isCoveringMap_Φ`, `coverSpin_iff_data`. -/
 structure CoverSpin (X : Type) [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
     [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X] where
   P : Type
