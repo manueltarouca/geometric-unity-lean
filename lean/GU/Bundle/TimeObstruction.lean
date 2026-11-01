@@ -1,7 +1,7 @@
 import GU.Bundle.MetricLoopChim
 
 /-!
-# Phase 4, item 4: no `SO₀`-reduction of the frame bundle over all of `Y13`
+# Phase 4, item 4: no `Spin⁺(7,7)` structure over all of `Y13`
 
 The loop of metrics `Rθ ηR Rθᵀ`, `θ ∈ [0, π]`, in one fibre of `Y13` has frame holonomy `gHol ∉ SO₀`
 (`qLoop_pi`, `gHol_not_mem_SO0`): rotating the timelike axis by `π` reverses the time orientation.
