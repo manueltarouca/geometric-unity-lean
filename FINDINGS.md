@@ -41,14 +41,15 @@ nothing here proves or refutes GU as a physical theory.
 | C2 | The image of Spin(7,7) in O(7,7) is exactly SO⁺ (the spinor-norm kernel), of index 2 in SO. It equals the identity component SO₀, both connected and path component. | `range_vecRep`, `cc_iff_spin` |
 | C3 | Pati–Salam at the group level. Spin6 and Spin4 inside Spin(7,7) commute and meet in ±1. Spin6 ≅ Mathlib's Spin(6) ≅ SU(4); Spin4 ≅ SU(2) × SU(2). | `product_kernel`, `spin6Equiv`, `Spin6SU4`, `spin4SU2Equiv` |
 | C4 | Hypercharge circle U(1)_Y ⊂ Spin(7,7) has minimal period π. The maximal torus kernel on U(1)⁵ is (ℤ/2)⁴. | `U1Y_eq_one_iff`, `torusKer_quot_equiv_four` |
+| C5 | **No Spin⁺(7,7) structure (equivalently no cocycle lift, `SpinLiftData`) exists over the full (1,3) observerse, for any nonempty X, including ℝ⁴.** Rotating the timelike axis by π in one fibre gives a closed loop of Lorentzian metrics whose frame holonomy reverses the orientation of the positive 7-plane (positive-block determinant −1; determinant 1 overall, informal), so it lies outside SO₀(7,7). The same argument excludes any SO₀(7,7)-reduction as required by §3.6, but that is not stated separately in Lean. Limits: this concerns the connected group; a two-component Spin(7,7) → SO(7,7) structure is not excluded (not formalised); it holds as formalised, for the chimeric (7,7) metric on C with the fibre of all (1,3) metrics. We make no claim that it is new. | `no_spinStructure_univ`, `no_spinLiftData`, `qLoop_pi`, `gHol_not_mem_SO0` |
 
 ## D. Underspecified in the draft (not formalisable as stated)
 
 The Shiab family in (8.1) is only a template. The operator D_ω in (9.6) is not given. The fermionic
 quadrant of (9.16) is left open. Integration over the non-compact fibres of Y is unaddressed. There
-is no anomaly-cancellation mechanism. The global spin structure (w₂) is not discussed. (External, unverified: disruptionjoe/gu-formalization `canon/w2-y14-spin-structure.md`
+is no anomaly-cancellation mechanism. The global spin structure is not discussed; as formalised it fails over all of Y13 before w₂ even arises (C5). (External, unverified: disruptionjoe/gu-formalization `canon/w2-y14-spin-structure.md`
 argues w₂(Y¹⁴) = π*w₂(X⁴), i.e. Y spin iff X spin, with only the mod-2 polynomial identities in Lean;
-they retracted an earlier, unconditional version.) Details:
+they retracted an earlier, unconditional version. That concerns the Riemannian spin structure of TY, structure group Spin(14), and is a separate question from C5, which concerns (C, chimeric (7,7) metric) and the orientation of its positive part.) Details:
 `PHASE1_BLUEPRINT.md`, "Omitted constructs".
 
 ## E2. Internal consistency note (Lean-checked)
@@ -65,8 +66,27 @@ pointwise), not to the old blocks.
 
 ## E. Not done / open
 
-- The global spin lift (w₂).
-- ~~The submanifold structure of the orthonormal frames.~~ Done: the (7,7)-orthonormal frames of C form a smooth 105-dimensional submanifold of the frame bundle (`isManifold_orthoFrames`, `contMDiff_orthoFrames_val`; regular value theorem `isManifold_regularLevel`). Still open: the principal O(7,7)-bundle structure (action, local triviality).
+- ~~The submanifold structure of the orthonormal frames.~~ Done (`isManifold_orthoFrames`, dimension 105).
+- ~~The principal O(7,7)-bundle structure.~~ Done (`frameBundle`, `localTriv_diffeo`).
+- The time-orientation double cover of Y13 (fibre S³ up to homotopy, informal), the natural base for an SO₀-reduction and a spin structure: not formalised (plan item W3).
+- w₁, w₂, ℤ/2 cohomology of manifolds: not available in the pinned Mathlib, so not defined here. Statements about them in this repo are informal. The formal content is cocycle data and an explicit holonomy.
+- Spin-structure instances so far use one chart with trivial cocycle, so the cocycle and coboundary theorems are not yet exercised by a multi-chart example.
+
+## F. Phases 3–4: claim-to-theorem map (`GU/Bundle/`, Lean-checked, standard axioms only)
+
+| Claim | Theorem | Caveat |
+|---|---|---|
+| Orthonormal frames over Y13 are a smooth principal O(7,7)-bundle | `frameBundle`, `localTriv_diffeo` | |
+| Adapted frames are a smooth 65-dimensional principal O(6,4)×O(1,3) sub-bundle; the aligned Pati–Salam groups act | `adaptedBundle`, `adaptedSubBundle`, `fibreDim_AFrM`, `adaptedBundle_PS6'`, `adaptedBundle_PS4'` | Inclusion and `ιB` are immersions (`injective_mfderiv_inclA`, `injective_mfderiv_ιB`); topological embedding not stated |
+| Cocycle lifts ⇔ spin structures over an open W ⊂ Y13; every spin structure is isomorphic to the one glued from its cocycle | `spin_structure_of_lift`, `exists_data_iff_exists_structure`, `SpinStructure.isoToData` | Spin means the connected `Spin77` = Spin⁺(7,7). Image of Φ is the SO₀-reduction determined by the sections, not all of OFr |
+| Φ is a double cover: fibres {p, p·(−1)}, covering map onto its image | `Φ_eq_iff`, `isCoveringMap_Φ` | |
+| Defect of lifts lies in {±1} and changes by δη; same frames give isomorphic structures iff the lifts differ by a coboundary | `spinLift_defect_mem`, `defect_of_lifts`, `iso_iff_coboundary` | Identification with w₂ and H¹(·; ℤ/2) is informal |
+| No spin structure over all of Y13 | C5 above | |
+| Spin structures exist near every point, and over a chart-local time-gauge locus | `exists_spinStructure_near`, `exists_spinLiftData_gauge`, `gaugeP_eq` | The locus is neither maximal nor canonical |
+| Spin(7,7) is a Lie group; ρ is a local diffeomorphism with image SO₀ | `lieGroup_spin`, `isLocalDiffeomorph_ρ`, `range_ρ` | Stated into O77, where SO₀ is open |
+| Smooth data gives a smooth principal Spin(7,7)-bundle over W, Φ a local diffeomorphism | `smoothSpinBundle`, `isLocalDiffeomorph_Φ`, `exists_smoothSpin_near` | |
+
+Correction on record: the spin-lift theorem of commit 9b35485 and the first versions of Phase 4 items 1–2 were stated over all of Y13, so by C5 their hypotheses could not hold for nonempty X and they were vacuous; reviews 64–66 missed this. They were restated over an open base W in bcdbfd6.
 
 ## Literature comparison (first pass, 2026-10-31)
 
@@ -91,7 +111,7 @@ Status of our items relative to it:
   the Shiab *operator*: Clifford products of u-elements leave u (Λ¹·Λ² ∋ Λ³, whose u-slot is
   imaginary), so the operator still needs an i inserted by hand (compare B3's anticommutator).
 - **Known (N–P):** anomaly concerns (objection 2; our blueprint row "anomaly cancellation absent");
-  w₂ / spin structure (our open item E); "spinors need a choice of connection" (our blueprint B5,
+  w₂ / spin structure (our C5 and the open items in E); "spinors need a choice of connection" (our blueprint B5,
   "semi-canonical").
 - **Not in N–P, and plausibly new** (they predate the draft and treat these points only generically
   under "omissions"): A1 (§6–7 sign inconsistency, with an explicit repair), A2 ((7,3) vs (6,4)),

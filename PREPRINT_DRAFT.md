@@ -27,7 +27,8 @@ The same process exposes several concrete defects in the draft as printed:
 We also make precise points the draft leaves implicit. The chimeric (7,7) structure admits
 orthonormal frames exactly over the (1,3) points of Y, so Lorentzian signature is *selected*. And
 the printed Shiab, with Hodge stars, outputs the Einstein tensor for every algebraic curvature
-tensor (n = 4, Euclidean), but only with mixed bracket conventions. We do not claim to prove or
+tensor (n = 4, Euclidean), but only with mixed bracket conventions. And no Spin⁺(7,7) structure on
+the chimeric bundle exists over the whole (1,3) observerse, for any nonempty X (§4). We do not claim to prove or
 refute GU as physics.
 
 ## 1. Introduction (outline)
@@ -53,6 +54,9 @@ refute GU as physics.
   anomaly-free, sin²θ_W = 3/8, with the hypercharge direction forced.
 
 ## 4. Group-level structure made precise
+- No Spin⁺(7,7) structure over all of the (1,3) observerse for nonempty X: a closed loop of Lorentzian
+  metrics in one fibre has frame holonomy outside SO₀(7,7) (`no_spinStructure_univ`, `qLoop_pi`). A
+  two-component Spin(7,7) is not excluded. Spin structures exist over smaller open sets (`exists_spinStructure_near`, `exists_smoothSpin_near`).
 - Spin(7,7) → SO(7,7) has kernel ±1, and its image is exactly SO₀(7,7), both connected and path
   component (`range_vecRep`, `cc_iff_spin`).
 - Pati–Salam:
@@ -75,8 +79,11 @@ exists) the one-line repair.
 
 ## 6. Underspecified constructs
 The Shiab family (8.1); D_ω in (9.6); the fermionic quadrant (9.16); integration over the
-non-compact fibres; no anomaly-cancellation mechanism; global spin structure (w₂); submanifold
-structure of the frame bundle (blocked on Mathlib infrastructure).
+non-compact fibres; no anomaly-cancellation mechanism; the global spin structure. As formalised, no
+Spin⁺(7,7) structure exists over all of the (1,3) observerse for any nonempty X
+(`no_spinStructure_univ`: a loop of Lorentzian metrics in one fibre has holonomy outside SO₀(7,7));
+one exists over smaller open sets. A two-component Spin(7,7) is not excluded, and w₂ itself is not
+formalised.
 
 ## 7. Relation to prior critiques (to be completed by an expert)
 - Nguyen–Polya (2021):
