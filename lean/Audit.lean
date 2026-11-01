@@ -519,3 +519,15 @@ open GU
 #print axioms GU.Library.not_simplyConnected_holeW
 #print axioms GU.Library.holeSign_not_coboundary
 #print axioms GU.Library.not_iso_holeSpin
+#print axioms GU.Library.isCoveringMap_tilde
+#print axioms GU.Library.ncard_fibre
+#print axioms GU.Library.future_pt
+#print axioms GU.Library.eq_of_future_eq
+#print axioms GU.Library.exists_lift_yO
+#print axioms GU.Library.no_closed_lift
+#print axioms GU.Library.no_section
+#print axioms GU.Library.piT_surjective
+#print axioms GU.Library.mem_future_iff_localTriv
+#print axioms GU.Library.mem_futureCone_or
+#print axioms GU.Library.isManifold_tilde
+#print axioms GU.Library.isLocalDiffeomorph_tilde
