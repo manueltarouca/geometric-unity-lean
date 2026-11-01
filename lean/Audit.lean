@@ -443,6 +443,12 @@ open GU
 #print axioms GU.Library.SpinStructure.range_Φ_eq
 #print axioms GU.Library.SpinStructure.isoToData
 #print axioms GU.Library.exists_data_iff_exists_structure
+#print axioms GU.Library.lifts_differ_by_sign
+#print axioms GU.Library.mul_defect
+#print axioms GU.Library.coboundary_defect
+#print axioms GU.Library.SpinLiftData.twistIso
+#print axioms GU.Library.SpinLiftData.iso_iff_coboundary
 #print axioms GU.Library.SpinStructure.Φ_eq_iff
 #print axioms GU.Library.SpinStructure.isCoveringMap_Φ
 #print axioms GU.Library.nonempty_data_iff_nonempty_structure
+#print axioms GU.Library.defect_of_lifts

@@ -130,3 +130,4 @@ import GU.Bundle.AdaptedManifold
 import GU.Bundle.AdaptedPrincipal
 import GU.Bundle.SpinStructure
 import GU.Bundle.SpinConverse
+import GU.Bundle.SpinTwist
