@@ -5,17 +5,18 @@ import GU.Spinor.TorusKernel
 /-!
 # Phase 3, item 4: the spin structure (w₂ = 0 in cocycle form ⇒ a Spin(7,7) double cover)
 
-**Data** (`SpinLiftData`): an open cover `V i` of `Y13`, continuous local sections `σ i` of the
+**Data** (`SpinLiftData`): an open `W ⊆ Y13` (for nonempty `X`, not all of `Y13`: `no_spinLiftData`), an open cover
+`V i` of `W`, continuous local sections `σ i` of the
 frame bundle `OFr` over `V i`, and continuous `Spin(7,7)`-valued lifts `h i j` of the transition
 functions (`σ j = σ i · ρ(h i j)` on `V i ∩ V j`, `ρ = spinToO77`). For *any* such lifts the
 defect `h i j · h j k · (h i k)⁻¹` lies in `{±1}` (`spinLift_defect_mem`): informally the Čech
 `ℤ/2`-cochain whose class is `w₂` (`w₂` itself is not formalised). Since `ρ` lands in `SO₀`, the
 data also fix an `SO₀(7,7)`-reduction of `OFr` (orientation and time orientation). **Hypothesis**:
 the lifts can be chosen with trivial defect (`cocycle`: `h i j · h j k = h i k`), i.e. "`SO₀`-reduction
-with `w₂ = 0`". The hypotheses are consistent (`ofGlobalSection`).
+with `w₂ = 0`". The hypotheses have instances over small `W` (`ofSection`, `SpinExamples.lean`).
 
 **Conclusion** (`spin_lift`, `spin_structure_of_lift`): a topological principal
-`Spin(7,7)`-bundle `P̃ → Y13` (`core`/`P`, glued by `FiberBundleCore`; jointly continuous right
+`Spin(7,7)`-bundle `P̃ → W` (`core`/`P`, glued by `FiberBundleCore`; jointly continuous right
 action `actS`, free, fibre-transitive, right multiplication in every local trivialisation) and a
 continuous, base-preserving, `ρ`-equivariant map `Φ : P̃ → OFr` whose fibres are exactly the two
 distinct points `{p, p·(−1)}` (`Φ_eq_iff`, `actS_negOne_ne`), whose image is the `SO₀`-reduction
@@ -81,14 +82,18 @@ lemma negOne_inv : negOne⁻¹ = negOne :=
 
 /-! ### The data -/
 
-/-- **Spin-lift data**: local sections of `OFr` over an open cover of `Y13` with continuous
-`Spin(7,7)` lifts of their transition functions satisfying the cocycle identity (`w₂ = 0`). -/
+/-- **Spin-lift data over an open `W ⊆ Y13`**: local sections of `OFr` over an open cover of `W` with
+continuous `Spin(7,7)` lifts of their transition functions satisfying the cocycle identity
+(`w₂ = 0`). `W` cannot contain a full loop of metrics in a fibre (`no_spinLiftData`). -/
 structure SpinLiftData (X : Type) [TopologicalSpace X] [ChartedSpace (Fin 4 → ℝ) X]
     [IsManifold (modelWithCornersSelf ℝ (Fin 4 → ℝ)) ∞ X] where
+  W : Set (Y13o X)
+  isOpen_W : IsOpen W
   ι : Type
   V : ι → Set (Y13o X)
   isOpen_V : ∀ i, IsOpen (V i)
-  cover : ∀ y, ∃ i, y ∈ V i
+  V_sub : ∀ i, V i ⊆ W
+  cover : ∀ y ∈ W, ∃ i, y ∈ V i
   σ : ι → Y13o X → OFr X
   cont_σ : ∀ i, ContinuousOn (σ i) (V i)
   proj_σ : ∀ i, ∀ y ∈ V i, projOFr (σ i y) = y
@@ -121,15 +126,16 @@ lemma h_self (i : D.ι) {y : Y13o X} (hy : y ∈ D.V i) : D.h i i y = 1 := by
   exact mul_eq_left.mp this
 
 /-- The glued `Spin(7,7)` bundle. -/
-def core : FiberBundleCore D.ι (Y13o X) Spin77 where
-  baseSet := D.V
-  isOpen_baseSet := D.isOpen_V
-  indexAt y := (D.cover y).choose
-  mem_baseSet_at y := (D.cover y).choose_spec
+def core : FiberBundleCore D.ι D.W Spin77 where
+  baseSet i := Subtype.val ⁻¹' D.V i
+  isOpen_baseSet i := (D.isOpen_V i).preimage continuous_subtype_val
+  indexAt y := (D.cover y y.2).choose
+  mem_baseSet_at y := (D.cover y y.2).choose_spec
   coordChange i j y s := (D.h i j y)⁻¹ * s
   coordChange_self i y hy s := by simp [D.h_self i hy]
   continuousOn_coordChange i j :=
-    (((D.cont_h i j).comp continuousOn_fst fun p hp => hp.1).inv).mul continuousOn_snd
+    (((D.cont_h i j).comp (continuous_subtype_val.comp_continuousOn continuousOn_fst)
+      fun p hp => hp.1).inv).mul continuousOn_snd
   coordChange_comp i j k y hy s := by
     rw [← mul_assoc, ← mul_inv_rev, D.cocycle i j k y hy]
 
@@ -148,16 +154,19 @@ def Φ (p : D.P) : OFr X := actOFr' (D.σ (D.core.indexAt p.proj) p.proj) (spinT
 lemma localTriv_apply' (i : D.ι) (p : D.P) :
     D.core.localTriv i p = (p.proj, (D.h (D.core.indexAt p.proj) i p.proj)⁻¹ * D.sp p) := rfl
 
+lemma mem_baseSet_at' (y : D.W) : (y : Y13o X) ∈ D.V (D.core.indexAt y) :=
+  D.core.mem_baseSet_at y
+
 /-- **Chart formula**: in the trivialisation `i`, `Φ (y, s) = σ i y · ρ(s)`. -/
-lemma Φ_chart (i : D.ι) {p : D.P} (hp : p.proj ∈ D.V i) :
+lemma Φ_chart (i : D.ι) {p : D.P} (hp : (p.proj : Y13o X) ∈ D.V i) :
     D.Φ p = actOFr' (D.σ i p.proj) (spinToO77 (D.core.localTriv i p).2) := by
   set a := D.core.indexAt p.proj
-  have ha : p.proj ∈ D.V a := D.core.mem_baseSet_at p.proj
+  have ha : (p.proj : Y13o X) ∈ D.V a := D.mem_baseSet_at' p.proj
   rw [localTriv_apply', D.lift a i p.proj ⟨ha, hp⟩, actOFr'_mul, ← map_mul, mul_inv_cancel_left]
   rfl
 
 lemma proj_Φ (p : D.P) : projOFr (D.Φ p) = p.proj :=
-  D.proj_σ _ _ (D.core.mem_baseSet_at p.proj)
+  D.proj_σ _ _ (D.mem_baseSet_at' p.proj)
 
 lemma Φ_actS (p : D.P) (t : Spin77) : D.Φ (D.actS p t) = actOFr' (D.Φ p) (spinToO77 t) := by
   show actOFr' _ (spinToO77 (D.sp p * t)) = _
@@ -195,7 +204,8 @@ lemma localTriv_actS (i : D.ι) (p : D.P) (t : Spin77) :
 theorem Φ_eq_iff (p q : D.P) : D.Φ p = D.Φ q ↔ q = p ∨ q = D.actS p negOne := by
   constructor
   · intro hpq
-    have hproj : p.proj = q.proj := by rw [← D.proj_Φ p, ← D.proj_Φ q, hpq]
+    have hproj : p.proj = q.proj :=
+      Subtype.ext (by rw [← D.proj_Φ p, ← D.proj_Φ q, hpq])
     have e : spinToO77 (D.sp p) = spinToO77 (D.sp q) := by
       unfold Φ at hpq; rw [hproj] at hpq; exact actOFr'_cancel hpq
     have e' : spinToO77 ((D.sp p)⁻¹ * D.sp q) = 1 := by rw [map_mul, map_inv, e, inv_mul_cancel]
@@ -215,10 +225,11 @@ theorem continuous_Φ : Continuous D.Φ := by
   set i := D.core.indexAt p.proj
   set e := D.core.localTriv i
   have hp : p ∈ e.source := D.core.mem_baseSet_at p.proj
-  have hF : ContinuousOn (fun z : Y13o X × Spin77 => actOFr' (D.σ i z.1) (spinToO77 z.2))
-      (D.V i ×ˢ Set.univ) :=
+  have hF : ContinuousOn (fun z : D.W × Spin77 => actOFr' (D.σ i z.1) (spinToO77 z.2))
+      ((Subtype.val ⁻¹' D.V i) ×ˢ Set.univ) :=
     continuous_actOFr'.comp_continuousOn
-      (((D.cont_σ i).comp continuousOn_fst fun z hz => hz.1).prodMk
+      (((D.cont_σ i).comp (continuous_subtype_val.comp_continuousOn continuousOn_fst)
+        fun z hz => hz.1).prodMk
         (continuous_spinToO77.comp continuous_snd).continuousOn)
   have hc : ContinuousOn D.Φ e.source := by
     refine (hF.comp e.continuousOn fun q hq => ?_).congr fun q hq => D.Φ_chart i hq
@@ -334,25 +345,28 @@ theorem continuousOn_τ (i : D.ι) : ContinuousOn (D.τ i) (projOFr ⁻¹' D.V i
 
 /-- **The image of `Φ` is the `SO₀`-part of `OFr`.** -/
 theorem range_Φ : Set.range D.Φ =
-    {q | ∀ i, projOFr q ∈ D.V i → ∃ g ∈ SO0, q = actOFr' (D.σ i (projOFr q)) g} := by
+    {q | projOFr q ∈ D.W ∧
+      ∀ i, projOFr q ∈ D.V i → ∃ g ∈ SO0, q = actOFr' (D.σ i (projOFr q)) g} := by
   ext q
   constructor
-  · rintro ⟨p, rfl⟩ i hi
+  · rintro ⟨p, rfl⟩
+    refine ⟨by rw [D.proj_Φ]; exact p.proj.2, fun i hi => ?_⟩
     rw [D.proj_Φ] at hi ⊢
     exact ⟨_, spinToO77_mem _, D.Φ_chart i hi⟩
-  · intro hq
-    set y := projOFr q
+  · rintro ⟨hW, hq⟩
+    let y : D.W := ⟨projOFr q, hW⟩
     set a := D.core.indexAt y
-    obtain ⟨g, hg, hqg⟩ := hq a (D.core.mem_baseSet_at y)
+    obtain ⟨g, hg, hqg⟩ := hq a (D.mem_baseSet_at' y)
     obtain ⟨t, ht⟩ := spinToSO0_surjective ⟨g, hg⟩
     refine ⟨⟨y, t⟩, ?_⟩
-    show actOFr' (D.σ a y) (spinToO77 t) = q
-    rw [show spinToO77 t = g from congrArg Subtype.val ht, hqg]
+    show actOFr' (D.σ a (y : Y13o X)) (spinToO77 t) = q
+    rw [show spinToO77 t = g from congrArg Subtype.val ht]
+    exact hqg.symm
 
 lemma τ_mem_SO0 (i : D.ι) {q : OFr X} (hq : q ∈ Set.range D.Φ) (hi : projOFr q ∈ D.V i) :
     D.τ i q ∈ SO0 := by
   rw [D.range_Φ] at hq
-  obtain ⟨g, hg, hqg⟩ := hq i hi
+  obtain ⟨g, hg, hqg⟩ := hq.2 i hi
   rw [D.τ_unique i hi hqg.symm]; exact hg
 
 /-- `Φ` onto its image is an open map. -/
@@ -362,7 +376,7 @@ theorem isOpenMap_Φ : IsOpenMap (Set.rangeFactorization D.Φ) := by
   rintro z ⟨p, hpW, rfl⟩
   set i := D.core.indexAt p.proj
   set tr := D.core.localTriv i
-  have hpi : p.proj ∈ D.V i := D.core.mem_baseSet_at p.proj
+  have hpi : (p.proj : Y13o X) ∈ D.V i := D.mem_baseSet_at' p.proj
   have hps : p ∈ tr.source := hpi
   have himg : IsOpen (tr '' (W ∩ tr.source)) :=
     tr.toOpenPartialHomeomorph.isOpen_image_of_subset_source (hW.inter tr.open_source)
@@ -370,25 +384,27 @@ theorem isOpenMap_Φ : IsOpenMap (Set.rangeFactorization D.Φ) := by
   obtain ⟨A, B, hA, hB, hpA, hpB, hAB⟩ :=
     isOpen_prod_iff.mp himg (tr p).1 (tr p).2 ⟨p, ⟨hpW, hps⟩, rfl⟩
   obtain ⟨O0, hO0, hO0B⟩ := isOpen_induced_iff.mp (isOpenMap_spinToSO0 B hB)
-  set O : Set (OFr X) := projOFr ⁻¹' (A ∩ D.V i) ∩ D.τ i ⁻¹' O0
+  have hA' : IsOpen (Subtype.val '' A : Set (Y13o X)) := D.isOpen_W.isOpenMap_subtype_val A hA
+  set O : Set (OFr X) := projOFr ⁻¹' ((Subtype.val '' A) ∩ D.V i) ∩ D.τ i ⁻¹' O0
   have hO : IsOpen O :=
     ((D.continuousOn_τ i).mono fun q hq => hq.2).isOpen_inter_preimage
-      ((hA.inter (D.isOpen_V i)).preimage continuous_projOFr) hO0
+      ((hA'.inter (D.isOpen_V i)).preimage continuous_projOFr) hO0
   have hfst : (tr p).1 = p.proj := rfl
   refine ⟨Subtype.val ⁻¹' O, ?_, hO.preimage continuous_subtype_val, ?_⟩
-  · rintro ⟨q, hqr⟩ ⟨⟨hqA, hqi⟩, hqO⟩
+  · rintro ⟨q, hqr⟩ ⟨⟨⟨a0, ha0, hqa⟩, hqi⟩, hqO⟩
     have hSO := D.τ_mem_SO0 i hqr hqi
     have hmem : (⟨D.τ i q, hSO⟩ : SO0) ∈ spinToSO0 '' B := by rw [← hO0B]; exact hqO
     obtain ⟨t, htB, ht⟩ := hmem
-    obtain ⟨p', ⟨hp'W, hp's⟩, hp'⟩ := hAB (show (projOFr q, t) ∈ A ×ˢ B from ⟨hqA, htB⟩)
+    obtain ⟨p', ⟨hp'W, hp's⟩, hp'⟩ := hAB (show (a0, t) ∈ A ×ˢ B from ⟨ha0, htB⟩)
     refine ⟨p', hp'W, Subtype.ext ?_⟩
     show D.Φ p' = q
-    have hy : p'.proj = projOFr q := congrArg Prod.fst hp'
+    have hy : (p'.proj : Y13o X) = projOFr q := by
+      rw [← hqa]; exact congrArg (fun z => ((z.1 : D.W) : Y13o X)) hp'
     have hs : (tr p').2 = t := congrArg Prod.snd hp'
     rw [D.Φ_chart i hp's, hs, show spinToO77 t = D.τ i q from congrArg Subtype.val ht, hy,
       D.τ_spec i hqi]
   · show D.Φ p ∈ O
-    refine ⟨⟨by rw [D.proj_Φ, ← hfst]; exact hpA, by rw [D.proj_Φ]; exact hpi⟩, ?_⟩
+    refine ⟨⟨by rw [D.proj_Φ, ← hfst]; exact ⟨_, hpA, rfl⟩, by rw [D.proj_Φ]; exact hpi⟩, ?_⟩
     show D.τ i (D.Φ p) ∈ O0
     rw [D.τ_unique i (by rw [D.proj_Φ]; exact hpi) (by rw [D.proj_Φ]; exact (D.Φ_chart i hpi).symm)]
     have : spinToSO0 (tr p).2 ∈ Subtype.val ⁻¹' O0 := by rw [hO0B]; exact ⟨_, hpB, rfl⟩
@@ -427,7 +443,7 @@ theorem isQuotientCoveringMap_Φ :
       rw [D.Φ_actS, map_inv, spinToO77_of_ker, inv_one, actOFr'_one]
   · intro e
     set tr := D.core.localTriv (D.core.indexAt e.proj)
-    have hes : e ∈ tr.source := D.core.mem_baseSet_at e.proj
+    have hes : e ∈ tr.source := D.mem_baseSet_at' e.proj
     set s0 := (tr e).2
     have hne : s0 ≠ s0 * negOne := fun h => negOne_ne_one (mul_eq_left.mp h.symm)
     obtain ⟨A1, A2, hA1, hA2, hs0, hs1, hdisj⟩ := t2_separation hne
@@ -452,22 +468,22 @@ theorem isCoveringMap_Φ : IsCoveringMap (Set.rangeFactorization D.Φ) := by
   letI := D.kerAct
   exact D.isQuotientCoveringMap_Φ.isCoveringMap
 
-/-- **Consistency of the hypotheses**: a continuous global section of `OFr` gives spin-lift
-data (one chart, trivial lifts). -/
-def ofGlobalSection (σ : Y13o X → OFr X) (hσ : Continuous σ) (hσp : ∀ y, projOFr (σ y) = y) :
-    SpinLiftData X :=
-  ⟨Unit, fun _ => Set.univ, fun _ => isOpen_univ, fun _ => ⟨(), trivial⟩, fun _ => σ,
-    fun _ => hσ.continuousOn, fun _ y _ => hσp y, fun _ _ _ => 1, fun _ _ => continuousOn_const,
+/-- **A frame over an open `W` gives spin-lift data** (one chart, trivial lifts). Such frames exist
+locally (`exists_spinLiftData_near`, `SpinExamples.lean`). -/
+def ofSection (W : Set (Y13o X)) (hW : IsOpen W) (σ : Y13o X → OFr X) (hσ : ContinuousOn σ W)
+    (hσp : ∀ y ∈ W, projOFr (σ y) = y) : SpinLiftData X :=
+  ⟨W, hW, Unit, fun _ => W, fun _ => hW, fun _ => subset_rfl, fun _ hy => ⟨(), hy⟩, fun _ => σ,
+    fun _ => hσ, fun _ y hy => hσp y hy, fun _ _ _ => 1, fun _ _ => continuousOn_const,
     fun _ _ y _ => by rw [map_one, actOFr'_one], fun _ _ _ _ _ => mul_one 1⟩
 
 /-- **Phase 3, item 4 (spin lift)**: from spin-lift data (`w₂ = 0` in cocycle form), `P̃` is a
-topological principal `Spin(7,7)`-bundle over `Y13` (local trivialisations over the `V i`, in which
+topological principal `Spin(7,7)`-bundle over `W` (local trivialisations over the `V i`, in which
 the action is right multiplication; free, fibre-transitive action), and `Φ : P̃ → OFr` is a
 continuous, base-preserving, `ρ`-equivariant double cover of the `SO₀`-reduction of `OFr`
 determined by the `σ i`. -/
 theorem spin_lift :
     Continuous D.core.proj ∧
-    (∀ i, (D.core.localTriv i).baseSet = D.V i ∧ ∀ p t,
+    (∀ i, (D.core.localTriv i).baseSet = Subtype.val ⁻¹' D.V i ∧ ∀ p t,
       D.core.localTriv i (D.actS p t) = ((D.core.localTriv i p).1, (D.core.localTriv i p).2 * t)) ∧
     (∀ p, D.actS p 1 = p) ∧ (∀ p s t, D.actS (D.actS p s) t = D.actS p (s * t)) ∧
     (∀ p t, (D.actS p t).proj = p.proj) ∧ (∀ p t, D.actS p t = p → t = 1) ∧
@@ -476,7 +492,8 @@ theorem spin_lift :
     Continuous D.Φ ∧ (∀ p, projOFr (D.Φ p) = p.proj) ∧
     (∀ p t, D.Φ (D.actS p t) = actOFr' (D.Φ p) (spinToO77 t)) ∧
     (∀ p q, D.Φ p = D.Φ q ↔ q = p ∨ q = D.actS p negOne) ∧
-    Set.range D.Φ = {q | ∀ i, projOFr q ∈ D.V i → ∃ g ∈ SO0, q = actOFr' (D.σ i (projOFr q)) g} ∧
+    Set.range D.Φ = {q | projOFr q ∈ D.W ∧
+      ∀ i, projOFr q ∈ D.V i → ∃ g ∈ SO0, q = actOFr' (D.σ i (projOFr q)) g} ∧
     IsCoveringMap (Set.rangeFactorization D.Φ) :=
   ⟨D.core.continuous_proj, fun i => ⟨rfl, D.localTriv_actS i⟩, D.actS_one, D.actS_mul,
     D.proj_actS, D.actS_free, D.actS_transitive, D.continuous_actS₂, D.actS_negOne_ne, D.continuous_Φ, D.proj_Φ, D.Φ_actS, D.Φ_eq_iff,
@@ -485,34 +502,36 @@ theorem spin_lift :
 end SpinLiftData
 
 /-- **Spin structure from a `ℤ/2`-lift of the transition cocycle.** Given continuous local
-sections `σ i` of the frame bundle over an open cover of `Y13` and continuous `Spin(7,7)` lifts
+sections `σ i` of the frame bundle over an open cover of an open `W ⊆ Y13` and continuous `Spin(7,7)` lifts
 `h i j` of their transition functions satisfying the cocycle identity (equivalently: the `w₂`
 defect of `spinLift_defect_mem` is trivial), there is a topological principal `Spin(7,7)`-bundle
-`P̃ → Y13` (jointly continuous, free, fibre-transitive right action; local trivialisations over the
+`P̃ → W` (jointly continuous, free, fibre-transitive right action; local trivialisations over the
 `V i` in which the action is right multiplication) and a continuous, `ρ`-equivariant map
 `Φ : P̃ → OFr` whose fibres are the two points `{p, p·(−1)}`, whose image is the `SO₀`-reduction
 determined by the `σ i`, and which is
 a covering map onto its image. -/
-theorem spin_structure_of_lift {ι : Type} (V : ι → Set (Y13o X)) (hV : ∀ i, IsOpen (V i))
-    (hcov : ∀ y, ∃ i, y ∈ V i) (σ : ι → Y13o X → OFr X) (hσ : ∀ i, ContinuousOn (σ i) (V i))
+theorem spin_structure_of_lift (W : Set (Y13o X)) (hW : IsOpen W) {ι : Type}
+    (V : ι → Set (Y13o X)) (hV : ∀ i, IsOpen (V i)) (hVW : ∀ i, V i ⊆ W)
+    (hcov : ∀ y ∈ W, ∃ i, y ∈ V i) (σ : ι → Y13o X → OFr X) (hσ : ∀ i, ContinuousOn (σ i) (V i))
     (hσp : ∀ i, ∀ y ∈ V i, projOFr (σ i y) = y) (h : ι → ι → Y13o X → Spin77)
     (hh : ∀ i j, ContinuousOn (h i j) (V i ∩ V j))
     (hlift : ∀ i j, ∀ y ∈ V i ∩ V j, σ j y = actOFr' (σ i y) (spinToO77 (h i j y)))
     (hcoc : ∀ i j k, ∀ y ∈ V i ∩ V j ∩ V k, h i j y * h j k y = h i k y) :
-    ∃ (P : Type) (_ : TopologicalSpace P) (projS : P → Y13o X) (actS : P → Spin77 → P)
+    ∃ (P : Type) (_ : TopologicalSpace P) (projS : P → W) (actS : P → Spin77 → P)
       (Φ : P → OFr X),
       Continuous projS ∧ (∀ p, actS p 1 = p) ∧ (∀ p s t, actS (actS p s) t = actS p (s * t)) ∧
       (∀ p t, projS (actS p t) = projS p) ∧ (∀ p t, actS p t = p → t = 1) ∧
       (∀ p q, projS p = projS q → ∃ t, actS p t = q) ∧
-      (∀ i, ∃ e : Trivialization Spin77 projS, e.baseSet = V i ∧
+      (∀ i, ∃ e : Trivialization Spin77 projS, e.baseSet = Subtype.val ⁻¹' V i ∧
         ∀ p ∈ e.source, ∀ t, e (actS p t) = ((e p).1, (e p).2 * t)) ∧
       Continuous (fun pt : P × Spin77 => actS pt.1 pt.2) ∧ (∀ p, actS p negOne ≠ p) ∧
       Continuous Φ ∧ (∀ p, projOFr (Φ p) = projS p) ∧
       (∀ p t, Φ (actS p t) = actOFr' (Φ p) (spinToO77 t)) ∧
       (∀ p q, Φ p = Φ q ↔ q = p ∨ q = actS p negOne) ∧
-      Set.range Φ = {q | ∀ i, projOFr q ∈ V i → ∃ g ∈ SO0, q = actOFr' (σ i (projOFr q)) g} ∧
+      Set.range Φ = {q | projOFr q ∈ W ∧
+        ∀ i, projOFr q ∈ V i → ∃ g ∈ SO0, q = actOFr' (σ i (projOFr q)) g} ∧
       IsCoveringMap (Set.rangeFactorization Φ) := by
-  let D : SpinLiftData X := ⟨ι, V, hV, hcov, σ, hσ, hσp, h, hh, hlift, hcoc⟩
+  let D : SpinLiftData X := ⟨W, hW, ι, V, hV, hVW, hcov, σ, hσ, hσp, h, hh, hlift, hcoc⟩
   obtain ⟨h1, h2, h3, h4, h5, h6, h7, h7a, h7b, h8, h9, h10, h11, h12, h13⟩ := D.spin_lift
   exact ⟨D.P, inferInstance, D.core.proj, D.actS, D.Φ, h1, h3, h4, h5, h6, h7,
     fun i => ⟨D.core.localTriv i, (h2 i).1, fun p _ t => (h2 i).2 p t⟩, h7a, h7b, h8, h9, h10, h11,

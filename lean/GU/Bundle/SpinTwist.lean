@@ -200,27 +200,29 @@ def isoOfCoboundary (hε : ∀ i, ∀ y ∈ D.V i, IsSign (ε i y))
     (hεc : ∀ i, ContinuousOn (ε i) (D.V i))
     (hrel : ∀ i j, ∀ y ∈ D.V i ∩ D.V j, h' i j y = ε i y * D.h i j y * ε j y) :
     SpinIso D.toStructure (D.withH h' hc hl hcoc).toStructure := by
-  have hcf : ∀ i, ContinuousOn (fun z : Y13o X × Spin77 => ε i z.1 * z.2) (D.V i ×ˢ Set.univ) :=
-    fun i => ((hεc i).comp continuousOn_fst fun z hz => hz.1).mul continuousOn_snd
+  have hcf : ∀ i, ContinuousOn (fun z : D.W × Spin77 => ε i z.1 * z.2)
+      ((Subtype.val ⁻¹' D.V i) ×ˢ Set.univ) :=
+    fun i => ((hεc i).comp (continuous_subtype_val.comp_continuousOn continuousOn_fst)
+      fun z hz => hz.1).mul continuousOn_snd
   have hsgn : ∀ q : D.P, IsSign (ε (D.core.indexAt q.proj) q.proj) := fun q =>
-    hε _ _ (D.core.mem_baseSet_at q.proj)
-  have hToC : ∀ i (q : D.P), q.proj ∈ D.V i →
+    hε _ _ (D.mem_baseSet_at' q.proj)
+  have hToC : ∀ i (q : D.P), (q.proj : Y13o X) ∈ D.V i →
       ((D.withH h' hc hl hcoc).core.localTriv i (D.signTo ε q)).2 =
         ε i q.proj * (D.core.localTriv i q).2 := by
     intro i q hq
     set a := D.core.indexAt q.proj
-    have ha : q.proj ∈ D.V a := D.core.mem_baseSet_at q.proj
+    have ha : (q.proj : Y13o X) ∈ D.V a := D.mem_baseSet_at' q.proj
     show (h' a i q.proj)⁻¹ * (ε a q.proj * D.sp q) = ε i q.proj * ((D.h a i q.proj)⁻¹ * D.sp q)
     rw [hrel a i q.proj ⟨ha, hq⟩, mul_inv_rev, mul_inv_rev, (hε i _ hq).inv, (hε a _ ha).inv]
     calc ε i q.proj * ((D.h a i q.proj)⁻¹ * ε a q.proj) * (ε a q.proj * D.sp q)
         = ε i q.proj * (D.h a i q.proj)⁻¹ * (ε a q.proj * ε a q.proj) * D.sp q := by group
       _ = _ := by rw [(hε a _ ha).mul_self]; group
-  have hFromC : ∀ i (q : (D.withH h' hc hl hcoc).P), q.proj ∈ D.V i →
+  have hFromC : ∀ i (q : (D.withH h' hc hl hcoc).P), (q.proj : Y13o X) ∈ D.V i →
       (D.core.localTriv i (D.signFrom ε q)).2 =
         ε i q.proj * ((D.withH h' hc hl hcoc).core.localTriv i q).2 := by
     intro i q hq
     set a := D.core.indexAt q.proj
-    have ha : q.proj ∈ D.V a := D.core.mem_baseSet_at q.proj
+    have ha : (q.proj : Y13o X) ∈ D.V a := D.mem_baseSet_at' q.proj
     show (D.h a i q.proj)⁻¹ * (ε a q.proj * (D.withH h' hc hl hcoc).sp q) =
       ε i q.proj * ((h' a i q.proj)⁻¹ * (D.withH h' hc hl hcoc).sp q)
     rw [hrel a i q.proj ⟨ha, hq⟩, mul_inv_rev, mul_inv_rev, (hε i _ hq).inv, (hε a _ ha).inv]
@@ -238,7 +240,7 @@ def isoOfCoboundary (hε : ∀ i, ∀ y ∈ D.V i, IsSign (ε i y))
         right_inv := fun q => (D.withH h' hc hl hcoc).ext' rfl (by
           show ε (D.core.indexAt q.proj) q.proj * (ε (D.core.indexAt q.proj) q.proj *
             (D.withH h' hc hl hcoc).sp q) = _
-          rw [← mul_assoc, (hε _ _ (D.core.mem_baseSet_at q.proj)).mul_self, one_mul])
+          rw [← mul_assoc, (hε _ _ (D.mem_baseSet_at' q.proj)).mul_self, one_mul])
         continuous_toFun := continuous_core_map D.core (D.withH h' hc hl hcoc).core
           (fun _ => rfl) (fun i y s => ε i y * s) hcf (D.signTo ε) (fun _ => rfl) hToC
         continuous_invFun := continuous_core_map (D.withH h' hc hl hcoc).core D.core
@@ -263,10 +265,11 @@ def twistIso (ε : D.ι → Y13o X → Spin77) (hε : ∀ i, ∀ y ∈ D.V i, Is
   D.isoOfCoboundary hε hεc fun _ _ _ _ => rfl
 
 /-- Change of coordinate between two charts. -/
-lemma localTriv_change (i j : D.ι) {q : D.P} (hi : q.proj ∈ D.V i) (hj : q.proj ∈ D.V j) :
+lemma localTriv_change (i j : D.ι) {q : D.P} (hi : (q.proj : Y13o X) ∈ D.V i)
+    (hj : (q.proj : Y13o X) ∈ D.V j) :
     (D.core.localTriv j q).2 = (D.h i j q.proj)⁻¹ * (D.core.localTriv i q).2 := by
   set a := D.core.indexAt q.proj
-  have ha : q.proj ∈ D.V a := D.core.mem_baseSet_at q.proj
+  have ha : (q.proj : Y13o X) ∈ D.V a := D.mem_baseSet_at' q.proj
   show (D.h a j q.proj)⁻¹ * D.sp q = (D.h i j q.proj)⁻¹ * ((D.h a i q.proj)⁻¹ * D.sp q)
   rw [← D.cocycle a i j q.proj ⟨⟨ha, hi⟩, hj⟩, mul_inv_rev, mul_assoc]
 
@@ -282,59 +285,87 @@ theorem iso_iff_coboundary (h' : D.ι → D.ι → Y13o X → Spin77)
   constructor
   · rintro ⟨I⟩
     set D' := D.withH h' hc hl hcoc
-    set S := D.toStructure
-    set S' := D'.toStructure
-    let ε : D.ι → Y13o X → Spin77 := fun i y => (S'.e i (I.F (S.sec i y))).2
-    have hproj : ∀ i, ∀ y ∈ D.V i, S'.projS (I.F (S.sec i y)) = y := fun i y hy => by
-      rw [I.proj_F]; exact S.proj_sec i hy
+    -- work on the base `D.W`; both bundles have the same charts and cover
+    let S := D.toStructure
+    let S' := D'.toStructure
+    have hprojI : ∀ p : D.P, ((S'.projS (I.F p) : D.W) : Y13o X) = (p.proj : Y13o X) := I.proj_F
+    -- the chart-`i` section of `D`
+    let s : D.ι → D.W → D.P := fun i y => S.sec i y
+    have hsp : ∀ i (y : D.W), (y : Y13o X) ∈ D.V i → (s i y).proj = y := fun i y hy =>
+      S.proj_sec i (y := y) hy
+    have hs1 : ∀ i (y : D.W), (y : Y13o X) ∈ D.V i → (D.core.localTriv i (s i y)).2 = 1 :=
+      fun i y hy => congrArg Prod.snd (S.e_sec i (y := y) hy)
+    classical
+    let ε : D.ι → Y13o X → Spin77 := fun i y =>
+      if hy : y ∈ D.W then (D'.core.localTriv i (I.F (s i ⟨y, hy⟩))).2 else 1
+    have hεv : ∀ i (y : D.W), ε i y = (D'.core.localTriv i (I.F (s i y))).2 := fun i y => dif_pos y.2
+    have hprojF : ∀ i (y : D.W), (y : Y13o X) ∈ D.V i →
+        (((I.F (s i y) : D'.P).proj : D.W) : Y13o X) = y := fun i y hy => by
+      rw [show (((I.F (s i y) : D'.P).proj : D.W) : Y13o X) = (s i y).proj from hprojI _, hsp i y hy]
     have hε : ∀ i, ∀ y ∈ D.V i, IsSign (ε i y) := by
       intro i y hy
-      rw [isSign_iff]
-      have h1 : D'.Φ (I.F (S.sec i y)) = actOFr' (D.σ i y) (spinToO77 (ε i y)) := by
-        have := D'.Φ_chart i (p := I.F (S.sec i y)) (by
-          show S'.projS _ ∈ D.V i; rw [hproj i y hy]; exact hy)
-        rw [show (I.F (S.sec i y)).proj = y from hproj i y hy] at this
-        exact this
-      have h2 : D.Φ (S.sec i y) = actOFr' (D.σ i y) 1 := by
-        have := D.Φ_chart i (p := S.sec i y) (by
-          rw [show (S.sec i y).proj = y from S.proj_sec i hy]; exact hy)
-        rw [show (S.sec i y).proj = y from S.proj_sec i hy,
-          show (D.core.localTriv i (S.sec i y)).2 = 1 from congrArg Prod.snd (S.e_sec i hy),
-          map_one] at this
-        exact this
-      have h3 : D'.Φ (I.F (S.sec i y)) = D.Φ (S.sec i y) := I.Φ_F _
+      have hW := D.V_sub i hy
+      let y' : D.W := ⟨y, hW⟩
+      have hp := hprojF i y' hy
+      rw [isSign_iff, show ε i y = ε i (y' : Y13o X) from rfl, hεv]
+      have h1 := D'.Φ_chart i (p := I.F (s i y')) (by rw [hp]; exact hy)
+      rw [hp] at h1
+      have h2 := D.Φ_chart i (p := s i y') (by rw [hsp i y' hy]; exact hy)
+      rw [hsp i y' hy, hs1 i y' hy, map_one] at h2
+      have h3 : D'.Φ (I.F (s i y')) = D.Φ (s i y') := I.Φ_F _
       rw [h1, h2] at h3
       exact actOFr'_cancel h3
     refine ⟨ε, hε, fun i => ?_, fun i j y hy => ?_⟩
-    · have h0 : ContinuousOn (S'.e i) (S'.e i).source :=
-        (S'.e i).toOpenPartialHomeomorph.continuousOn
-      have hF : ContinuousOn (fun y => I.F (S.sec i y)) (D.V i) :=
+    · intro y hy
+      have hW := D.V_sub i hy
+      have hO : IsOpen (Subtype.val ⁻¹' D.V i : Set D.W) :=
+        (D.isOpen_V i).preimage continuous_subtype_val
+      have h0 : ContinuousOn (D'.core.localTriv i) (D'.core.localTriv i).source :=
+        (D'.core.localTriv i).toOpenPartialHomeomorph.continuousOn
+      have hF : ContinuousOn (fun y : D.W => I.F (s i y)) (Subtype.val ⁻¹' D.V i) :=
         I.F.continuous.comp_continuousOn (S.continuousOn_sec i)
-      exact continuous_snd.comp_continuousOn (ContinuousOn.comp h0 hF fun y hy =>
-        (S'.mem_source_iff i _).mpr (by rw [hproj i y hy]; exact hy))
-    · have hF : I.F (S.sec i y) = S'.actS (I.F (S.sec j y)) (S.e j (S.sec i y)).2 := by
-        rw [← I.act_F]
-        congr 1
-        have := S.sec_act_coord j (p := S.sec i y) (by rw [S.proj_sec i hy.1]; exact hy.2)
-        rw [S.proj_sec i hy.1] at this
+      have hC : ContinuousOn (fun y : D.W => (D'.core.localTriv i (I.F (s i y))).2)
+          (Subtype.val ⁻¹' D.V i) :=
+        continuous_snd.comp_continuousOn (ContinuousOn.comp h0 hF fun y hy => by
+          show (((I.F (s i y) : D'.P).proj : D.W) : Y13o X) ∈ D.V i
+          rw [hprojF i y hy]; exact hy)
+      have hC2 : ContinuousOn (ε i ∘ Subtype.val : D.W → Spin77) (Subtype.val ⁻¹' D.V i) :=
+        hC.congr fun y _ => hεv i y
+      have hat := hC2.continuousAt (x := ⟨y, hW⟩) (hO.mem_nhds hy)
+      exact ((D.isOpen_W.isOpenEmbedding_subtypeVal.continuousAt_iff).mp hat).continuousWithinAt
+    · have hW := D.V_sub i hy.1
+      let y' : D.W := ⟨y, hW⟩
+      have hyi : (y' : Y13o X) ∈ D.V i := hy.1
+      have hyj : (y' : Y13o X) ∈ D.V j := hy.2
+      have hpi := hsp i y' hyi
+      have hc1 : (D.core.localTriv j (s i y')).2 = (D.h i j y)⁻¹ := by
+        have := D.localTriv_change i j (q := s i y') (by rw [hpi]; exact hyi) (by rw [hpi]; exact hyj)
+        rw [hpi, hs1 i y' hyi, mul_one] at this
+        exact this
+      have hs : s i y' = D.actS (s j y') (D.core.localTriv j (s i y')).2 := by
+        have := S.sec_act_coord j (p := s i y') (by
+          show ((s i y').proj : Y13o X) ∈ D.V j; rw [hpi]; exact hyj)
+        rw [show S.projS (s i y') = y' from hpi] at this
         exact this.symm
-      have hc1 : (S.e j (S.sec i y)).2 = (D.h i j y)⁻¹ := by
-        have := D.localTriv_change i j (q := S.sec i y)
-          (by rw [show (S.sec i y).proj = y from S.proj_sec i hy.1]; exact hy.1)
-          (by rw [show (S.sec i y).proj = y from S.proj_sec i hy.1]; exact hy.2)
-        rw [show (S.sec i y).proj = y from S.proj_sec i hy.1,
-          show (D.core.localTriv i (S.sec i y)).2 = 1 from congrArg Prod.snd (S.e_sec i hy.1),
-          mul_one] at this
+      have hF : I.F (s i y') = D'.actS (I.F (s j y')) (D.core.localTriv j (s i y')).2 := by
+        conv_lhs => rw [hs]
+        exact I.act_F _ _
+      have hjc : (D'.core.localTriv j (I.F (s i y'))).2 = ε j y * (D.h i j y)⁻¹ := by
+        have h4 : (D'.core.localTriv j (D'.actS (I.F (s j y')) (D.core.localTriv j (s i y')).2)).2 =
+            (D'.core.localTriv j (I.F (s j y'))).2 * (D.core.localTriv j (s i y')).2 :=
+          congrArg Prod.snd (D'.localTriv_actS j _ _)
+        rw [hF]
+        refine h4.trans ?_
+        rw [hc1]
+        exact congrArg (· * (D.h i j y)⁻¹) (hεv j y').symm
+      have hic : (D'.core.localTriv j (I.F (s i y'))).2 = (h' i j y)⁻¹ * ε i y := by
+        have hp := hprojF i y' hyi
+        have := D'.localTriv_change i j (q := I.F (s i y')) (by rw [hp]; exact hyi)
+          (by rw [hp]; exact hyj)
+        rw [show (((I.F (s i y') : D'.P).proj : D.W) : Y13o X) = y from hp] at this
+        rw [show ε i y = ε i (y' : Y13o X) from rfl, hεv]
         exact this
-      have hj : (S'.e j (I.F (S.sec i y))).2 = ε j y * (D.h i j y)⁻¹ := by
-        rw [hF, S'.e_act j _ ((S'.mem_source_iff j _).mpr (by rw [hproj j y hy.2]; exact hy.2)), hc1]
-      have hi : (S'.e j (I.F (S.sec i y))).2 = (h' i j y)⁻¹ * ε i y := by
-        have := D'.localTriv_change i j (q := I.F (S.sec i y))
-          (by show S'.projS _ ∈ D.V i; rw [hproj i y hy.1]; exact hy.1)
-          (by show S'.projS _ ∈ D.V j; rw [hproj i y hy.1]; exact hy.2)
-        rw [show (I.F (S.sec i y)).proj = y from hproj i y hy.1] at this
-        exact this
-      have e := hj.symm.trans hi
+      have e := hjc.symm.trans hic
       have e2 : h' i j y * ε j y = ε i y * D.h i j y := by
         have e3 : h' i j y * (ε j y * (D.h i j y)⁻¹) = ε i y := by rw [e, mul_inv_cancel_left]
         rw [← e3]; group

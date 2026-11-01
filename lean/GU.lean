@@ -132,3 +132,10 @@ import GU.Bundle.SpinStructure
 import GU.Bundle.SpinConverse
 import GU.Bundle.SpinTwist
 import GU.Bundle.Immersions
+import GU.Bundle.TimeOrientation
+import GU.Bundle.MetricLoop
+import GU.Bundle.MetricLoopChim
+import GU.Bundle.TimeObstruction
+import GU.Bundle.SpinExamples
+import GU.Bundle.TimeGauge
+import GU.Bundle.TimeGaugeFrame
