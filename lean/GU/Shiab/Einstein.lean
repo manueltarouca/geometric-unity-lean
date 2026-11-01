@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Manuel Tarouca. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Manuel Tarouca
+-/
 import GU.Shiab.CliffordBianchi
 import GU.Spinor.Gamma
 
@@ -12,7 +17,7 @@ brackets), the Clifford-algebra core of (9.3) applied to a Riemann-type curvatur
 with `G = Ric − ½ R g` the Einstein tensor. This is the precise sense in which (9.3) "makes
 the parallel to Einstein's contraction explicit" (§9.1), and the Weyl part drops out.
 
-Caveats (see unbounded_discovery_log.md):
+Caveats:
 * The brackets must be mixed: commutator in the Ricci term, anticommutator in the scalar term.
   With a uniform choice, one of the two terms vanishes identically (`ricci_term_anticomm`,
   `scalar_term_comm`).

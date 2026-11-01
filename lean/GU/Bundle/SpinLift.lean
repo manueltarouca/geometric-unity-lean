@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Manuel Tarouca. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Manuel Tarouca
+-/
 import GU.Bundle.Isometry77
 
 /-!

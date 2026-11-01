@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Does the non-identity component of Spin(n,n) preserve the invariant spinor forms?
 
 Superseded by lean/GU/Bundle/TwoComponent.lean (`flip_hyp`, `flip_omega`, `flip_nonidentity`): proved

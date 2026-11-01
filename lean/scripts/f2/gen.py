@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 import json
 from fractions import Fraction
 from itertools import product

@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Principal-symbol test of the bosonic deformation complex (10.1)/(10.3)/(10.9):
     Ω0(ad) --δ1--> Ω1(ad) ⊕ Ω0(ad) --δ2--> Ω^{n-1}(ad)
 with δ1 = (d_A, DL_ε)          symbol σ1(φ) = (ξ⊗φ, 0)          (DL_ε is zeroth order)

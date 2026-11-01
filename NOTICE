@@ -1,0 +1,9 @@
+Geometric Unity: constraint audit and Lean 4 formalisation
+Copyright (c) 2026 Manuel Tarouca
+
+Code (Lean, Python, shell, build files) is licensed under the Apache License, Version 2.0 (LICENSE).
+Documentation (Markdown files) is licensed under Creative Commons Attribution 4.0 International
+(LICENSE-DOCS, https://creativecommons.org/licenses/by/4.0/).
+
+This work audits E. Weinstein's draft "Geometric Unity" (April 1, 2021), which is not redistributed
+here. It depends on Lean 4 and Mathlib (Apache License 2.0), fetched at build time.

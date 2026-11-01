@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 import json
 from itertools import product
 c=json.load(open("/tmp/gu-f2/cert.json")); d=json.load(open("/tmp/gu-f2/data.json"))

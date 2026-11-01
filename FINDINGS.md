@@ -49,8 +49,8 @@ The Shiab family in (8.1) is only a template. The operator D_ω in (9.6) is not 
 quadrant of (9.16) is left open. Integration over the non-compact fibres of Y is unaddressed. There
 is no anomaly-cancellation mechanism. The global spin structure is not discussed; as formalised it fails over all of Y13 before w₂ even arises (C5). (External, unverified: disruptionjoe/gu-formalization `canon/w2-y14-spin-structure.md`
 argues w₂(Y¹⁴) = π*w₂(X⁴), i.e. Y spin iff X spin, with only the mod-2 polynomial identities in Lean;
-they retracted an earlier, unconditional version. That concerns the Riemannian spin structure of TY, structure group Spin(14), and is a separate question from C5, which concerns (C, chimeric (7,7) metric) and the orientation of its positive part.) Details:
-`PHASE1_BLUEPRINT.md`, "Omitted constructs".
+they retracted an earlier, unconditional version. That concerns the Riemannian spin structure of TY, structure group Spin(14), and is a separate question from C5, which concerns (C, chimeric (7,7) metric) and the orientation of its positive part.) Details: the
+author's Phase 1 gap audit ("Omitted constructs"), not included in this repository.
 
 ## E2. Internal consistency note (Lean-checked)
 
@@ -210,8 +210,7 @@ extracted PDF text unless marked otherwise.
   ?p=5927 and its comments do not (full-text search of both comment pages, 76 responses); Physics Forums, Substack explainers do not (search
   summaries only).
 - Any treatment by Weinstein of time orientation. A summary of the 2020 talk mentions a "double cover";
-  it is an AI-generated summary and it was not confirmed. The repo holds no transcript of the talk
-  (`transcript.txt` is an unrelated podcast on AI and mathematics).
+  it is an AI-generated summary and it was not confirmed. We had no transcript of the talk.
 - DeWitt- and simplicial-supermetric signature papers: Giulini (gr-qc/9311017), Giulini–Kiefer (gr-qc/9405040), Hartle–Miller–
   Williams (gr-qc/9609028): signature results only, nothing on orientability of the subbundles (search summaries, not read in full).
 - Not checked: Steenrod's text, Weinstein's later talks, non-English sources, paywalled journals.
@@ -228,3 +227,7 @@ we read. That is "not found", not "new"; an expert should confirm (see "Before a
    matches the intended reading of the draft. That matters most for A1, A4–A6 and B3, which depend
    on bracket and sign conventions.
 3. Pin the exact draft version and equation numbering.
+
+---
+© 2026 Manuel Tarouca. Licensed under CC BY 4.0
+(https://creativecommons.org/licenses/by/4.0/).

@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Cubic-term test for (9.4)→(9.7): the variation of ⅓Tr(T∧⧉[T,T]) is ⟨α, ⧉[T,T]⟩ only if
 Tr(T∧⧉(α∧T + T∧α)) = k·Tr(α∧⧉(T∧T)) with a universal k (k = 2 for Chern–Simons).
 Brackets inside [T,T]: commutator-wedge. Reports the ratio over random samples."""

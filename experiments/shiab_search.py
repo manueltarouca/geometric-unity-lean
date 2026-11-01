@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Search the draft's Shiab family for an operator Ω²→Ω^{n-1} (n=4) that
  (W) annihilates Weyl curvature, (E) maps a Riemann curvature to the Einstein form, and
  (S) has a symmetric or antisymmetric symbol pairing (needed for (9.7)).

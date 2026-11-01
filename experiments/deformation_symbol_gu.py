@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Re-run the (10.1) symbol-exactness test with the synthetic Shiab ⧉_GU
 (= -1/2 A[] ± 1/4 (C1[][] + C1{}{}), see shiab_search.py)."""
 import sys

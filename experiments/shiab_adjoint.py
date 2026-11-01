@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Is the Shiab-based first-order operator (anti)self-adjoint at symbol level, as (9.7) needs?
 S(α, β) = Tr( α ∧ ⧉(ξ ∧ β) )|_top for ad-valued 1-forms α, β (ad = full Clifford algebra).
 Report the symmetric and antisymmetric parts' norms for the Einstein-type bracket choice and

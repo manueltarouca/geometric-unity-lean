@@ -1,7 +1,7 @@
 # Geometric Unity: constraint audit and Lean 4 baseline
 
-- `data/`: source draft (Weinstein, *Geometric Unity*, April 1 2021).
-- `PHASE1_BLUEPRINT.md`: Phase 1 gap audit.
+- Source: E. Weinstein, *Geometric Unity*, draft of April 1, 2021 (not redistributed here; page and
+  equation numbers in the docs refer to it).
 - `lean/`: Phase 2 Lean 4 + Mathlib (v4.35.0) baseline.
 
 ## Toolchain (workspace-local)
@@ -29,7 +29,6 @@ Shell profiles are untouched.
 Numerical experiments (`experiments/`, run with `uv run --with numpy python -I ...`): the Shiab/Einstein checks,
 the deformation-complex symbol, self-adjointness, the Shiab-family search, and the trilemma.
 
-Journals: `unbounded_discovery_log.md`, `unbounded_semigroup_log.md` (including corrections from independent reviews).
 
 Gaps are supplied as explicit hypothesis structures or definitions tagged `AI_BREAKTHROUGH_PATCH_V1`, never as global `axiom`s.
 
@@ -47,3 +46,14 @@ Gaps are supplied as explicit hypothesis structures or definitions tagged `AI_BR
 `e₆, e₁₁, e₁₂, e₁₃`, so the old `W4` is mostly horizontal and the old "base" `e₀, e₇, e₈, e₉` is vertical.
 Statements like "acts only on the fibre / does not mix with spacetime" (e.g. `gauge_embedding`'s reading)
 hold for the `Φ`-aligned groups `PS6'`, `PS4'` (`Bundle/ChimReduction.lean`), not for the old blocks.
+
+
+## License
+
+Copyright (c) 2026 Manuel Tarouca. Code (Lean, Python, shell, build files) is licensed under the
+[Apache License 2.0](LICENSE); documentation (Markdown) under [CC BY 4.0](LICENSE-DOCS). See [NOTICE](NOTICE).
+Please credit Manuel Tarouca when reusing this work.
+
+---
+© 2026 Manuel Tarouca. Licensed under CC BY 4.0
+(https://creativecommons.org/licenses/by/4.0/).

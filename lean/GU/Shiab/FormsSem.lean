@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Manuel Tarouca. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Manuel Tarouca
+-/
 import GU.Shiab.FormsEinsteinAll
 
 /-!
@@ -10,8 +15,8 @@ stated for canonical forms. Lemmas: `semF` is additive under
 `++` (`semF_append`) and turns `flatMap` into sums (`semF_flatMap`). On canonical forms (all index
 lists in `allIdx`), sums over the entries of `A` regroup into sums over the 16 index sets
 (`sum_regroup`). These are the tools for proving that `twoShiab` is linear in semantics, which
-extends `einstein_all` from the 55 spanning tensors to their span (Track 2 in
-`MULTISESSION_PLAN.md`).
+extends `einstein_all` from the 55 spanning tensors to their span (Track 2 of the
+formalisation plan).
 -/
 
 namespace GU.FormsW

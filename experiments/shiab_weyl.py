@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Numerical test of the draft's claim (§9.1): the Shiab operator (9.3)
     S(xi) = B1[Phi1 ^ *xi] - (1/2) * B2[Phi1 ^ * B3[Phi2 ^ *xi]]
 annihilates the Weyl part of a Riemann-type curvature and returns an Einstein-like tensor.

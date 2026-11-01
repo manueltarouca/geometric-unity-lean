@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Manuel Tarouca. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Manuel Tarouca
+-/
 import GU.Bundle.LocalFrames
 import GU.Spinor.SpinConnected
 
@@ -27,7 +32,7 @@ preserve the horizontal legs of every chimeric frame (`PS6'_preserves_H_legs`).
 (The aligned groups are called `Spin6'`/`Spin4'` by analogy; the full-block / non-split results of
 `BlockSpin.lean` are proved only for the unprimed groups.) Frames adapted to `V ⊕ H*` are in
 `AdaptedFrames.lean`. This is **not** a reduction of the structure group: no sub-bundle, section or Higgs-type field is
-constructed (cf. `PHASE1_BLUEPRINT.md` §4.1). The `U(3,2)` reduction is formalised only at the
+constructed (cf. the draft, §4.1). The `U(3,2)` reduction is formalised only at the
 Lie-algebra level (`Reductions.lean`).
 -/
 

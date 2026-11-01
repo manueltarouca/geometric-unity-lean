@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Manuel Tarouca. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Manuel Tarouca
+-/
 import GU
 /-! Axiom audit: every headline result must depend only on Lean's standard axioms
 (`propext`, `Classical.choice`, `Quot.sound`), with no `sorryAx` and no project `axiom`s. -/

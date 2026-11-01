@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Run the Shiab (9.3) test at the draft's actual signature (7,7) with the Einstein-type bracket
 choice (B1, B2, B3) = (commutator, anticommutator, anticommutator), using 128x128 gammas."""
 import sys, time

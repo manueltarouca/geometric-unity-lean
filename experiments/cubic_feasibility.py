@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 """Careful cubic-feasibility test: solution space of {W, E, antisym} (basis N, particular c0), then
 cubic rows C_k = L - kR from many samples (more equations than the solution-space dimension).
 Reports rank(C N), sample count, and the best relative residual |C(c0+Nz)| / |C c0| over k."""

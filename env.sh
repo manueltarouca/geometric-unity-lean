@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 # Source this to use the workspace-local Lean toolchain: `source env.sh`
 GU_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]:-${(%):-%x}}")" && pwd)"
 export ELAN_HOME="$GU_ROOT/.toolchain/elan"

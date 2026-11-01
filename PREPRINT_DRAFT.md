@@ -105,3 +105,7 @@ Repository commit hash (TODO: pin); build instructions (`source env.sh; lake bui
 
 ## Appendix: claim → theorem map
 See `FINDINGS.md` (kept in sync with this draft).
+
+---
+© 2026 Manuel Tarouca. Licensed under CC BY 4.0
+(https://creativecommons.org/licenses/by/4.0/).

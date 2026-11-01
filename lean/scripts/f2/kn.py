@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 import os
 os.makedirs('/tmp/gu-f2', exist_ok=True)
 from fractions import Fraction

@@ -1,3 +1,5 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
 # Emits GU/Shiab/FormsRealCoords.lean: real-coefficient coordinates of algebraic curvature tensors
 # (exact rational linear_combination certificates from gen.py) and the real Einstein theorem.
 import json

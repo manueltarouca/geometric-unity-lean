@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Manuel Tarouca. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Manuel Tarouca
+-/
 import GU.Spinor.SpinSU4
 
 /-!
@@ -7,7 +12,7 @@ For an antisymmetric `4 × 4` matrix `A`, `⋆A` is its Hodge dual, `(⋆A)ᵢ�
 **`lam2`**: for any `4 × 4` matrix `U` over any commutative ring, `Uᵀ ⋆(U A Uᵀ) U = det U · ⋆A`.
 This is the identity behind `SU(4) → SO(6)`. For unitary `U` with `det U = 1` it says that
 `A ↦ U A Uᵀ` commutes with `⋆` up to complex conjugation, so it preserves the 6-dimensional real
-form of `Λ²ℂ⁴`. Track 1 of `MULTISESSION_PLAN.md`: S1 (`lam2`), S2 partly (`σK_eq`, `σK_vOf`: the
+form of `Λ²ℂ⁴`. Track 1 of the formalisation plan: S1 (`lam2`), S2 partly (`σK_eq`, `σK_vOf`: the
 real form is `{A antisym : ⋆A = Ā}`), S3 (`su4_preserves`, the linear map `TUL`, `σK_TU`, `TU_isometry` via the Pfaffian `pf_conj`,
 `TU_mul`). S4 is `SU4Det.lean`, S5 is `SU4Onto.lean`.
 -/

@@ -1,6 +1,6 @@
 # A time-orientation obstruction in the Geometric Unity chimeric bundle: note for an expert
 
-Lean 4 / Mathlib audit of the April 2021 draft (`data/Geometric_Unity-Draft-April-1st-2021.pdf`). Everything
+Lean 4 / Mathlib audit of E. Weinstein's *Geometric Unity* draft of April 1, 2021 (not redistributed here). Everything
 marked **Lean** compiles with no `sorry` and standard axioms only (`lean/Audit.lean`). Everything marked
 **informal** is not machine-checked. We make no claim that any of this is new.
 
@@ -97,3 +97,7 @@ time-orientable, nor a critic treating the SO₀ reduction (`FINDINGS.md`, a wea
    observations pull back. Is this physically acceptable, and does anything downstream in the draft need to change?
 5. **General X.** The reduction on the cover exists for every X (Lean). What is the exact condition on X for
    the spin structure on the cover (presumably w₂ of the reduction, related to w₂(X))?
+
+---
+© 2026 Manuel Tarouca. Licensed under CC BY 4.0
+(https://creativecommons.org/licenses/by/4.0/).
