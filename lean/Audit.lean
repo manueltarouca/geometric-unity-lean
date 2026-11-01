@@ -497,3 +497,13 @@ open GU
 #print axioms GU.Library.twoCharts_lift_ne
 #print axioms GU.Library.exists_twoChart_near
 #print axioms GU.Library.no_largest_frameSet
+#print axioms GU.Library.no_spinLiftData_of_path
+#print axioms GU.Library.exists_reflection
+#print axioms GU.Library.hQ_pi
+#print axioms GU.Library.hInvariant_timeGaugeLocus
+#print axioms GU.Library.continuous_qQ
+#print axioms GU.Library.exists_neg_point
+#print axioms GU.Library.gauge_largest
+#print axioms GU.Library.gauge_largest_iff
+#print axioms GU.Library.gauge_largest_frame
+#print axioms GU.Library.exists_frame_timeGaugeLocus

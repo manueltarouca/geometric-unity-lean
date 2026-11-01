@@ -7,8 +7,9 @@ In the total-space chart at `a` (fibre over a chart of `X`), `gaugeW a` is the o
 `Y13` in the chart domain whose chart metric lies in `gaugeSet`. **`exists_spinLiftData_gauge`**:
 `gaugeW a` carries a global frame, hence a spin structure with trivial lifts. For the base point `pLoop x 0` it is nonempty
 (`yLoop_zero_mem_gaugeW`); it never contains the whole metric loop (by `no_spinStructure`). Not
-shown: that `gaugeSet` is exactly `{G₀₀ > 0}` among (1,3) metrics, that `gaugeW` is a maximal open set
-with a spin structure, or anything about the chart domain being all of `Y13` when `X = ℝ⁴`.
+shown here: that `gaugeSet` is exactly `{G₀₀ > 0}` among (1,3) metrics (`mem_gaugeSet_iff`), that `gaugeW` is a maximal open set
+with a spin structure among arbitrary open sets (among `HGauge`-invariant ones over `ℝ⁴`, it is the
+largest: `gauge_largest_iff`), or anything about the chart domain being all of `Y13` when `X = ℝ⁴`.
 -/
 
 namespace GU.Library

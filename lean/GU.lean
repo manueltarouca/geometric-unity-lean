@@ -143,3 +143,4 @@ import GU.Library.LocalHomeoCharts
 import GU.Bundle.SpinLie
 import GU.Bundle.SmoothSpin
 import GU.Bundle.SpinLargest
+import GU.Bundle.TimeGaugeLargest
