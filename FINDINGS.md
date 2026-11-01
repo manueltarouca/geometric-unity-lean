@@ -41,7 +41,7 @@ nothing here proves or refutes GU as a physical theory.
 | C2 | The image of Spin(7,7) in O(7,7) is exactly SO⁺ (the spinor-norm kernel), of index 2 in SO. It equals the identity component SO₀, both connected and path component. | `range_vecRep`, `cc_iff_spin` |
 | C3 | Pati–Salam at the group level. Spin6 and Spin4 inside Spin(7,7) commute and meet in ±1. Spin6 ≅ Mathlib's Spin(6) ≅ SU(4); Spin4 ≅ SU(2) × SU(2). | `product_kernel`, `spin6Equiv`, `Spin6SU4`, `spin4SU2Equiv` |
 | C4 | Hypercharge circle U(1)_Y ⊂ Spin(7,7) has minimal period π. The maximal torus kernel on U(1)⁵ is (ℤ/2)⁴. | `U1Y_eq_one_iff`, `torusKer_quot_equiv_four` |
-| C5 | **No Spin⁺(7,7) structure (equivalently no cocycle lift, `SpinLiftData`) exists over the full (1,3) observerse, for any nonempty X, including ℝ⁴.** Rotating the timelike axis by π in one fibre gives a closed loop of Lorentzian metrics whose frame holonomy reverses the orientation of the positive 7-plane (positive-block determinant −1; determinant 1 overall, `det_gHol`), so it lies outside SO₀(7,7). The same holonomy excludes any clopen SO₀(7,7)-reduction of the frames over all of Y13, a statement with no spin group in it (`no_SO0_reduction_univ`). A reduction to SO₀ is our reading of what a Spin⁺ structure needs; the draft does not mention it (§3.6, p. 24). Limits: this concerns the connected group; a two-component Spin(7,7) → SO(7,7) structure is not excluded (not formalised); it holds as formalised, for the chimeric (7,7) metric on C with the fibre of all (1,3) metrics. We make no claim that it is new. | `no_spinStructure_univ`, `no_SO0_reduction_univ`, `no_spinLiftData`, `qLoop_pi`, `gHol_not_mem_SO0`, `det_gHol` |
+| C5 | **No Spin⁺(7,7) structure (and, more strongly, no cocycle lift, `SpinLiftData`) exists over the full (1,3) observerse, for any nonempty X, including ℝ⁴.** Rotating the timelike axis by π in one fibre gives a closed loop of Lorentzian metrics whose frame holonomy reverses the orientation of the positive 7-plane (positive-block determinant −1; determinant 1 overall, `det_gHol`), so it lies outside SO₀(7,7). The same holonomy excludes any clopen SO₀(7,7)-reduction of the frames over all of Y13, a statement with no spin group in it (`no_SO0_reduction_univ`). A reduction to SO₀ is our reading of what a Spin⁺ structure needs; the draft does not mention it (§3.6, p. 24). Limits: this concerns the connected group; a two-component Spin(7,7) → SO(7,7) structure is not excluded (not formalised); it holds as formalised, for the chimeric (7,7) metric on C with the fibre of all (1,3) metrics. We make no claim that it is new. | `no_spinStructure_univ`, `no_SO0_reduction_univ`, `no_spinLiftData`, `qLoop_pi`, `gHol_not_mem_SO0`, `det_gHol` |
 
 ## D. Underspecified in the draft (not formalisable as stated)
 
@@ -148,14 +148,15 @@ extracted PDF text unless marked otherwise.
   to the real projective space RP^{n−1}", attributed to Steenrod, *The Topology of Fibre Bundles*
   (1951). We did not read Steenrod and have no section number. So the RP³ statement in FINDINGS is classical, not ours.
 - *The fibre's topology has been used physically.* The same source links the RP³ volume form to the
-  Finkelstein–Misner "kink number" (1959), "the number of times a light cone tumbles". Also
-  arXiv:gr-qc/9509048 and Mounoud, math/0110082 (search hits, not read in full).
+  Finkelstein–Misner "kink number" (1959), "the number of times a light cone tumbles".
+  Related, titles only, not read: Chamblin, *Some applications of differential topology in general
+  relativity*, arXiv:gr-qc/9509048 (includes the homotopy type of Lorentz metrics).
 - *Time-orientable double covers of one Lorentzian manifold are standard.* Chruściel, *Elements of
   causality theory*, arXiv:1110.6706, Remark 2.1.2; Natário, *Mathematical Relativity*,
   arXiv:2003.02855. These cover one spacetime (M, g), not the universal bundle of metrics. Hadley,
   arXiv:1703.05573, is a related use.
 - *Universal spinor bundle over all metrics, any signature.* Müller–Nowaczyk, arXiv:1504.01034
-  (Lett. Math. Phys. 2017), Remark 2.2: GL̃⁺V / Spin_{r,s} ≅ GL⁺V / SO_{r,s} ≅ S_{r,s}V, with Spin_{r,s}
+  (Lett. Math. Phys. 107(5), 933–961, 2017), Remark 2.2: GL̃⁺V / Spin_{r,s} ≅ GL⁺V / SO_{r,s} ≅ S_{r,s}V, with Spin_{r,s}
   the double cover of the **full** SO_{r,s}. Spinors there are built from a spin structure on the base
   M, using the two-component group. The extracted text has no occurrence of "time orient". This is the
   closest rigorous prior construction. It sits on GL̃⁺, not on a (7,7) bundle.
@@ -202,12 +203,12 @@ extracted PDF text unless marked otherwise.
 - Any statement that the chimeric or DeWitt-type (7,7) bundle over Lorentzian metrics is not
   time-orientable, or that C⁺ has nonzero w₁ on the metric bundle.
 - Any critic of GU discussing the SO₀ reduction or time orientation. Nguyen–Polya does not; Woit's post
-  ?p=5927 and its comments do not (full-text search of the page); Physics Forums, Substack explainers do not (search
+  ?p=5927 and its comments do not (full-text search of both comment pages, 76 responses); Physics Forums, Substack explainers do not (search
   summaries only).
 - Any treatment by Weinstein of time orientation. A summary of the 2020 talk mentions a "double cover";
-  it is an AI-generated summary and it was not confirmed, and `transcript.txt` in this repo has no hit
-  for "orientab", "time orient", "double cover" or "spin structure".
-- DeWitt-signature papers: Giulini (gr-qc/9311017), Giulini–Kiefer (gr-qc/9405040), Hartle–Miller–
+  it is an AI-generated summary and it was not confirmed. The repo holds no transcript of the talk
+  (`transcript.txt` is an unrelated podcast on AI and mathematics).
+- DeWitt- and simplicial-supermetric signature papers: Giulini (gr-qc/9311017), Giulini–Kiefer (gr-qc/9405040), Hartle–Miller–
   Williams (gr-qc/9609028): signature results only, nothing on orientability of the subbundles (search summaries, not read in full).
 - Not checked: Steenrod's text, Weinstein's later talks, non-English sources, paywalled journals.
 
