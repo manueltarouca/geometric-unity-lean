@@ -156,3 +156,4 @@ import GU.Bundle.Y13Hausdorff
 import GU.Bundle.SpinGeneric
 import GU.Bundle.CoverSpinAPI
 import GU.Bundle.CoverSmooth
+import GU.Bundle.CoverSpinLocal

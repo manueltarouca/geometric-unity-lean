@@ -586,3 +586,14 @@ open GU
 #print axioms GU.Library.smoothCoverSpin
 #print axioms GU.Library.contMDiff_coverSpin_Φ
 #print axioms GU.Library.contMDiff_coverSpin_Φ_full
+#print axioms GU.Library.exists_sheetY
+#print axioms GU.Library.continuousOn_secI
+#print axioms GU.Library.secI_mem_redT
+#print axioms GU.Library.exists_local_spin_cover
+#print axioms GU.Library.transI_mem_SO0
+#print axioms GU.Library.continuousOn_transI
+#print axioms GU.Library.transI_cocycle
+#print axioms GU.Library.cover_defect_mem
+#print axioms GU.Library.exists_lift_transI
+#print axioms GU.Library.exists_defect
+#print axioms GU.Library.exists_coverSpin_of_lifts
