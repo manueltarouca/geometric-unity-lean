@@ -139,3 +139,6 @@ import GU.Bundle.TimeObstruction
 import GU.Bundle.SpinExamples
 import GU.Bundle.TimeGauge
 import GU.Bundle.TimeGaugeFrame
+import GU.Library.LocalHomeoCharts
+import GU.Bundle.SpinLie
+import GU.Bundle.SmoothSpin

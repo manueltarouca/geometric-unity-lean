@@ -10,8 +10,8 @@ one `SO₀`-coset (`isOpen_range_Φ`, `exists_nhds_disjoint`), which no such pat
 
 **`no_spinLiftData`**, **`no_spinStructure`**: an open `W` containing such a loop carries no spin
 structure, so (`no_spinStructure_univ`) none exists over all of `Y13` when `X` is nonempty. This is
-an obstruction of `w₁`-type (the positive part of `C` is not orientable
-over `Y13`), upstream of `w₂`. It concerns the connected group `Spin77 → SO₀(7,7)` and base all of
+informally an obstruction of `w₁`-type (the positive part of `C` is not orientable over `Y13`),
+upstream of `w₂`; orientability and `w₁` are not formalised, only the holonomy statement. It concerns the connected group `Spin77 → SO₀(7,7)` and base all of
 `Y13`; it does not exclude a two-component spin group covering `SO(7,7)` (`gHol` has determinant 1,
 not formalised here), and smaller bases do carry spin structures (`SpinExamples.lean`).
 -/
