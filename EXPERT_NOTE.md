@@ -26,10 +26,9 @@ positive 7×7 block has determinant −1, so gHol ∉ SO₀(7,7).
 timelike line L is tautological with w₁(L) ≠ 0, and C⁺ ≅ V⁺ ⊕ L\* with V⁺ orientable, so w₁(C⁺) ≠ 0. This sits
 upstream of w₂, and it is compatible with the external, unverified claim w₂(TY) = π\*w₂(X).
 
-**Spin structures on smaller sets (Lean).** They exist near every point and over {G₀₀ > 0} for X = ℝ⁴, the
-largest open set invariant under the stabiliser of the line of dx⁰ carrying one (`gauge_largest_iff`); none
-contains all of {G₀₀ < 0} in a fibre (`no_spinStructure_of_neg_fibre`). They are not unique: off a plane in
-ℝ⁴, two spin structures on the same frames are not isomorphic (`not_iso_holeSpin`).
+**Spin structures on smaller sets (Lean).** They exist near every point and over {G₀₀ > 0} for X = ℝ⁴
+(`gauge_largest_iff`), never over all of {G₀₀ < 0} in a fibre (`no_spinStructure_of_neg_fibre`), and are
+not unique off a plane in ℝ⁴ (`not_iso_holeSpin`).
 
 ## The double-cover resolution
 
@@ -45,14 +44,15 @@ cover has no section (`no_section`). **The pulled-back frames have a clopen SO�
   cover (`coverSpin`), mapping two-to-one onto the reduction (`coverSpin_Φ_eq_iff`, `range_coverSpin`).
 - The frame (a smooth future covector and a quaternion trivialisation) is smooth (`contMDiff_Ff`), and so is
   the spin structure (`smoothCoverSpin`). The spinor bundle P̃ ×_ρD ℂ^{64,64} with its U(64,64) form exists
-  on the cover (`SpinorCover.lean`; P_H only at set level).
+  on the cover; P_H is a topological principal bundle there and (3.36) holds, reading ϱ_D on P_H as the defining representation (`CoverPH.lean`).
 
 **General X, spin structure.** Local spin structures compatible with the reduction exist near every
 point (`exists_local_spin_cover`). If TX has a continuous global frame, there is one over the whole cover
 (`exists_coverSpin_parallel`; e.g. ℝ⁴ minus a plane, not simply connected). In general, given
 continuous lifts of the transitions on a fixed cover (assumed), the ℤ/2 Čech class of their
 defect does not depend on them and vanishes iff they can be corrected to cocycle lifts, which give a global
-structure (`defZ_indep`, `isCobdy_defZ_iff`). That it is w₂ of the reduction is informal.
+structure (`defZ_indep`, `isCobdy_defZ_iff`). Its identification with w₂: informal. The sheet swap lifts to no Spin⁺ structure with image the reduction
+(`no_deck_lift`); composed with gHol (non-identity component) it preserves the reduction.
 
 ## What is proved and what is not
 
@@ -66,10 +66,10 @@ structure (`defZ_indep`, `isCobdy_defZ_iff`). That it is w₂ of the reduction i
 | A two-component Spin(7,7) over Y¹³ | Neither excluded nor constructed |
 | Non-identity component flips the spinor forms | Lean (`flip_nonidentity`, `flip_omega`; instance `isInvariant_formC`) |
 | Spin structure on the cover | Parallelisable X: Lean; general X: a ℤ/2 class (Lean, fixed cover, lifts assumed), its vanishing open |
-| Spinor bundle P̃ ×_ρD ℂ^{64,64} on the cover, X = ℝ⁴ | Lean (P_H at set level only) |
+| Spinor bundle and P_H (topological) on the cover, X = ℝ⁴; (3.36) | Lean (ϱ_D on P_H: our reading) |
 
-We searched for prior statements and did not find that the (7,7) bundle over Lorentzian metrics is not
-time-orientable, nor a critic treating the SO₀ reduction (`FINDINGS.md`, a weak negative from open-web searches).
+We found no prior statement that the (7,7) bundle over Lorentzian metrics is not time-orientable, nor a
+critic treating the SO₀ reduction (`FINDINGS.md`; open-web searches only).
 
 ## Questions for an expert
 

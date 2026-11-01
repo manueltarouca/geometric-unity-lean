@@ -29,7 +29,8 @@ The cochains are the full (not alternating, not normalised) Čech cochains of th
 Scope. All statements are relative to one cover and fixed local sections, with lifts given on whole
 double overlaps; independence is with respect to the lifts only. Existence of such lifts on the sheet
 cover is a hypothesis: **no such lifts are constructed here, not even over `ℝ⁴`**
-(`exists_coverSpin_R4'` uses the one-set cover of a global frame instead). Not formalised: lifts on
+(`exists_coverSpin_R4'` uses the one-set cover of a global frame instead; for parallelisable `X`,
+lifts on a refinement of the sheet cover are constructed in `SheetLifts.lean`). Not formalised: lifts on
 the sheet cover or a good refinement of it, independence of refinement and of the local sections, and
 a non-coboundary example. Informally, the class is `w₂` of the reduction.
 

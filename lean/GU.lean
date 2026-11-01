@@ -168,3 +168,7 @@ import GU.Bundle.O77Components
 import GU.Bundle.ParallelCover
 import GU.Bundle.DefectClass
 import GU.Bundle.SpinorCover
+import GU.Bundle.CoverPH
+import GU.Bundle.SheetLifts
+import GU.Bundle.DefectNonzero
+import GU.Bundle.DeckCover

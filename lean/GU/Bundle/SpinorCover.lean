@@ -34,8 +34,8 @@ import GU.Spinor.Dirac
   `rfl`), whose map `Φ` is two-to-one onto the `SO₀`-frames of `C` (`range_coverSpin`). No property of
   `coverPH` proved here uses `Φ`.
 
-**Not built**: the topology or smoothness of `P_H` (it is set level); the relation of `SpinorBundle`
-to the bundle associated with `P_H` (the draft's (3.36)); smoothness of the spinor bundle; a `Module`
+**Not built here**: the topology of `P_H` and the relation of `SpinorBundle` to the bundle associated
+with `P_H` (the draft's (3.36)) are in `CoverPH.lean`; smoothness of `P_H`; smoothness of the spinor bundle; a `Module`
 instance on its fibres; the Weyl splitting on the bundle; functoriality in the spin structure (this is
 the one `coverSpin`); connections and a Dirac operator; anything over `Y13` itself (only over the
 cover); any `X` other than `ℝ⁴`. The reading of the draft's "double cover" as the cover's `Spin⁺(7,7)` structure is
