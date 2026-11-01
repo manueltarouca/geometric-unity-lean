@@ -438,3 +438,11 @@ open GU
 #print axioms GU.Library.spin_structure_of_lift
 #print axioms GU.Library.SpinLiftData.ofGlobalSection
 #print axioms GU.Library.SpinLiftData.continuous_actS₂
+#print axioms GU.Library.SpinStructure.toData
+#print axioms GU.Library.SpinLiftData.toStructure
+#print axioms GU.Library.SpinStructure.range_Φ_eq
+#print axioms GU.Library.SpinStructure.isoToData
+#print axioms GU.Library.exists_data_iff_exists_structure
+#print axioms GU.Library.SpinStructure.Φ_eq_iff
+#print axioms GU.Library.SpinStructure.isCoveringMap_Φ
+#print axioms GU.Library.nonempty_data_iff_nonempty_structure

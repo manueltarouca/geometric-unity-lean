@@ -21,8 +21,8 @@ continuous, base-preserving, `ρ`-equivariant map `Φ : P̃ → OFr` whose fibre
 distinct points `{p, p·(−1)}` (`Φ_eq_iff`, `actS_negOne_ne`), whose image is the `SO₀`-reduction
 determined by the `σ i` (`range_Φ`), and which is a **covering map onto its image**
 (`isCoveringMap_Φ`, via `IsQuotientCoveringMap` for the kernel `{±1}` of `Spin(7,7) → SO₀(7,7)`).
-Not addressed: the converse (a spin structure gives lifts with trivial defect), independence of
-the choices, smoothness. So `P̃` is a spin structure: a `Spin(7,7)`-bundle
+Not addressed here: the converse (`SpinConverse.lean`), independence of the choices
+(`SpinTwist.lean`), smoothness. So `P̃` is a spin structure: a `Spin(7,7)`-bundle
 double-covering the `SO₀(7,7)`-frames. (Topological statement; smoothness of `P̃` is not stated.)
 This is the genuine (topological) counterpart of the set-level lift in `SpinLift.lean`.
 -/
