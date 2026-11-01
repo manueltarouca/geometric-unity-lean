@@ -68,11 +68,11 @@ pointwise), not to the old blocks.
 
 - ~~The submanifold structure of the orthonormal frames.~~ Done (`isManifold_orthoFrames`, dimension 105).
 - ~~The principal O(7,7)-bundle structure.~~ Done (`frameBundle`, `localTriv_diffeo`).
-- ~~The time-orientation double cover of Y13.~~ Done for general X (`Ytilde`, `isCoveringMap_tilde`, `isManifold_tilde`, `no_closed_lift`); SO₀-reduction, global frame and Spin⁺ structure on it for X = ℝ⁴ (`exists_SO0_reduction_cover`, `exists_frame_tilde`, `coverSpin`). General X: open (informally unobstructed for the reduction; partial result `tdet_gRefl`). Fibre ≃ S³: informal.
+- ~~The time-orientation double cover of Y13.~~ Done for general X (`Ytilde`, `isCoveringMap_tilde`, `isManifold_tilde`, `no_closed_lift`); SO₀-reduction, global frame and Spin⁺ structure on it for X = ℝ⁴ (`exists_SO0_reduction_cover`, `exists_frame_tilde`, `coverSpin`). General X: the SO₀-reduction exists for every X (`redT_reduction`, via `lorO_mem_SO0`); the cover is Hausdorff when X is (`t2_Ytilde`); spin structure on the cover for general X: local ones and the {±1} defect cocycle (`exists_local_spin_cover`, `cover_defect_mem`, `exists_coverSpin_of_lifts`), global open (w₂). Fibre ≃ S³: informal.
 - w₁, w₂, ℤ/2 cohomology of manifolds: not available in the pinned Mathlib, so not defined here. Statements about them in this repo are informal. The formal content is cocycle data and an explicit holonomy.
 - ~~No nontrivial gluing.~~ Done: two spin structures on the same frames over a non-simply-connected open `holeW` are not isomorphic (`not_iso_holeSpin`).
 
-## F. Phases 3–4: claim-to-theorem map (`GU/Bundle/`, Lean-checked, standard axioms only)
+## F. Phases 3–6: claim-to-theorem map (`GU/Bundle/`, Lean-checked, standard axioms only)
 
 | Claim | Theorem | Caveat |
 |---|---|---|
@@ -91,7 +91,11 @@ pointwise), not to the old blocks.
 | No clopen SO₀-reduction of the frames over all of Y13 (no spin group involved); det gHol = 1 | `no_SO0_reduction_univ`, `det_gHol`, `no_spinStructure_of_neg_fibre` | Non-vacuous over smaller bases: `exists_reduction_timeGaugeLocus` |
 | Non-isomorphic spin structures on the same frames over a non-simply-connected open set | `not_iso_holeSpin`, `holeSign_not_coboundary`, `holeLoop_not_nullhomotopic` | Isomorphism as `SpinIso`; as abstract principal bundles not analysed |
 | Time-orientation double cover of Y13: two-sheeted covering, smooth manifold, pairs (metric, future cone), metric loop has no closed lift | `isCoveringMap_tilde`, `ncard_fibre`, `isManifold_tilde`, `eq_of_future_eq`, `future_pt`, `no_closed_lift`, `no_section` | General X; Hausdorff when Y13o X is |
-| Over X = ℝ⁴ the cover carries a global frame of C, a clopen SO₀-reduction (which does not descend), and a Spin⁺(7,7) structure | `exists_frame_tilde`, `exists_SO0_reduction_cover`, `deck_not_SO0`, `coverSpin`, `range_coverSpin` | Frame from a partition of unity plus a quaternion trivialisation; general X open |
+| Over X = ℝ⁴ the cover carries a global frame of C, a clopen SO₀-reduction (which does not descend), and a Spin⁺(7,7) structure; the frame is smooth and the structure is a smooth principal bundle | `exists_frame_tilde`, `exists_SO0_reduction_cover`, `deck_not_SO0`, `coverSpin`, `range_coverSpin`, `contMDiff_Ff`, `smoothCoverSpin` | Frame from a smooth partition of unity plus a quaternion trivialisation |
+| For every X the cover's frames have a clopen SO₀-reduction; orthochronous Lorentz transformations act through SO₀; the cover is Hausdorff when X is | `redT_reduction`, `lorO_mem_SO0`, `t2_Ytilde` | |
+| Spin structures on the cover, general X: local ones, the SO₀ transition cocycle and its {±1} defect, global from continuous cocycle lifts | `exists_local_spin_cover`, `transI_cocycle`, `cover_defect_mem`, `exists_coverSpin_of_lifts` | Global existence for general X open (needs w₂, not in Mathlib) |
+| CoverSpin API: two-to-one, covering map, spin structures ⇔ cocycle lifts (via a generic frame-system theory) | `CoverSpin.Φ_eq_iff`, `CoverSpin.isCoveringMap_Φ`, `coverSpin_iff_data`, `SpinGeneric.lean` | |
+| Two-component Spin(7,7) model Spin⁺ × {1, ω}: its non-identity component flips every Spin⁺-invariant spinor form; double cover onto SO₀ ∪ (−1)SO₀ in det = 1 | `flip_nonidentity`, `flip_omega`, `toO_ker`, `range_toO`, `det_toO`, `toO_spec` | That SO₀ ∪ (−1)SO₀ is all of SO(7,7) is not formalised; identification of the model with Pin ∩ Cl⁰ informal |
 
 Correction on record: the spin-lift theorem of commit 9b35485 and the first versions of Phase 4 items 1–2 were stated over all of Y13, so by C5 their hypotheses could not hold for nonempty X and they were vacuous; reviews 64–66 missed this. They were restated over an open base W in bcdbfd6.
 

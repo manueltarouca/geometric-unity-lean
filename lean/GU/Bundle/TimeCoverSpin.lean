@@ -1,4 +1,5 @@
 import GU.Bundle.TimeCover
+import GU.Bundle.Y13Hausdorff
 
 /-!
 # Phase 5, items 5 and 6: `SO₀`-reduction and spin structure on the double cover, over `ℝ⁴`
@@ -8,7 +9,7 @@ Over `X = ℝ⁴`:
 * **`exists_future_covector`**: a continuous future timelike covector `g` on all of `Ytilde ℝ⁴`, by a
   partition of unity (and smooth, `exists_smooth_future_covector`; `gF` is chosen
   smooth), since the future cones are convex (`convex_future`). This uses that `Ytilde ℝ⁴`
-  is Hausdorff (`t2_tilde`, with `t2_Y13_R4`), `σ`-compact (`sigmaCompact_tilde_R4`) and locally compact.
+  is Hausdorff (`t2_tilde`, with `t2_Y13`), `σ`-compact (`sigmaCompact_tilde_R4`) and locally compact.
 * **`quat`**: the matrix with rows `1·g, i·g, j·g, k·g` (quaternion products) is invertible for `g ≠ 0`, with
   first row `g`, continuous in `g` (informally, the parallelisation of `S³`).
 * **`exists_frame_tilde`**: hence a **global frame** `F` of the chimeric bundle over `Ytilde ℝ⁴`:
@@ -103,17 +104,8 @@ theorem continuous_pt_R4 {Z : Type*} [TopologicalSpace Z] {y : Z → Y13o R4} {u
 
 /-! ### Topology of the cover over `ℝ⁴` -/
 
-instance t2_Y13_R4 : T2Space (Y13o R4) := by
-  have hc : Continuous fun y : Y13o R4 => (baseX y, Gpt (y : Yobs R4)) :=
-    continuous_baseX.prodMk continuous_Gpt_R4
-  refine T2Space.of_injective_continuous ?_ hc
-  rintro y y' h
-  have h1 : baseX y = baseX y' := congrArg Prod.fst h
-  have h2 : Gpt (y : Yobs R4) = Gpt (y' : Yobs R4) := congrArg Prod.snd h
-  obtain ⟨Q, hQ, hG⟩ := y.2
-  rw [eq_mkY y hQ hG, eq_mkY y' hQ (h2 ▸ hG)]
-  show mkY (baseX y) Q hQ = mkY (baseX y') Q hQ
-  rw [h1]
+/-- `Y13(ℝ⁴)` is Hausdorff (the general `t2_Y13`). -/
+theorem t2_Y13_R4 : T2Space (Y13o R4) := inferInstance
 
 /-- A parametrisation of `Ytilde ℝ⁴`. -/
 def parT (z : R4 × {Q : M4 // IsUnit Q} × Bool) : Ytilde R4 :=

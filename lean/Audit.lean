@@ -612,3 +612,5 @@ open GU
 #print axioms GU.Library.range_toO
 #print axioms GU.Library.det_toO
 #print axioms GU.Library.toO_spec
+#print axioms GU.Library.RegularLevel.of_contMDiff
+#print axioms GU.Library.regularLevel_fst

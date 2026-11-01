@@ -58,7 +58,7 @@ refute GU as physics.
   metrics in one fibre has frame holonomy outside SO₀(7,7) (`no_spinStructure_univ`, `qLoop_pi`). A
   two-component Spin(7,7) is not excluded. Spin structures exist over smaller open sets (`exists_spinStructure_near`, `exists_smoothSpin_near`), and need not be unique (`not_iso_holeSpin`).
 - The same holonomy excludes any clopen SO₀-reduction of the frames over all of Y13 (`no_SO0_reduction_univ`).
-- On the time-orientation double cover of Y13 (general X: `isCoveringMap_tilde`, `isManifold_tilde`, `no_closed_lift`) the obstruction disappears for X = ℝ⁴: a global frame, an SO₀-reduction and a Spin⁺(7,7) structure exist (`exists_frame_tilde`, `exists_SO0_reduction_cover`, `coverSpin`). General X is open. Questions for an expert: `EXPERT_NOTE.md`.
+- On the time-orientation double cover of Y13 (general X: `isCoveringMap_tilde`, `isManifold_tilde`, `no_closed_lift`) the obstruction disappears for X = ℝ⁴: a global frame, an SO₀-reduction and a Spin⁺(7,7) structure exist (`exists_frame_tilde`, `exists_SO0_reduction_cover`, `coverSpin`), all smooth (`contMDiff_Ff`, `smoothCoverSpin`). The SO₀-reduction on the cover exists for every X (`redT_reduction`); for general X spin structures exist locally and from continuous cocycle lifts (`exists_coverSpin_of_lifts`), and the global question is (informally) a w₂ condition, not formalised. Our two-component model Spin⁺ × {1, ω} has a non-identity component that flips every invariant spinor form (`flip_nonidentity`). Questions for an expert: `EXPERT_NOTE.md`.
 - Spin(7,7) → SO(7,7) has kernel ±1, and its image is exactly SO₀(7,7), both connected and path
   component (`range_vecRep`, `cc_iff_spin`).
 - Pati–Salam:

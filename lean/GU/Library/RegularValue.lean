@@ -11,8 +11,9 @@ of `f ∘ φ⁻¹` (`LevelOpen.lean`). Transitions are smooth because the chart 
 The topology is the subspace topology of `M`.
 
 `[Nontrivial F]` is only used to extend `f ∘ φ⁻¹` by a value `≠ c` off the chart target; if
-`F = 0`, the level set is `M` itself. Not yet proved: `RegularLevel` from the textbook hypothesis
-(`f` is `C^∞` with `mfderiv` onto along `f⁻¹{c}`), and smoothness of the inclusion into `M` is `contMDiff_regularLevel_val`.
+`F = 0`, the level set is `M` itself. `RegularLevel` from the textbook hypothesis
+(`f` is `C^∞` with `mfderiv` onto along `f⁻¹{c}`) is `RegularLevel.of_contMDiff` (`RegularTextbook.lean`,
+instance `regularLevel_fst`), and smoothness of the inclusion into `M` is `contMDiff_regularLevel_val`.
 Not in the pinned Mathlib: `Geometry/Manifold/Submersion.lean` lists the preimage theorem as TODO.
 -/
 

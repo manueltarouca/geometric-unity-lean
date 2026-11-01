@@ -229,12 +229,9 @@ theorem continuousOn_transO {Z : Type*} [TopologicalSpace Z] {S : Set Z} (hS : I
 /-- The time covector of a frame: `P⁻ᵀ e₀`. -/
 def tcov (P : M4) : R4 := (Pᵀ)⁻¹ *ᵥ Pi.single 0 1
 
-lemma isUnit_tr {P : M4} (h : IsUnit P) : IsUnit Pᵀ := by
-  rw [Matrix.isUnit_iff_isUnit_det, Matrix.det_transpose, ← Matrix.isUnit_iff_isUnit_det]; exact h
-
 lemma tr_mulVec_tcov {P : M4} (h : IsUnit P) : Pᵀ *ᵥ tcov P = Pi.single 0 1 := by
   rw [tcov, Matrix.mulVec_mulVec, Matrix.mul_nonsing_inv _
-    ((Matrix.isUnit_iff_isUnit_det _).mp (isUnit_tr h)), Matrix.one_mulVec]
+    ((Matrix.isUnit_iff_isUnit_det _).mp (isUnit_transpose' h)), Matrix.one_mulVec]
 
 lemma eta_e0 : (ηR : M4) *ᵥ (Pi.single 0 1 : R4) = Pi.single 0 1 := by
   rw [GU.Iso77.ηR_eq, ηr]
@@ -335,7 +332,7 @@ lemma isLF_tflip {G Q : M4} (h : IsLF G Q) : IsLF G (Q * tflip) := by
     _ = _ := by simp only [Matrix.mul_assoc]
 
 lemma tcov_tflip {Q : M4} (h : IsUnit Q) : tcov (Q * tflip) = -tcov Q := by
-  have hu := isUnit_tr (h.mul (IsUnit.of_mul_eq_one _ tflip_mul_self))
+  have hu := isUnit_transpose' (h.mul (IsUnit.of_mul_eq_one _ tflip_mul_self))
   apply (Matrix.mulVec_injective_of_isUnit hu)
   rw [tr_mulVec_tcov (h.mul (IsUnit.of_mul_eq_one _ tflip_mul_self)), Matrix.mulVec_neg,
     transpose_mul, ← Matrix.mulVec_mulVec, tr_mulVec_tcov h]
@@ -460,17 +457,17 @@ lemma tcov_locP {I : TimeIdx X} {y : Y13o X} (hy : y ∈ tV I) :
   have hu := (isLF_locP hy).1
   have hA := gaugeP_00_pos (conj_mem_gaugeSet hy)
   have hJ : IsUnit (transMat I.1 (baseX y)) := isUnit_ccM ((Zt X).mem_baseSet_at _) hy.1
-  apply Matrix.mulVec_injective_of_isUnit (isUnit_tr hu)
+  apply Matrix.mulVec_injective_of_isUnit (isUnit_transpose' hu)
   rw [tr_mulVec_tcov hu, Matrix.mulVec_smul]
   have hJJ : ((transMat I.1 (baseX y))ᵀ)⁻¹ *ᵥ ((transMat I.1 (baseX y))ᵀ *ᵥ I.2) = I.2 := by
     rw [Matrix.mulVec_mulVec, Matrix.nonsing_inv_mul _
-      ((Matrix.isUnit_iff_isUnit_det _).mp (isUnit_tr hJ)), Matrix.one_mulVec]
+      ((Matrix.isUnit_iff_isUnit_det _).mp (isUnit_transpose' hJ)), Matrix.one_mulVec]
   have hq : (quat I.2)ᵀ *ᵥ (Pi.single 0 1 : R4) = I.2 := by
     ext i; fin_cases i <;> simp [quat, Matrix.mulVec, dotProduct, Pi.single_apply, Fin.sum_univ_four]
   have hq' : ((quat I.2)ᵀ)⁻¹ *ᵥ I.2 = Pi.single 0 1 := by
     have := congrArg (fun v => ((quat I.2)ᵀ)⁻¹ *ᵥ v) hq
     rw [Matrix.mulVec_mulVec, Matrix.nonsing_inv_mul _
-      ((Matrix.isUnit_iff_isUnit_det _).mp (isUnit_tr (isUnit_quat (xi_ne hy)))), Matrix.one_mulVec] at this
+      ((Matrix.isUnit_iff_isUnit_det _).mp (isUnit_transpose' (isUnit_quat (xi_ne hy)))), Matrix.one_mulVec] at this
     exact this.symm
   have hrow : ∀ G : M4, (gaugeP G)ᵀ *ᵥ (Pi.single 0 1 : R4) = gaugeP G 0 0 • Pi.single 0 1 := by
     intro G
