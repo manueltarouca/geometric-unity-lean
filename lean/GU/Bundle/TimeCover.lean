@@ -24,7 +24,8 @@ the sign of the pairing `G(ξ_I, ξ_J)`. The sign is a cocycle by the reversed C
   cover has a section, so this cover is not trivial.)
 
 General `X`; no hypothesis beyond those of `Y13o X`. As for `Y`, `IsManifold` carries no Hausdorff or
-second-countability claim; `t2_tilde` shows the cover is Hausdorff whenever `Y13o X` is.
+second-countability claim; `t2_tilde` shows the cover is Hausdorff whenever `Y13o X` is, and
+`t2_Ytilde` (`Y13Hausdorff.lean`) whenever `X` is.
 -/
 
 namespace GU.Library

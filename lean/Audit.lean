@@ -559,3 +559,8 @@ open GU
 #print axioms GU.Library.redT_reduction
 #print axioms GU.Library.redT_reduction_R4
 #print axioms GU.Library.redT_nonempty
+#print axioms GU.Library.t2_totalSpace
+#print axioms GU.Library.t2_Y13
+#print axioms GU.Library.t2_Ytilde
+#print axioms GU.Library.t2_Sym2TX
+#print axioms GU.Library.t2_Ytilde_R4
