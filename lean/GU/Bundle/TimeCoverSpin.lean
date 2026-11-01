@@ -6,7 +6,8 @@ import GU.Bundle.TimeCover
 Over `X = ℝ⁴`:
 
 * **`exists_future_covector`**: a continuous future timelike covector `g` on all of `Ytilde ℝ⁴`, by a
-  partition of unity, since the future cones are convex (`convex_future`). This uses that `Ytilde ℝ⁴`
+  partition of unity (and smooth, `exists_smooth_future_covector`; `gF` is chosen
+  smooth), since the future cones are convex (`convex_future`). This uses that `Ytilde ℝ⁴`
   is Hausdorff (`t2_tilde`, with `t2_Y13_R4`), `σ`-compact (`sigmaCompact_tilde_R4`) and locally compact.
 * **`quat`**: the matrix with rows `1·g, i·g, j·g, k·g` (quaternion products) is invertible for `g ≠ 0`, with
   first row `g`, continuous in `g` (informally, the parallelisation of `S³`).
@@ -303,6 +304,21 @@ lemma eventually_mem_future (p₀ : Ytilde R4) : ∃ c : R4, ∀ᶠ p in 𝓝 p�
 theorem exists_future_covector : ∃ g : C(Ytilde R4, R4), ∀ p, g p ∈ future p :=
   exists_continuous_forall_mem_convex_of_local_const convex_future eventually_mem_future
 
+attribute [local instance] chartTilde in
+/-- The cover is a smooth manifold, as an instance for the smooth partition of unity. -/
+theorem isManifold_tilde_R4 :
+    letI := chartTilde (X := R4)
+    IsManifold 𝓘(ℝ, EY) ∞ (Ytilde R4) := isManifold_tilde
+
+attribute [local instance] chartTilde in
+/-- **A smooth future timelike covector on the whole cover** (smooth partition of unity). -/
+theorem exists_smooth_future_covector :
+    letI := chartTilde (X := R4)
+    ∃ g : C^∞⟮𝓘(ℝ, EY), Ytilde R4; 𝓘(ℝ, R4), R4⟯, ∀ p, g p ∈ future p := by
+  haveI := isManifold_tilde_R4
+  exact exists_contMDiffMap_forall_mem_convex_of_local_const 𝓘(ℝ, EY) convex_future
+    eventually_mem_future
+
 /-! ### The quaternion trivialisation -/
 
 /-- **The quaternion matrix of `g`**: rows `1·g, i·g, j·g, k·g`; first row `g`, rows orthogonal of norm `|g|`. -/
@@ -355,10 +371,16 @@ lemma isUnit_of_eta_eq {P Q : M4} (hQ : IsUnit Q) (h : P * ηR * Pᵀ = Q * ηR 
 
 /-! ### The global Lorentz frame and the global frame of `C` over the cover -/
 
-/-- A continuous future covector on the cover, fixed once. -/
-def gF : C(Ytilde R4, R4) := exists_future_covector.choose
+attribute [local instance] chartTilde in
+/-- A smooth future covector on the cover, fixed once (`gF_smooth`). -/
+def gF : C(Ytilde R4, R4) :=
+  ⟨exists_smooth_future_covector.choose, exists_smooth_future_covector.choose.contMDiff.continuous⟩
 
-lemma gF_future (p : Ytilde R4) : gF p ∈ future p := exists_future_covector.choose_spec p
+lemma gF_future (p : Ytilde R4) : gF p ∈ future p := exists_smooth_future_covector.choose_spec p
+
+attribute [local instance] chartTilde in
+lemma gF_smooth : ContMDiff 𝓘(ℝ, EY) 𝓘(ℝ, R4) ∞ (gF : Ytilde R4 → R4) :=
+  exists_smooth_future_covector.choose.contMDiff
 
 lemma gF_ne (p : Ytilde R4) : gF p ≠ 0 := by
   intro h

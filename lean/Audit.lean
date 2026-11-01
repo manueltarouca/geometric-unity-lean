@@ -577,3 +577,12 @@ open GU
 #print axioms GU.Library.CoverSpin.isoToData
 #print axioms GU.Library.isCoveringMap_coverSpin
 #print axioms GU.Library.exists_data_cover_R4
+#print axioms GU.Library.exists_smooth_future_covector
+#print axioms GU.Library.gF_smooth
+#print axioms GU.Library.SmoothEntries.inv
+#print axioms GU.Library.SmoothEntries.gaugeP
+#print axioms GU.Library.smooth_G
+#print axioms GU.Library.contMDiff_Ff
+#print axioms GU.Library.smoothCoverSpin
+#print axioms GU.Library.contMDiff_coverSpin_Φ
+#print axioms GU.Library.contMDiff_coverSpin_Φ_full
