@@ -6,7 +6,7 @@ import GU.Bundle.SpinTwist
 `tdet M` is the determinant of the positive `7 × 7` block of `M`. On `O(7,7)` it never vanishes
 (`tdet_ne_zero`), and it is positive on the identity component `SO₀` (`tdet_pos_of_mem_SO0`).
 `gHol` is the diagonal element of `O(7,7)` that is the holonomy of the metric loop of
-`MetricLoop.lean`; `tdet gHol = −1`, so `gHol ∉ SO₀` (`gHol_not_mem_SO0`), although `det gHol = 1`.
+`MetricLoop.lean`; `tdet gHol = −1`, so `gHol ∉ SO₀` (`gHol_not_mem_SO0`), although `det gHol = 1` (`det_gHol`, `SO0Reduction.lean`).
 -/
 
 namespace GU.Library

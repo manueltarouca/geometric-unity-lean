@@ -13,7 +13,8 @@ Fix `X = ℝ⁴`. `HGauge` is the set of invertible `P` fixing the covector `dx�
 weaker than, hence covers, invariance under `x⁰`-preserving diffeomorphisms. It has three orbits per
 fibre (the sign of `G₀₀`; informal, not formalised), so an invariant open set is fibrewise `∅`,
 `{G₀₀ > 0}`, `{G₀₀ < 0}`, `{G₀₀ ≠ 0}` or everything. So "largest" is largely by elimination, and the
-real content is, informally: **no open set containing the orbit `{G₀₀ < 0}` of a fibre carries a spin structure.**
+real content is **no open set containing the orbit `{G₀₀ < 0}` of a fibre carries a spin structure**
+(`no_spinStructure_of_neg_fibre`, `SO0Reduction.lean`).
 The result is relative to the choice of covector: the "`∂₀` timelike" locus would need the first-column
 group instead. Without an invariance requirement no largest open subset exists
 (`no_largest_spinStructure`); a coordinate-free base (the double cover of `Y13`) is not addressed.

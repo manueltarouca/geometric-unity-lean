@@ -507,3 +507,10 @@ open GU
 #print axioms GU.Library.gauge_largest_iff
 #print axioms GU.Library.gauge_largest_frame
 #print axioms GU.Library.exists_frame_timeGaugeLocus
+#print axioms GU.Library.det_gHol
+#print axioms GU.Library.no_SO0_reduction_univ
+#print axioms GU.Library.no_spinStructure_of_neg_fibre
+#print axioms GU.Library.timeGaugeLocus_nonempty
+#print axioms GU.Library.reduction_of_spinLiftData
+#print axioms GU.Library.no_spinLiftData_of_univ
+#print axioms GU.Library.exists_reduction_timeGaugeLocus
