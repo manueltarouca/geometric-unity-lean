@@ -68,9 +68,9 @@ pointwise), not to the old blocks.
 
 - ~~The submanifold structure of the orthonormal frames.~~ Done (`isManifold_orthoFrames`, dimension 105).
 - ~~The principal O(7,7)-bundle structure.~~ Done (`frameBundle`, `localTriv_diffeo`).
-- The time-orientation double cover of Y13 (fibre S³ up to homotopy, informal), the natural base for an SO₀-reduction and a spin structure: not formalised (plan item W3).
+- ~~The time-orientation double cover of Y13.~~ Done for general X (`Ytilde`, `isCoveringMap_tilde`, `isManifold_tilde`, `no_closed_lift`); SO₀-reduction, global frame and Spin⁺ structure on it for X = ℝ⁴ (`exists_SO0_reduction_cover`, `exists_frame_tilde`, `coverSpin`). General X: open (informally unobstructed for the reduction; partial result `tdet_gRefl`). Fibre ≃ S³: informal.
 - w₁, w₂, ℤ/2 cohomology of manifolds: not available in the pinned Mathlib, so not defined here. Statements about them in this repo are informal. The formal content is cocycle data and an explicit holonomy.
-- No nontrivial gluing has been exercised: instances use one chart, or two charts with a trivial gluing. No example yet of two non-isomorphic spin structures on the same frames.
+- ~~No nontrivial gluing.~~ Done: two spin structures on the same frames over a non-simply-connected open `holeW` are not isomorphic (`not_iso_holeSpin`).
 
 ## F. Phases 3–4: claim-to-theorem map (`GU/Bundle/`, Lean-checked, standard axioms only)
 
@@ -88,6 +88,10 @@ pointwise), not to the old blocks.
 | Two charts with constant lift t; a sign change alters the lift but gives an isomorphic structure | `twoChart`, `twoCharts_iso`, `twoCharts_lift_ne`, `exists_twoChart_near` | Same domain and a Spin77-coboundary, so the gluing is trivial; not a nontrivial gluing |
 | Spin(7,7) is a Lie group; ρ is a local diffeomorphism with image SO₀ | `lieGroup_spin`, `isLocalDiffeomorph_ρ`, `range_ρ` | Stated into O77, where SO₀ is open |
 | Smooth data gives a smooth principal Spin(7,7)-bundle over W, Φ a local diffeomorphism | `smoothSpinBundle`, `isLocalDiffeomorph_Φ`, `exists_smoothSpin_near` | |
+| No clopen SO₀-reduction of the frames over all of Y13 (no spin group involved); det gHol = 1 | `no_SO0_reduction_univ`, `det_gHol`, `no_spinStructure_of_neg_fibre` | Non-vacuous over smaller bases: `exists_reduction_timeGaugeLocus` |
+| Non-isomorphic spin structures on the same frames over a non-simply-connected open set | `not_iso_holeSpin`, `holeSign_not_coboundary`, `holeLoop_not_nullhomotopic` | Isomorphism as `SpinIso`; as abstract principal bundles not analysed |
+| Time-orientation double cover of Y13: two-sheeted covering, smooth manifold, pairs (metric, future cone), metric loop has no closed lift | `isCoveringMap_tilde`, `ncard_fibre`, `isManifold_tilde`, `eq_of_future_eq`, `future_pt`, `no_closed_lift`, `no_section` | General X; Hausdorff when Y13o X is |
+| Over X = ℝ⁴ the cover carries a global frame of C, a clopen SO₀-reduction (which does not descend), and a Spin⁺(7,7) structure | `exists_frame_tilde`, `exists_SO0_reduction_cover`, `deck_not_SO0`, `coverSpin`, `range_coverSpin` | Frame from a partition of unity plus a quaternion trivialisation; general X open |
 
 Correction on record: the spin-lift theorem of commit 9b35485 and the first versions of Phase 4 items 1–2 were stated over all of Y13, so by C5 their hypotheses could not hold for nonempty X and they were vacuous; reviews 64–66 missed this. They were restated over an open base W in bcdbfd6.
 

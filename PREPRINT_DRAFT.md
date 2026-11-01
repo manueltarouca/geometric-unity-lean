@@ -56,7 +56,9 @@ refute GU as physics.
 ## 4. Group-level structure made precise
 - No Spin⁺(7,7) structure over all of the (1,3) observerse for nonempty X: a closed loop of Lorentzian
   metrics in one fibre has frame holonomy outside SO₀(7,7) (`no_spinStructure_univ`, `qLoop_pi`). A
-  two-component Spin(7,7) is not excluded. Spin structures exist over smaller open sets (`exists_spinStructure_near`, `exists_smoothSpin_near`).
+  two-component Spin(7,7) is not excluded. Spin structures exist over smaller open sets (`exists_spinStructure_near`, `exists_smoothSpin_near`), and need not be unique (`not_iso_holeSpin`).
+- The same holonomy excludes any clopen SO₀-reduction of the frames over all of Y13 (`no_SO0_reduction_univ`).
+- On the time-orientation double cover of Y13 (general X: `isCoveringMap_tilde`, `isManifold_tilde`, `no_closed_lift`) the obstruction disappears for X = ℝ⁴: a global frame, an SO₀-reduction and a Spin⁺(7,7) structure exist (`exists_frame_tilde`, `exists_SO0_reduction_cover`, `coverSpin`). General X is open. Questions for an expert: `EXPERT_NOTE.md`.
 - Spin(7,7) → SO(7,7) has kernel ±1, and its image is exactly SO₀(7,7), both connected and path
   component (`range_vecRep`, `cc_iff_spin`).
 - Pati–Salam:
@@ -82,8 +84,8 @@ The Shiab family (8.1); D_ω in (9.6); the fermionic quadrant (9.16); integratio
 non-compact fibres; no anomaly-cancellation mechanism; the global spin structure. As formalised, no
 Spin⁺(7,7) structure exists over all of the (1,3) observerse for any nonempty X
 (`no_spinStructure_univ`: a loop of Lorentzian metrics in one fibre has holonomy outside SO₀(7,7));
-one exists over smaller open sets. A two-component Spin(7,7) is not excluded, and w₂ itself is not
-formalised.
+one exists over smaller open sets, and one exists over the whole time-orientation double cover for
+X = ℝ⁴ (`coverSpin`). A two-component Spin(7,7) is not excluded, and w₂ itself is not formalised.
 
 ## 7. Relation to prior critiques (to be completed by an expert)
 - Nguyen–Polya (2021):
