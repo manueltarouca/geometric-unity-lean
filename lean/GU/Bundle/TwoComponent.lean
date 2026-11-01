@@ -25,7 +25,7 @@ element: the boosts `cosh t + sinh t · hyp k` lie in `Spin⁺(7,7)` (`boost`, `
 standard one is informal), maps onto `SO₀(7,7) ∪ (−1)·SO₀(7,7)` with kernel `{±1}` (`toO_ker`, `range_toO`),
 inside `{det = 1}` (`det_toO`); `−1` is outside `SO₀` (`tdet_negO`, `negO_not_mem`). `toO` is the action on
 vectors by conjugation (`toO_spec`). That `SO₀ ∪ (−1)·SO₀` is all of `SO(7,7)` (the `det = 1` part of
-`O(7,7)`; it needs `O(7,7)` to have exactly four components) is not formalised.
+`O(7,7)`) is `SO77_eq` and `range_toO_eq` in `O77Components.lean`.
 -/
 
 namespace GU.Library

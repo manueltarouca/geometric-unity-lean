@@ -1,0 +1,1352 @@
+<!-- Copyright (c) 2026 Manuel Tarouca. Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geometric Unity, checked by machine: a Lean audit</title>
+<meta name="description" content="A machine-checked audit of Eric Weinstein's Geometric Unity draft (April 2021) in Lean. Floors 1 to 4 checked by machine. On floor 4, the arrow of time flips.">
+<meta name="author" content="Manuel Tarouca">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f4f2ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111113" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://manueltarouca.github.io/geometric-unity-lean/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Geometric Unity, checked by machine">
+<meta property="og:description" content="A Lean audit of the Geometric Unity draft. On floor 4, the arrow of time flips. On a double cover, it is consistent again.">
+<meta property="og:url" content="https://manueltarouca.github.io/geometric-unity-lean/">
+<meta property="og:image" content="https://manueltarouca.github.io/geometric-unity-lean/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A tower of seven floors. Floors 1 to 4 are checked by machine. Floor 4 is marked: we are here.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Geometric Unity, checked by machine">
+<meta name="twitter:description" content="A Lean audit of the Geometric Unity draft. On floor 4, the arrow of time flips. On a double cover, it is consistent again.">
+<meta name="twitter:image" content="https://manueltarouca.github.io/geometric-unity-lean/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23141416'/%3E%3Crect x='9' y='5' width='14' height='3' rx='1' fill='none' stroke='%239a9aa2' stroke-width='1.2' stroke-dasharray='2 1.5'/%3E%3Crect x='9' y='10' width='14' height='3' rx='1' fill='%23e3a33b'/%3E%3Crect x='9' y='15' width='14' height='3' rx='1' fill='%23e3a33b'/%3E%3Crect x='9' y='20' width='14' height='3' rx='1' fill='%2350c494'/%3E%3Ccircle cx='26' cy='21.5' r='2.2' fill='%23ff6f52'/%3E%3Crect x='9' y='25' width='14' height='3' rx='1' fill='%2350c494'/%3E%3C/svg%3E">
+<script>
+  (function () {
+    try {
+      var t = localStorage.getItem('gu-theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) {}
+  })();
+</script>
+<style>
+/* ---------- Tokens ---------- */
+:root {
+  --bg: #f4f2ec;
+  --bg-2: #ebe8df;
+  --surface: #fbfaf7;
+  --ink: #16161a;
+  --ink-2: #3d3e45;
+  --muted: #5b5c63;
+  --line: #d6d2c6;
+  --line-2: #c4bfb1;
+  --ok: #1d7454;
+  --ok-soft: #dcebe3;
+  --part: #9a5800;
+  --part-soft: #f3e4cc;
+  --none: #63656d;
+  --none-soft: #e6e4de;
+  --alert: #bb3218;
+  --alert-soft: #f6ddd6;
+  --sheet-a: #1d7454;
+  --sheet-b: #3d4fb8;
+  --surface-3d: #d8d3c5;
+  --ok-3d: #4f9f7f;
+  --part-3d: #dc9d45;
+  --focus: #2346d8;
+  --shadow: 0 1px 0 rgba(22,22,26,.04), 0 12px 32px -18px rgba(22,22,26,.18);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #111113;
+  --bg-2: #18181b;
+  --surface: #1b1b1f;
+  --ink: #edece6;
+  --ink-2: #cfcec8;
+  --muted: #a4a4ab;
+  --line: #2d2d33;
+  --line-2: #3c3c44;
+  --ok: #50c494;
+  --ok-soft: #173327;
+  --part: #e3a33b;
+  --part-soft: #3a2c13;
+  --none: #9a9aa2;
+  --none-soft: #26262b;
+  --alert: #ff6f52;
+  --alert-soft: #3d1d16;
+  --sheet-a: #50c494;
+  --sheet-b: #8c9bff;
+  --surface-3d: #6a6a78;
+  --focus: #8ea6ff;
+  --shadow: 0 1px 0 rgba(0,0,0,.3), 0 16px 40px -20px rgba(0,0,0,.7);
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111113;
+    --bg-2: #18181b;
+    --surface: #1b1b1f;
+    --ink: #edece6;
+    --ink-2: #cfcec8;
+    --muted: #a4a4ab;
+    --line: #2d2d33;
+    --line-2: #3c3c44;
+    --ok: #50c494;
+    --ok-soft: #173327;
+    --part: #e3a33b;
+    --part-soft: #3a2c13;
+    --none: #9a9aa2;
+    --none-soft: #26262b;
+    --alert: #ff6f52;
+    --alert-soft: #3d1d16;
+    --sheet-a: #50c494;
+    --sheet-b: #8c9bff;
+    --surface-3d: #6a6a78;
+    --ok-3d: #3a9a72;
+    --part-3d: #c98d34;
+  --ok-3d: #3a9a72;
+  --part-3d: #c98d34;
+    --focus: #8ea6ff;
+    --shadow: 0 1px 0 rgba(0,0,0,.3), 0 16px 40px -20px rgba(0,0,0,.7);
+    color-scheme: dark;
+  }
+}
+:root {
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", "URW Palladio L", Georgia, serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --step--1: clamp(.8125rem, .79rem + .1vw, .875rem);
+  --step-0: clamp(1rem, .97rem + .15vw, 1.0625rem);
+  --step-1: clamp(1.125rem, 1.06rem + .3vw, 1.3125rem);
+  --step-2: clamp(1.375rem, 1.22rem + .7vw, 1.75rem);
+  --step-3: clamp(1.875rem, 1.5rem + 1.9vw, 3.125rem);
+  --step-4: clamp(2.5rem, 1.6rem + 4.6vw, 5.75rem);
+  --gutter: clamp(20px, 4.5vw, 64px);
+  --max: 1240px;
+  --radius: 14px;
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 var(--step-0)/1.6 var(--sans);
+  font-feature-settings: "kern", "liga";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; letter-spacing: -.015em; margin: 0; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; border-radius: 6px; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; left: 12px; top: -60px; z-index: 50; background: var(--ink); color: var(--bg); padding: 12px 16px; border-radius: 8px; text-decoration: none; }
+.skip:focus { top: 12px; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+.mono { font-family: var(--mono); font-feature-settings: "tnum"; }
+.ico { width: 1.15em; height: 1.15em; flex: none; vertical-align: -.2em; }
+
+/* ---------- Header ---------- */
+.top {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  -webkit-backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .2s;
+}
+.top.scrolled { border-bottom-color: var(--line); }
+.top .wrap { display: flex; align-items: center; gap: 12px; min-height: 64px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; letter-spacing: -.01em; min-height: 44px; margin-right: auto; }
+.brand svg { width: 26px; height: 26px; }
+.brand small { font-weight: 400; color: var(--muted); }
+.nav { display: flex; align-items: center; gap: 4px; }
+.nav a, .btn-icon {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; min-width: 44px; padding: 0 12px;
+  border-radius: 10px; text-decoration: none; color: var(--ink-2);
+  font-size: var(--step--1); font-weight: 500;
+  background: none; border: 0; cursor: pointer; font-family: inherit;
+}
+.nav a:hover, .btn-icon:hover { background: var(--bg-2); color: var(--ink); }
+.btn-icon svg { width: 20px; height: 20px; }
+@media (max-width: 560px) { .nav .lbl { display: none; } .brand small { display: none; } .nav a { padding: 0 10px; } }
+
+/* ---------- Hero ---------- */
+.hero { padding: clamp(32px, 5vw, 72px) 0 clamp(56px, 8vw, 112px); }
+.hero-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); grid-template-areas: "text stage" "glance stage"; grid-template-rows: auto 1fr; gap: 0 clamp(32px, 5vw, 80px); align-items: stretch; }
+.hero-text { grid-area: text; } .hero-stage { grid-area: stage; } .hero .glance { grid-area: glance; align-self: end; }
+.hero-text { padding: clamp(8px, 3vw, 48px) 0 0; }
+.hero-stage { min-height: 560px; }
+@media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; grid-template-areas: "text" "stage" "glance"; grid-template-rows: auto; } .hero-stage { margin-top: 36px; } .hero-stage { min-height: 0; height: clamp(420px, 110vw, 600px); } }
+.eyebrow { font: 500 var(--step--1)/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.eyebrow .rule { width: 40px; height: 1px; background: var(--line-2); }
+.hero h1 { font-size: clamp(2.6rem, 1.5rem + 3.3vw, 4.6rem); line-height: 1.02; margin: 24px 0 0; max-width: 12ch; }
+.hero h1 em { font-style: italic; color: var(--muted); }
+.hero .lead { margin-top: clamp(24px, 3vw, 36px); max-width: 34rem; font-size: var(--step-1); line-height: 1.55; color: var(--ink-2); }
+.hero .lead p + p { margin-top: .5em; }
+.glance { margin-top: clamp(36px, 5vw, 56px); display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); border-top: 1px solid var(--line); }
+.glance > div { padding: 20px 20px 0 0; display: grid; gap: 8px; align-content: start; }
+.glance > div + div { padding-left: 20px; border-left: 1px solid var(--line); }
+.glance .k { font: 500 var(--step--1)/1.3 var(--mono); color: var(--muted); }
+.glance .v { display: flex; gap: 8px; align-items: flex-start; font-size: var(--step-0); line-height: 1.4; font-weight: 500; }
+.glance .v .ico { margin-top: .15em; }
+.glance > div { padding-bottom: 20px; }
+.glance > div:nth-child(3) { padding-left: 0; border-left: 0; }
+.glance > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+@media (max-width: 420px) { .glance > div { padding-right: 12px; } .glance > div + div { padding-left: 14px; } .glance > div:nth-child(3) { padding-left: 0; } .eyebrow .rule { display: none; } .eyebrow { gap: 4px 10px; } }
+
+/* ---------- Status colours ---------- */
+.s-ok, .s-ok .ico { color: var(--ok); }
+.s-part, .s-part .ico { color: var(--part); }
+.s-none, .s-none .ico { color: var(--none); }
+.s-alert, .s-alert .ico { color: var(--alert); }
+/* status label text stays ink; only the icon carries the colour */
+.s-ink { color: var(--ink); }
+
+/* ---------- Sections ---------- */
+section.sec { padding: clamp(72px, 10vw, 150px) 0; border-top: 1px solid var(--line); }
+.sec-head { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 0 32px; margin-bottom: clamp(32px, 5vw, 64px); }
+.sec-num { font: 500 var(--step--1)/1.3 var(--mono); color: var(--muted); padding-top: .9em; letter-spacing: .04em; display: grid; gap: 4px; align-content: start; }
+.sec-num b { font-weight: 500; color: var(--ink); }
+.sec-head h2 { font-size: var(--step-3); line-height: 1.08; max-width: 18ch; }
+.sec-head .intro { grid-column: 2; margin-top: 20px; max-width: 36rem; color: var(--ink-2); font-size: var(--step-1); line-height: 1.55; }
+.sec-head .intro p + p { margin-top: .45em; }
+.sec-body { margin-left: calc(120px + 32px); }
+@media (max-width: 860px) {
+  .sec-head { grid-template-columns: 1fr; }
+  .sec-num { padding: 0 0 14px; }
+  .sec-head .intro { grid-column: 1; }
+  .sec-body { margin-left: 0; }
+}
+
+/* ---------- Legend ---------- */
+.legend { display: flex; flex-wrap: wrap; gap: 8px 10px; margin: 0 0 28px; padding: 0; list-style: none; }
+.legend li { display: inline-flex; align-items: center; gap: 8px; font-size: var(--step--1); padding: 6px 12px 6px 10px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); }
+
+/* ---------- Stage (3D) ---------- */
+.stage {
+  position: relative; border-radius: var(--radius); overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, color-mix(in srgb, var(--surface) 92%, transparent), transparent 70%),
+    var(--bg-2);
+  border: 1px solid var(--line);
+  isolation: isolate;
+}
+.stage::after { /* fine grid */
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 40px 40px; background-position: -1px -1px;
+  -webkit-mask-image: radial-gradient(80% 70% at 50% 45%, #000, transparent 85%);
+  mask-image: radial-gradient(80% 70% at 50% 45%, #000, transparent 85%);
+}
+.stage canvas { display: block; width: 100%; height: 100%; touch-action: pan-y; }
+.stage canvas[hidden] { display: none; }
+.stage .fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 24px; }
+.stage .fallback svg { width: 100%; height: 100%; max-height: 100%; }
+.stage.live .fallback { display: none; }
+.stage .ov { position: absolute; inset: 0; pointer-events: none; }
+.tag {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%);
+  font: 500 12px/1 var(--mono); color: var(--ink-2); white-space: nowrap;
+  padding: 5px 7px; border-radius: 6px; background: color-mix(in srgb, var(--surface) 88%, transparent);
+  border: 1px solid var(--line); opacity: 0; transition: opacity .25s;
+}
+.stage.live .tag { opacity: 1; }
+.tag.here { color: #fff; background: var(--alert); border-color: transparent; font-weight: 600; display: inline-flex; gap: 6px; align-items: center; padding: 6px 9px; }
+:root[data-theme="dark"] .tag.here { color: #1a0d09; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tag.here { color: #1a0d09; } }
+.tag.here::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.tag.left { transform: translate(-100%, -50%); }
+.stage-note { position: absolute; left: 14px; bottom: 12px; font-size: 12px; color: var(--muted); font-family: var(--mono); }
+
+/* ---------- Tower section ---------- */
+#tower .floors { max-width: 860px; }
+.tag.fl { transform: translate(0, -50%); display: inline-flex; align-items: center; gap: 7px; font: 500 12.5px/1 var(--sans); color: var(--ink); padding: 6px 9px 6px 7px; }
+.tag.fl b { font: 600 12px/1 var(--mono); color: var(--muted); }
+.tag.fl .ico { width: 14px; height: 14px; }
+.tag.fl.hl { border-color: var(--ink-2); }
+.tag.fl.is-here { border-color: var(--alert); box-shadow: 0 0 0 1px var(--alert); }
+.tag.fl .here-chip { font: 600 10.5px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: 4px 6px; margin-left: 2px; border-radius: 4px; background: var(--alert); color: #fff; }
+:root[data-theme="dark"] .tag.fl .here-chip { color: #1a0d09; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tag.fl .here-chip { color: #1a0d09; } }
+@media (max-width: 420px) { .tag.fl { font-size: 11.5px; padding: 5px 7px 5px 6px; gap: 5px; } .tag.fl .here-chip { font-size: 9.5px; } }
+.tip {
+  position: absolute; z-index: 3; max-width: min(280px, calc(100% - 24px)); pointer-events: none;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line-2); border-radius: 10px;
+  padding: 12px 14px; box-shadow: var(--shadow); font-size: var(--step--1); line-height: 1.45;
+  opacity: 0; transform: translateY(4px); transition: opacity .15s, transform .15s;
+}
+.tip.on { opacity: 1; transform: none; }
+.tip b { display: block; font-size: 15px; margin-bottom: 2px; }
+.tip .st { display: flex; gap: 6px; align-items: center; margin-top: 8px; font-weight: 500; }
+@media (prefers-reduced-motion: reduce) { .tip { transition: none; } }
+
+.floors { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.floor {
+  display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 4px 16px; align-items: start;
+  padding: 16px 12px 16px 8px; border-bottom: 1px solid var(--line); border-radius: 0;
+  cursor: default; position: relative; transition: background .15s;
+  outline-offset: -3px;
+}
+.floor:hover, .floor.hl { background: var(--bg-2); }
+.floor .n { font: 500 var(--step-2)/1 var(--serif); color: var(--muted); padding-top: 2px; }
+.floor .name { font-weight: 600; font-size: var(--step-0); line-height: 1.35; }
+.floor .plain { grid-column: 2; color: var(--muted); font-size: var(--step--1); line-height: 1.45; }
+.floor .st { grid-row: 1 / span 2; grid-column: 3; display: inline-flex; align-items: center; gap: 6px; font-size: var(--step--1); font-weight: 500; white-space: nowrap; padding-top: 2px; }
+.floor .detail { grid-column: 2 / span 2; font-size: var(--step--1); line-height: 1.45; display: flex; gap: 8px; align-items: flex-start; }
+.floor .detail .ico { margin-top: .1em; }
+.floor.here { background: color-mix(in srgb, var(--alert-soft) 70%, transparent); }
+.floor.here:hover, .floor.here.hl { background: var(--alert-soft); }
+.floor.here::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--alert); }
+.floor.here .n { color: var(--alert); }
+.pill-here { display: inline-flex; align-items: center; gap: 6px; margin-left: 8px; padding: 2px 8px; border-radius: 999px; font: 600 11px/1.6 var(--mono); letter-spacing: .04em; text-transform: uppercase; background: var(--alert); color: #fff; vertical-align: 2px; white-space: nowrap; }
+:root[data-theme="dark"] .pill-here { color: #1a0d09; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pill-here { color: #1a0d09; } }
+@media (max-width: 520px) {
+  .floor { grid-template-columns: 36px minmax(0, 1fr); }
+  .floor .st { grid-row: auto; grid-column: 2; padding-top: 4px; white-space: normal; }
+  .floor .detail { grid-column: 2; }
+}
+
+/* ---------- Explainer (Möbius, double cover) ---------- */
+.explain { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.explain.flip { grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); }
+.scene-stage { aspect-ratio: 4 / 3; }
+@media (max-width: 960px) { .explain, .explain.flip { grid-template-columns: 1fr; } }
+@media (max-width: 520px) { .scene-stage { aspect-ratio: 5 / 4; } }
+.controls[hidden] { display: none; }
+.controls { display: flex; align-items: center; gap: 16px; margin-top: 16px; }
+.controls label { flex: 1; display: grid; gap: 6px; }
+.controls .lab { font: 500 12px/1 var(--mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 44px; min-width: 44px; padding: 0 16px; border-radius: 10px;
+  border: 1px solid var(--line-2); background: var(--surface); color: var(--ink);
+  font: 500 var(--step--1)/1 var(--sans); cursor: pointer; text-decoration: none;
+}
+.btn:hover { border-color: var(--ink-2); }
+.btn svg { width: 16px; height: 16px; }
+.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn.primary:hover { background: var(--ink-2); }
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; margin: 0; cursor: pointer; }
+input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(90deg, var(--ink) 0 var(--fill, 0%), var(--line-2) var(--fill, 0%) 100%); }
+input[type=range]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--line-2); }
+input[type=range]::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--ink); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; margin-top: -9px; border-radius: 50%; background: var(--surface); border: 2px solid var(--ink); box-shadow: var(--shadow); }
+input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--surface); border: 2px solid var(--ink); }
+input[type=range]:focus-visible { outline: none; }
+input[type=range]:focus-visible::-webkit-slider-thumb { outline: 3px solid var(--focus); outline-offset: 2px; }
+input[type=range]:focus-visible::-moz-range-thumb { outline: 3px solid var(--focus); outline-offset: 2px; }
+.ticks { display: flex; justify-content: space-between; font: 500 11px/1 var(--mono); color: var(--muted); margin-top: -8px; padding: 0 2px; }
+.ticks span { width: 0; display: flex; justify-content: center; white-space: nowrap; }
+.ticks span:first-child { justify-content: flex-start; } .ticks span:last-child { justify-content: flex-end; }
+.controls .btn { padding: 0; width: 44px; flex: none; align-self: center; margin-top: 8px; }
+
+.readout {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px; margin-top: 14px;
+  border-radius: 12px; border: 1px solid var(--line); background: var(--surface);
+  font-weight: 500; min-height: 56px;
+}
+.readout .ico { width: 22px; height: 22px; }
+.readout[data-tone=alert] { border-color: color-mix(in srgb, var(--alert) 45%, var(--line)); background: var(--alert-soft); }
+.readout[data-tone=ok] { border-color: color-mix(in srgb, var(--ok) 45%, var(--line)); background: var(--ok-soft); }
+
+.side { display: grid; gap: 20px; }
+.steps { list-style: none; margin: 0; padding: 0; counter-reset: s; display: grid; gap: 0; border-top: 1px solid var(--line); }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 32px minmax(0,1fr); gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); line-height: 1.5; }
+.steps li::before { content: counter(s); font: 500 var(--step--1)/1.9 var(--mono); color: var(--muted); }
+.steps li strong { font-weight: 600; }
+.badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 10px; border-radius: 999px; font-size: var(--step--1); font-weight: 500; border: 1px solid currentColor; width: max-content; max-width: 100%; }
+.badge span { color: var(--ink); }
+.facts { list-style: none; padding: 0; margin: 0; border-top: 1px solid var(--line); }
+.facts li { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: var(--step--1); line-height: 1.45; }
+.facts .r { display: inline-flex; gap: 6px; align-items: center; font-weight: 500; white-space: nowrap; }
+.aside {
+  margin-top: clamp(40px, 5vw, 64px); padding: clamp(20px, 3vw, 32px); border-radius: var(--radius);
+  border: 1px solid var(--line); background: var(--surface);
+  display: grid; grid-template-columns: auto minmax(0,1fr); gap: 16px 20px; align-items: start;
+}
+.aside > .ico { width: 28px; height: 28px; }
+.aside h3 { font-size: var(--step-2); line-height: 1.2; }
+.aside p { color: var(--ink-2); margin-top: 6px; }
+@media (max-width: 520px) { .aside { grid-template-columns: 1fr; } }
+
+/* ---------- Timeline ---------- */
+.timeline { list-style: none; margin: 0 -22px; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.timeline > li { padding: 22px 22px 26px; border-radius: var(--radius); border: 1px solid transparent; }
+.timeline > li.now { background: var(--part-soft); border-color: color-mix(in srgb, var(--part) 30%, transparent); }
+.timeline .dot { display: flex; align-items: center; gap: 10px; height: 28px; }
+.timeline .dot .ico { width: 26px; height: 26px; }
+.timeline .dot .line { flex: 1; height: 1px; background: var(--line-2); margin-right: -34px; }
+.timeline > li.now .dot .line { background: repeating-linear-gradient(90deg, var(--part) 0 4px, transparent 4px 8px); opacity: .6; margin-right: 0; }
+.timeline .ph { font: 500 var(--step--1)/1 var(--mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.timeline > li.now .ph { color: var(--ink); }
+.timeline h3 { font-size: var(--step-2); line-height: 1.2; margin: 18px 0 10px; }
+.timeline p, .timeline .sub li { font-size: var(--step--1); line-height: 1.5; color: var(--ink-2); }
+.timeline p + p { margin-top: 8px; }
+.timeline .st { display: inline-flex; align-items: center; gap: 6px; font-size: var(--step--1); font-weight: 500; margin-top: 14px; color: var(--ink); }
+.timeline .sub { list-style: none; margin: 14px 0 0; padding: 0; border-top: 1px solid color-mix(in srgb, var(--part) 25%, transparent); }
+.timeline .sub li { display: grid; gap: 4px; padding: 10px 0; border-bottom: 1px solid color-mix(in srgb, var(--part) 25%, transparent); }
+.timeline .sub li:last-child { border-bottom: 0; padding-bottom: 0; }
+.timeline .sub .it { display: inline-flex; gap: 6px; align-items: center; font-weight: 600; color: var(--ink); }
+.timeline .sub .it .mono { color: var(--muted); font-weight: 400; }
+@media (max-width: 1060px) {
+  .timeline { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+  .timeline .dot .line { display: none; }
+}
+@media (max-width: 640px) {
+  .timeline { grid-template-columns: 1fr; gap: 0; border-left: 1px solid var(--line-2); margin: 0 0 0 13px; }
+  .timeline > li { padding: 4px 0 28px 30px; position: relative; border: 0; border-radius: 0; }
+  .timeline > li .dot { margin-left: -43px; }
+  .timeline > li .dot .ico { background: var(--bg); border-radius: 50%; }
+  .timeline > li.now { padding: 20px 18px 22px 16px; margin-left: 14px; border-radius: var(--radius); border: 1px solid color-mix(in srgb, var(--part) 30%, transparent); }
+  .timeline > li.now .dot .ico { background: var(--bg); }
+}
+
+/* ---------- Publish table ---------- */
+.pub { width: 100%; border-collapse: collapse; font-size: var(--step--1); line-height: 1.5; }
+.pub th { text-align: left; font: 500 12px/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 0 16px 12px 0; border-bottom: 1px solid var(--line-2); }
+.pub td { padding: 18px 16px 18px 0; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-2); }
+.pub td:first-child { color: var(--ink); font-weight: 600; font-size: var(--step-0); width: 34%; }
+.pub td:nth-child(2) { width: 30%; }
+.pub .v { display: inline-flex; gap: 8px; align-items: center; font-weight: 600; color: var(--ink); }
+.pub .v + div { margin-top: 4px; }
+.pub tr.no td:first-child { color: var(--ink-2); font-weight: 500; }
+@media (max-width: 760px) {
+  .pub thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .pub, .pub tbody, .pub tr, .pub td { display: block; width: 100% !important; }
+  .pub tr { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin-bottom: 12px; }
+  .pub td { border: 0; padding: 0; }
+  .pub td + td { margin-top: 12px; }
+  .pub td[data-l]::before { content: attr(data-l); display: block; font: 500 11px/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+}
+.gate {
+  margin-top: clamp(32px, 4vw, 48px); display: grid; grid-template-columns: auto minmax(0,1fr) auto; gap: 16px 24px; align-items: center;
+  padding: clamp(20px, 3vw, 32px); border-radius: var(--radius); border: 1px solid var(--line-2); background: var(--surface);
+}
+.gate > .ico { width: 32px; height: 32px; }
+.gate h3 { font-size: var(--step-2); line-height: 1.2; }
+.gate p { color: var(--ink-2); margin-top: 6px; }
+@media (max-width: 760px) { .gate { grid-template-columns: 1fr; } }
+
+/* ---------- Frontier ---------- */
+.path { position: relative; }
+.path .step::before { content: ""; position: absolute; left: 25px; top: 52px; bottom: 0; width: 1px; background: var(--line-2); }
+.path .step { display: grid; grid-template-columns: 52px minmax(0,1fr); gap: 20px; align-items: start; padding-bottom: 32px; position: relative; }
+.path .num { width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; font: 500 var(--step-1)/1 var(--serif); background: var(--bg); position: relative; }
+.path .step h3 { font-size: var(--step-2); line-height: 1.2; padding-top: 11px; }
+.path .step p { color: var(--muted); margin-top: 6px; font-size: var(--step--1); }
+.fork { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(12px, 2vw, 20px); margin-left: 72px; position: relative; }
+.fork .lab { grid-column: 1 / -1; font: 500 12px/1 var(--mono); letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+.fork-dot { position: absolute; left: -51px; top: 1px; width: 9px; height: 9px; border-radius: 50%; background: var(--line-2); }
+.out { padding: clamp(20px, 2.5vw, 28px); border-radius: var(--radius); border: 1px solid var(--line); background: var(--surface); display: grid; gap: 10px; align-content: start; }
+.out .if { display: inline-flex; align-items: center; gap: 8px; font: 600 var(--step--1)/1.2 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--ink); }
+.out h3 { font-size: var(--step-2); line-height: 1.2; }
+.out p { color: var(--ink-2); font-size: var(--step--1); }
+@media (max-width: 640px) { .fork { grid-template-columns: 1fr; margin-left: 72px; } .path .step { gap: 16px; } }
+
+/* ---------- Footer ---------- */
+footer { border-top: 1px solid var(--line); padding: 48px 0 64px; font-size: var(--step--1); color: var(--muted); }
+footer .wrap { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 16px 32px; align-items: start; }
+footer .links { display: flex; flex-wrap: wrap; gap: 4px 4px; justify-content: flex-end; }
+footer .links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; color: var(--ink-2); }
+footer p + p { margin-top: 6px; }
+@media (max-width: 760px) { footer .wrap { grid-template-columns: 1fr; } footer .links { justify-content: flex-start; margin-left: -10px; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- Icon sprite. Status never relies on colour alone: each status has its own shape. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M7.5 12.4l3 3 6-6.6" fill="none" stroke="var(--bg)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-part" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.8a9.2 9.2 0 0 1 0 18.4z" fill="currentColor"/></symbol>
+  <symbol id="i-none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3.2 2.6"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 2.6L22.4 20.6H1.6z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/><path d="M12 9v5.6" stroke="var(--bg)" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="17.6" r="1.3" fill="var(--bg)"/></symbol>
+  <symbol id="i-open" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9.3 9.4a2.8 2.8 0 1 1 3.9 2.6c-.8.4-1.2.9-1.2 1.8v.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><circle cx="12" cy="17.2" r="1.15" fill="currentColor"/></symbol>
+  <symbol id="i-no" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M7.5 12h9" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-prog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.8A9.2 9.2 0 0 1 20.7 15L12 12z" fill="currentColor"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 8l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10.5" rx="2.2" fill="currentColor"/><path d="M8 10.5V7.8a4 4 0 0 1 8 0v2.7" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-flip" viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 12-4.9M19 12a7 7 0 0 1-12 4.9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M17.5 3.5v4h-4M6.5 20.5v-4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4.5" width="4" height="15" rx="1" fill="currentColor"/><rect x="14" y="4.5" width="4" height="15" rx="1" fill="currentColor"/></symbol>
+  <symbol id="i-gh" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1.8a10.2 10.2 0 0 0-3.2 19.9c.5.1.7-.2.7-.5v-1.8c-2.8.6-3.4-1.2-3.4-1.2-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.6 1.1 1.6 1.1.9 1.6 2.4 1.1 3 .8.1-.7.4-1.1.6-1.4-2.3-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.5-1.3.1-2.7 0 0 .9-.3 2.8 1a9.6 9.6 0 0 1 5.1 0c1.9-1.3 2.8-1 2.8-1 .6 1.4.2 2.4.1 2.7.7.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5A10.2 10.2 0 0 0 12 1.8z"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 2.8h8l4 4v14.4H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 2.8v4h4M9 12h6M9 15.5h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><g stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M12 2v2.2M12 19.8V22M2 12h2.2M19.8 12H22M4.9 4.9l1.6 1.6M17.5 17.5l1.6 1.6M4.9 19.1l1.6-1.6M17.5 6.5l1.6-1.6"/></g></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.6A8.4 8.4 0 0 1 9.4 4a8.4 8.4 0 1 0 10.6 10.6z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#main" title="Back to top">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><rect x="5" y="2" width="16" height="3" rx="1" fill="none" stroke="var(--none)" stroke-width="1.2" stroke-dasharray="2 1.6"/><rect x="5" y="6.6" width="16" height="3" rx="1" fill="var(--part)"/><rect x="5" y="11.2" width="16" height="3" rx="1" fill="var(--part)"/><rect x="5" y="15.8" width="16" height="3" rx="1" fill="var(--ok)"/><rect x="5" y="20.4" width="16" height="3" rx="1" fill="var(--ok)"/><circle cx="23.4" cy="17.3" r="2" fill="var(--alert)"/></svg>
+      <span>GU <small>in Lean</small></span>
+    </a>
+    <nav class="nav" aria-label="Links">
+      <a href="https://github.com/manueltarouca/geometric-unity-lean/blob/main/EXPERT_NOTE.md" aria-label="Expert note"><svg class="ico" aria-hidden="true"><use href="#i-doc"/></svg><span class="lbl">Expert note</span></a>
+      <a href="https://github.com/manueltarouca/geometric-unity-lean" aria-label="Code on GitHub"><svg class="ico" aria-hidden="true"><use href="#i-gh"/></svg><span class="lbl">Code</span></a>
+      <button class="btn-icon" id="theme" type="button" aria-label="Switch to dark theme"><svg aria-hidden="true"><use href="#i-moon"/></svg></button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- ===== Hero ===== -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+      <p class="eyebrow"><span>A machine-checked audit</span><span class="rule" aria-hidden="true"></span><span>Geometric Unity</span></p>
+      <h1>Does Geometric Unity <em>stand up?</em></h1>
+      <div class="lead">
+        <p>Geometric Unity (GU) is a draft theory by Eric Weinstein, from April 2021.</p>
+        <p>We check it in Lean. Lean is a proof checker. It accepts only airtight proofs.</p>
+      </div>
+    </div>
+      <div class="glance" role="list" aria-label="Status at a glance">
+        <div role="listitem"><span class="k">Floors 1–3</span><span class="v s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Built and checked</span></span></div>
+        <div role="listitem"><span class="k">Floors 5–6</span><span class="v s-part"><svg class="ico" aria-hidden="true"><use href="#i-part"/></svg><span style="color:var(--ink)">Partly checked</span></span></div>
+        <div role="listitem"><span class="k">Floor 7</span><span class="v s-none"><svg class="ico" aria-hidden="true"><use href="#i-none"/></svg><span style="color:var(--ink)">Mostly not reached</span></span></div>
+        <div role="listitem"><span class="k">Main finding</span><span class="v s-alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><a href="#finding" style="color:var(--ink)">On floor 4, the arrow of time flips</a></span></div>
+      </div>
+        <div class="stage tower-stage hero-stage" id="tower-stage" data-scene="tower">
+          <div class="fallback" aria-hidden="true">
+            <svg viewBox="0 0 300 330" role="presentation">
+              <g font-family="ui-monospace,Menlo,monospace" font-size="12" fill="var(--muted)">
+                <rect x="70" y="20" width="160" height="34" rx="3" fill="none" stroke="var(--none)" stroke-dasharray="5 4"/><text x="240" y="41">7</text>
+                <rect x="70" y="62" width="160" height="34" rx="3" fill="var(--part)" opacity=".85"/><text x="240" y="83">6</text>
+                <rect x="70" y="104" width="160" height="34" rx="3" fill="var(--part)" opacity=".85"/><text x="240" y="125">5</text>
+                <rect x="70" y="146" width="160" height="34" rx="3" fill="var(--ok)"/><rect x="66" y="142" width="168" height="42" rx="5" fill="none" stroke="var(--alert)" stroke-width="2.5"/><text x="246" y="167" fill="var(--alert)" font-weight="700">4 · we are here</text>
+                <rect x="70" y="188" width="160" height="34" rx="3" fill="var(--ok)"/><text x="240" y="209">3</text>
+                <rect x="70" y="230" width="160" height="34" rx="3" fill="var(--ok)"/><text x="240" y="251">2</text>
+                <rect x="70" y="272" width="160" height="34" rx="3" fill="var(--ok)"/><text x="240" y="293">1</text>
+              </g>
+            </svg>
+          </div>
+          <canvas role="img" aria-label="A 3D tower of seven floors. Floors 1 to 4 are checked by machine; floor 4 has an obstruction. Floors 5 and 6 are partly checked. Floor 7 is mostly not reached. Floor 4 is marked: we are here." hidden></canvas>
+          <div class="ov" aria-hidden="true"></div>
+          <div class="tip" aria-hidden="true"></div>
+        </div>
+
+    </div>
+  </div>
+
+  <!-- ===== 01 Tower ===== -->
+  <section class="sec" id="tower" aria-labelledby="tower-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num" aria-hidden="true"><b>01</b>Tower</span>
+        <h2 id="tower-h">GU is a tower. Each floor stands on the one below.</h2>
+      </div>
+      <div class="sec-body">
+        <ul class="legend" aria-label="Legend">
+        <li><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg>Checked by machine</li>
+        <li><svg class="ico s-part" aria-hidden="true"><use href="#i-part"/></svg>Partly checked</li>
+        <li><svg class="ico s-none" aria-hidden="true"><use href="#i-none"/></svg>Not reached</li>
+        <li><svg class="ico s-alert" aria-hidden="true"><use href="#i-alert"/></svg>Obstruction found</li>
+      </ul>
+        <ol class="floors" reversed aria-label="The seven floors, from top to bottom">
+          <li class="floor" data-floor="7" data-name="Physics output" data-status="none" tabindex="0">
+            <span class="n" aria-hidden="true">7</span>
+            <span class="name"><span class="sr-only">Floor 7: </span>Physics output</span>
+            <span class="st s-none"><svg class="ico" aria-hidden="true"><use href="#i-none"/></svg><span>Not reached</span></span>
+            <span class="plain">3 generations, the Standard Model, predictions</span>
+            <span class="detail"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span>A few pieces checked (one generation, one mixing angle)</span></span>
+          </li>
+          <li class="floor" data-floor="6" data-name="Field equations" data-status="part" tabindex="0">
+            <span class="n" aria-hidden="true">6</span>
+            <span class="name"><span class="sr-only">Floor 6: </span>Field equations</span>
+            <span class="st s-part"><svg class="ico" aria-hidden="true"><use href="#i-part"/></svg><span>Partly</span></span>
+            <span class="plain">Einstein-like and Yang-Mills-like equations, from one “Shiab” operator</span>
+            <span class="detail"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span>Core identity proved</span></span>
+            <span class="detail"><svg class="ico s-alert" aria-hidden="true"><use href="#i-alert"/></svg><span>Defects found (a dropped star, equations that do not follow)</span></span>
+          </li>
+          <li class="floor" data-floor="5" data-name="Gauge group &amp; action" data-status="part" tabindex="0">
+            <span class="n" aria-hidden="true">5</span>
+            <span class="name"><span class="sr-only">Floor 5: </span>Gauge group &amp; action</span>
+            <span class="st s-part"><svg class="ico" aria-hidden="true"><use href="#i-part"/></svg><span>Partly</span></span>
+            <span class="plain">The big symmetry group, and the energy function of the theory</span>
+            <span class="detail"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span>Algebra checked</span></span>
+            <span class="detail"><svg class="ico s-alert" aria-hidden="true"><use href="#i-alert"/></svg><span>Several defects</span></span>
+          </li>
+          <li class="floor here" data-floor="4" data-name="Spinors (matter)" data-status="ok" tabindex="0">
+            <span class="n" aria-hidden="true">4</span>
+            <span class="name"><span class="sr-only">Floor 4: </span>Spinors (matter)<span class="pill-here">We are here</span></span>
+            <span class="st s-alert"><svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg><span>Checked: obstruction</span></span>
+            <span class="plain">Where electrons and quarks would live. Needs a “spin structure”.</span>
+            <span class="detail"><svg class="ico s-alert" aria-hidden="true"><use href="#i-alert"/></svg><span><a href="#finding">Obstruction found</a></span></span>
+          </li>
+          <li class="floor" data-floor="3" data-name="The 14-dim bundle C" data-status="ok" tabindex="0">
+            <span class="n" aria-hidden="true">3</span>
+            <span class="name"><span class="sr-only">Floor 3: </span>The 14-dim bundle C</span>
+            <span class="st s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span>Built, checked</span></span>
+            <span class="plain">A 14-dimensional space built over spacetime, with a (7,7) geometry</span>
+          </li>
+          <li class="floor" data-floor="2" data-name="The space of all metrics Y" data-status="ok" tabindex="0">
+            <span class="n" aria-hidden="true">2</span>
+            <span class="name"><span class="sr-only">Floor 2: </span>The space of all metrics Y</span>
+            <span class="st s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span>Built, checked</span></span>
+            <span class="plain">Every possible way to measure distances, at every point</span>
+          </li>
+          <li class="floor" data-floor="1" data-name="Spacetime X" data-status="ok" tabindex="0">
+            <span class="n" aria-hidden="true">1</span>
+            <span class="name"><span class="sr-only">Floor 1: </span>Spacetime X</span>
+            <span class="st s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span>Given</span></span>
+            <span class="plain">Our 4-dimensional world</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 02 Finding ===== -->
+  <section class="sec" id="finding" aria-labelledby="finding-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num" aria-hidden="true"><b>02</b>Finding</span>
+        <h2 id="finding-h">On floor 4, the arrow of time flips.</h2>
+        <div class="intro">
+          <p>Before matter can live on the 14-dim bundle, GU needs one consistent arrow of time on it, everywhere.</p>
+        </div>
+      </div>
+      <div class="explain">
+        <div>
+          <div class="stage scene-stage" data-scene="mobius">
+            <div class="fallback" aria-hidden="true">
+              <svg viewBox="0 0 400 300" role="presentation">
+                <path d="M60 150 C60 80 170 80 200 150 C230 220 340 220 340 150 C340 80 230 80 200 150 C170 220 60 220 60 150Z" fill="var(--surface-3d)" stroke="var(--ink-2)" stroke-width="1.5"/>
+                <g stroke="var(--ok)" stroke-width="4" stroke-linecap="round" fill="var(--ok)"><path d="M98 172V128"/><path d="M98 116l-8 14h16z"/></g>
+                <g stroke="var(--alert)" stroke-width="4" stroke-linecap="round" fill="var(--alert)"><path d="M120 128v44"/><path d="M120 184l-8-14h16z"/></g>
+                <text x="70" y="250" font-family="ui-monospace,Menlo,monospace" font-size="13" fill="var(--muted)">start ↑  ·  after one loop ↓</text>
+              </svg>
+            </div>
+            <canvas role="img" aria-label="A Möbius strip. An arrow walks once around it. It comes back pointing the opposite way." hidden></canvas>
+            <div class="ov" aria-hidden="true"></div>
+          </div>
+          <div class="controls">
+            <button class="btn" type="button" data-play aria-label="Pause animation"><svg aria-hidden="true"><use href="#i-pause"/></svg></button>
+            <label><span class="lab">Walk around the loop</span>
+              <input type="range" min="0" max="1000" value="0" data-scrub aria-valuetext="Start">
+            <span class="ticks" aria-hidden="true"><span>Start</span><span>½ loop</span><span>1 loop</span></span></label>
+          </div>
+          <p class="readout" data-readout role="status" aria-live="polite"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span>Start: the arrow of time points one way.</span></p>
+        </div>
+        <div class="side">
+          <ol class="steps">
+            <li><span>Pick a loop of metrics. <span style="color:var(--muted)">(A metric is a way to measure distances.)</span></span></li>
+            <li><span>Walk once around it, carrying the arrow of time.</span></li>
+            <li><span>The arrow comes back <strong>reversed</strong>, like on a Möbius strip.</span></li>
+          </ol>
+          <p style="font-size:var(--step-1);line-height:1.45;font-family:var(--serif)">So GU’s spinors (matter) cannot exist on the full space, as written.</p>
+          <span class="badge s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span>Machine-proved · Phase 4</span></span>
+        </div>
+      </div>
+      <div class="aside">
+        <svg class="ico s-alert" aria-hidden="true"><use href="#i-alert"/></svg>
+        <div>
+          <h3>What if GU means a two-piece group?</h3>
+          <p>We checked this other reading too. Its second piece flips the sign of every spinor pairing (machine-proved). That this breaks GU’s matter setup is our reading, not yet machine-checked.</p>
+          <p style="margin-top:14px"><span class="badge s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span>Sign flip machine-proved · Phase 6</span></span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 03 Fix ===== -->
+  <section class="sec" id="fix" aria-labelledby="fix-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num" aria-hidden="true"><b>03</b>Fix</span>
+        <h2 id="fix-h">The fix: a double cover.</h2>
+        <div class="intro">
+          <p>Take two sheets, glued together. One loop takes you to the other sheet. Two loops bring you home.</p>
+          <p>On the double cover, the arrow of time is consistent. Spinors exist on flat space, and on any spacetime with a global frame. In general: open.</p>
+        </div>
+      </div>
+      <div class="explain flip">
+        <div>
+          <div class="stage scene-stage" data-scene="cover">
+            <div class="fallback" aria-hidden="true">
+              <svg viewBox="0 0 400 300" role="presentation">
+                <ellipse cx="200" cy="90" rx="130" ry="34" fill="none" stroke="var(--sheet-a)" stroke-width="10" opacity=".85"/>
+                <ellipse cx="200" cy="160" rx="130" ry="34" fill="none" stroke="var(--sheet-b)" stroke-width="10" opacity=".85"/>
+                <ellipse cx="200" cy="245" rx="130" ry="26" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 4"/>
+                <g font-family="ui-monospace,Menlo,monospace" font-size="13" fill="var(--muted)"><text x="340" y="94">A</text><text x="340" y="164">B</text><text x="340" y="250">loop</text></g>
+              </svg>
+            </div>
+            <canvas role="img" aria-label="Two sheets joined like a spiral staircase that closes. One loop around takes the traveller from sheet A to sheet B. A second loop brings it home. Its arrow keeps the same direction." hidden></canvas>
+            <div class="ov" aria-hidden="true"></div>
+          </div>
+          <div class="controls">
+            <button class="btn" type="button" data-play aria-label="Pause animation"><svg aria-hidden="true"><use href="#i-pause"/></svg></button>
+            <label><span class="lab">Walk around the loop</span>
+              <input type="range" min="0" max="2000" value="0" data-scrub aria-valuetext="Start, sheet A">
+            <span class="ticks" aria-hidden="true"><span>Start</span><span>1 loop</span><span>2 loops</span></span></label>
+          </div>
+          <p class="readout" data-readout role="status" aria-live="polite"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span>Start: sheet A.</span></p>
+        </div>
+        <div class="side">
+          <ul class="facts" aria-label="What is proved about the fix">
+            <li><span>Arrow of time, for every spacetime</span><span class="r s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Machine-proved</span></span></li>
+            <li><span>Spinors on ℝ⁴ (flat 4D space)</span><span class="r s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Machine-proved</span></span></li>
+            <li><span>Spinors, any spacetime with a global frame</span><span class="r s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Machine-proved</span></span></li>
+            <li><span>Spinors in general, locally</span><span class="r s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Yes</span></span></li>
+            <li><span>Spinors in general, globally</span><span class="r s-part"><svg class="ico" aria-hidden="true"><use href="#i-open"/></svg><span style="color:var(--ink)">Open question</span></span></li>
+          </ul>
+          <p style="color:var(--muted);font-size:var(--step--1)">The idea of a double cover is standard. Applying it here, and proving it by machine, is new as far as we found.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 04 Progress ===== -->
+  <section class="sec" id="progress" aria-labelledby="progress-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num" aria-hidden="true"><b>04</b>Progress</span>
+        <h2 id="progress-h">Progress so far.</h2>
+      </div>
+      <ol class="timeline">
+        <li>
+          <div class="dot"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span class="ph">Phase 4</span><span class="line"></span></div>
+          <h3>The twist</h3>
+          <p>Found the obstruction: the arrow of time flips.</p>
+          <span class="st s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Machine-proved</span></span>
+        </li>
+        <li>
+          <div class="dot"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span class="ph">Phase 5</span><span class="line"></span></div>
+          <h3>The double cover</h3>
+          <p>Built the double cover. Spinors on ℝ⁴ (flat 4D space).</p>
+          <span class="st s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Machine-proved</span></span>
+        </li>
+        <li>
+          <div class="dot"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span class="ph">Phase 6</span><span class="line"></span></div>
+          <h3>Every spacetime</h3>
+          <p>The fix works for every spacetime (the arrow-of-time part).</p>
+          <p>Spinors in general: locally yes. Globally: an open question.</p>
+          <p>The two-piece group reading flips every spinor pairing (its effect on the matter setup: our reading).</p>
+          <span class="st s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Machine-proved</span></span>
+        </li>
+        <li class="now">
+          <div class="dot"><svg class="ico s-part" aria-hidden="true"><use href="#i-prog"/></svg><span class="ph">Phase 7 · now</span><span class="line"></span></div>
+          <h3>Tidy the edges</h3>
+          <p>Tidying the fix’s edges, plus public tooling.</p>
+          <ul class="sub">
+            <li><span class="it"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Done</span> <span class="mono">· item 1</span></span><span>The pieces of the symmetry group O(7,7)</span></li>
+            <li><span class="it"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Done</span> <span class="mono">· item 2</span></span><span>Spinors for every spacetime with a global frame, e.g. flat space, or flat space with a hole</span></li>
+            <li><span class="it"><svg class="ico s-part" aria-hidden="true"><use href="#i-prog"/></svg><span style="color:var(--ink)">Partly</span> <span class="mono">· item 3</span></span><span>A yes/no test for spinors in general (on one fixed patchwork)</span></li>
+            <li><span class="it"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Done</span> <span class="mono">· item 4</span></span><span>A first spinor bundle on the double cover (flat space)</span></li>
+            <li><span class="it"><svg class="ico s-none" aria-hidden="true"><use href="#i-next"/></svg><span style="color:var(--ink)">Now</span> <span class="mono">· items 5–6</span></span><span>Public tooling (done), then publish</span></li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ===== 05 Publishable ===== -->
+  <section class="sec" id="publish" aria-labelledby="publish-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num" aria-hidden="true"><b>05</b>Publishable</span>
+        <h2 id="publish-h">What could be published, honestly.</h2>
+      </div>
+      <table class="pub">
+        <thead><tr><th scope="col">Result</th><th scope="col">Novelty</th><th scope="col">Publishable?</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>The arrow-of-time obstruction in GU’s 14-dim bundle</td>
+            <td data-l="Novelty">We found no prior statement of it.</td>
+            <td data-l="Publishable?"><span class="v s-part"><svg class="ico" aria-hidden="true"><use href="#i-part"/></svg><span style="color:var(--ink)">Likely</span></span><div>As a short note, once an expert confirms it isn’t known.</div></td>
+          </tr>
+          <tr>
+            <td>The double-cover fix: arrow of time restored for every spacetime; spinors for spacetimes with a global frame</td>
+            <td data-l="Novelty">The idea is standard. Applying and proving it here is new, as far as we found.</td>
+            <td data-l="Publishable?"><span class="v s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Yes</span></span><div>As part of the same note.</div></td>
+          </tr>
+          <tr>
+            <td>The two-piece group flips every spinor pairing, so it likely fails GU’s matter setup</td>
+            <td data-l="Novelty">Sharpens the obstruction (last step informal).</td>
+            <td data-l="Publishable?"><span class="v s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Yes</span></span><div>Makes the note stronger.</div></td>
+          </tr>
+          <tr>
+            <td>The whole machine-checked audit (defects, confirmations)</td>
+            <td data-l="Novelty">The first formal audit of the draft that we found.</td>
+            <td data-l="Publishable?"><span class="v s-ok"><svg class="ico" aria-hidden="true"><use href="#i-ok"/></svg><span style="color:var(--ink)">Yes</span></span><div>As a formalisation paper.</div></td>
+          </tr>
+          <tr class="no">
+            <td>Most Phase 7 items (O(7,7) pieces, tooling)</td>
+            <td data-l="Novelty">Classical maths, or engineering.</td>
+            <td data-l="Publishable?"><span class="v s-none"><svg class="ico" aria-hidden="true"><use href="#i-no"/></svg><span style="color:var(--ink)">No</span></span><div>They support the paper, but aren’t news.</div></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="gate">
+        <svg class="ico s-part" aria-hidden="true"><use href="#i-lock"/></svg>
+        <div>
+          <h3>First, an expert check.</h3>
+          <p>Nothing is published until an expert confirms the obstruction isn’t already known. A note for experts is ready.</p>
+        </div>
+        <a class="btn primary" href="https://github.com/manueltarouca/geometric-unity-lean/blob/main/EXPERT_NOTE.md">Read the expert note <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 06 Next ===== -->
+  <section class="sec" id="next" aria-labelledby="next-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="sec-num" aria-hidden="true"><b>06</b>Next</span>
+        <h2 id="next-h">Next: floor 5, on top of the fix.</h2>
+      </div>
+      <div class="sec-body path">
+        <div class="step">
+          <span class="num" aria-hidden="true">1</span>
+          <div><h3>Build GU’s spinor bundle on the double cover</h3><p>First step done, for flat space</p></div>
+        </div>
+        <div class="step">
+          <span class="num" aria-hidden="true">2</span>
+          <div><h3>Check the field equations (floor 6) there</h3><p>Do they still make sense?</p></div>
+        </div>
+        <div class="fork">
+          <span class="fork-dot" aria-hidden="true"></span>
+          <p class="lab">Two possible outcomes</p>
+          <div class="out">
+            <span class="if"><svg class="ico s-ok" aria-hidden="true"><use href="#i-ok"/></svg>If yes</span>
+            <h3>The floor-4 obstruction is repaired</h3>
+            <p>The double cover would remove it. A stronger paper.</p>
+          </div>
+          <div class="out">
+            <span class="if"><svg class="ico s-alert" aria-hidden="true"><use href="#i-alert"/></svg>If no</span>
+            <h3>A second obstruction</h3>
+            <p>Also publishable.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p>© 2026 Manuel Tarouca. This page is licensed under <a href="https://creativecommons.org/licenses/by/4.0/" rel="license">CC BY 4.0</a>.</p>
+      <p>3D figures use <a href="https://threejs.org">three.js</a> (MIT), bundled with this page.</p>
+    </div>
+    <nav class="links" aria-label="Footer">
+      <a href="https://github.com/manueltarouca/geometric-unity-lean">Source on GitHub</a>
+      <a href="https://github.com/manueltarouca/geometric-unity-lean/blob/main/EXPERT_NOTE.md">Expert note</a>
+      <a href="#top">Back to top</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+/* Theme toggle and header state (no dependencies). */
+(function () {
+  var root = document.documentElement, btn = document.getElementById('theme');
+  var mq = window.matchMedia('(prefers-color-scheme: dark)');
+  function current() { return root.getAttribute('data-theme') || (mq.matches ? 'dark' : 'light'); }
+  function sync() {
+    var dark = current() === 'dark';
+    btn.setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+    btn.querySelector('use').setAttribute('href', dark ? '#i-sun' : '#i-moon');
+    var tc = getComputedStyle(root).getPropertyValue('--bg').trim();
+    document.querySelectorAll('meta[name=theme-color]').forEach(function (m) { m.setAttribute('content', tc); });
+    window.dispatchEvent(new Event('gu-theme'));
+  }
+  btn.addEventListener('click', function () {
+    var next = current() === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('gu-theme', next); } catch (e) {}
+    sync();
+  });
+  mq.addEventListener('change', function () { if (!root.getAttribute('data-theme')) sync(); });
+  sync();
+  var top = document.getElementById('top');
+  function onScroll() { top.classList.toggle('scrolled', window.scrollY > 8); }
+  window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+})();
+</script>
+
+<script type="module">
+/* 3D scenes. three.js is loaded only when a scene first scrolls into view.
+   Each scene renders only while visible, and only while something changes. */
+const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
+let reduced = reduceMQ.matches;
+let THREE = null;
+let threePromise = null;
+const loadThree = () => threePromise ||= import('./vendor/three-0.186.1/three.module.js').then(m => (THREE = m));
+
+function hasWebGL() {
+  try { const c = document.createElement('canvas'); return !!(c.getContext('webgl2') || c.getContext('webgl')); }
+  catch { return false; }
+}
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
+/* ---------- Scene host: renderer, resize, visibility, render loop ---------- */
+class Host {
+  constructor(stage, setup) {
+    this.stage = stage; this.canvas = stage.querySelector('canvas'); this.ov = stage.querySelector('.ov');
+    this.visible = false; this.dirty = true; this.raf = 0; this.last = 0;
+    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    this.renderer.outputColorSpace = THREE.SRGBColorSpace;
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+    this.tags = [];
+    this.canvas.hidden = false;
+    this.api = setup(this);
+    this.resize();
+    new ResizeObserver(() => this.resize()).observe(stage);
+    stage.classList.add('live');
+    addEventListener('gu-theme', () => { this.api.theme?.(); this.invalidate(); });
+  }
+  tag(text, cls = '') {
+    const el = document.createElement('span'); el.className = 'tag ' + cls; el.textContent = text;
+    this.ov.appendChild(el); const t = { el, pos: new THREE.Vector3(), show: true, dx: 0 }; this.tags.push(t); return t;
+  }
+  resize() {
+    const w = this.stage.clientWidth, h = this.stage.clientHeight; if (!w || !h) return;
+    this.w = w; this.h = h;
+    this.renderer.setSize(w, h, false); this.camera.aspect = w / h;
+    this.api.fit?.(w, h); this.camera.updateProjectionMatrix(); this.invalidate();
+  }
+  setVisible(v) { this.visible = v; if (v) this.invalidate(); }
+  invalidate() { this.dirty = true; if (!this.raf && this.visible) this.raf = requestAnimationFrame(t => this.frame(t)); }
+  frame(t) {
+    this.raf = 0;
+    const dt = this.last ? Math.min((t - this.last) / 1000, 0.05) : 0; this.last = t;
+    const animating = this.api.tick?.(dt, t / 1000) || false;
+    if (this.dirty || animating) { this.renderer.render(this.scene, this.camera); this.placeTags(); this.dirty = false; }
+    if (animating && this.visible) this.raf = requestAnimationFrame(tt => this.frame(tt)); else this.last = 0;
+  }
+  placeTags() {
+    const w = this.w, h = this.h, v = new THREE.Vector3();
+    for (const t of this.tags) {
+      v.copy(t.pos).project(this.camera);
+      t.el.style.display = t.show ? '' : 'none';
+      t.el.style.left = ((v.x + 1) / 2 * w + t.dx) + 'px';
+      t.el.style.top = ((1 - v.y) / 2 * h) + 'px';
+    }
+  }
+}
+
+/* ---------- Shared bits ---------- */
+function lights(scene) {
+  const hemi = new THREE.HemisphereLight(0xffffff, 0x888888, 1.6); scene.add(hemi);
+  const key = new THREE.DirectionalLight(0xffffff, 1.9); key.position.set(3, 6, 5); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.6); rim.position.set(-4, 2, -3); scene.add(rim);
+}
+function makeArrow(len, radius, color) {
+  const g = new THREE.Group();
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: .45, metalness: 0 });
+  const shaftLen = len * 0.68;
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(radius, radius, shaftLen, 16), mat);
+  shaft.position.y = -len / 2 + shaftLen / 2;
+  const head = new THREE.Mesh(new THREE.ConeGeometry(radius * 2.9, len * 0.34, 24), mat);
+  head.position.y = len / 2 - len * 0.17;
+  g.add(shaft, head); g.userData.mat = mat; return g;
+}
+const UP = () => new THREE.Vector3(0, 1, 0);
+
+function playControls(root, host, state, loops) {
+  const btn = root.querySelector('[data-play]'), range = root.querySelector('[data-scrub]');
+  const max = Number(range.max);
+  const setBtn = () => {
+    btn.setAttribute('aria-label', state.playing ? 'Pause animation' : 'Play animation');
+    btn.querySelector('use').setAttribute('href', state.playing ? '#i-pause' : '#i-play');
+  };
+  btn.addEventListener('click', () => {
+    state.playing = !state.playing;
+    if (state.playing && state.p >= loops - 1e-3) { state.p = 0; state.hold = 0; }
+    setBtn(); host.invalidate();
+  });
+  range.addEventListener('input', () => { state.playing = false; state.p = Number(range.value) / max * loops; setBtn(); host.invalidate(); });
+  state.sync = () => { range.value = String(Math.round(state.p / loops * max)); range.style.setProperty('--fill', (state.p / loops * 100) + '%'); };
+  state.setBtn = setBtn; setBtn();
+}
+
+/* ---------- Tower ---------- */
+function towerScene(host) {
+  const { scene, camera } = host, stage = host.stage;
+  lights(scene);
+  const list = [...document.querySelectorAll('.floors .floor')];
+  const icon = { ok: 'i-ok', part: 'i-part', none: 'i-none' };
+  const data = list.map(li => ({ li, n: +li.dataset.floor, status: li.dataset.status,
+    name: li.dataset.name, plain: li.querySelector('.plain').textContent,
+    st: li.querySelector('.st').innerHTML, stClass: li.querySelector('.st').className }))
+    .sort((a, b) => a.n - b.n);
+  const tower = new THREE.Group(); scene.add(tower);
+  const H = 0.36, GAP = 0.2, STEP = H + GAP, meshes = [], edgeMats = [];
+  data.forEach((d, i) => {
+    const w = 2.0 - i * 0.07;
+    const geo = new THREE.BoxGeometry(w, H, w);
+    const none = d.status === 'none';
+    const mat = new THREE.MeshStandardMaterial({ roughness: .62, metalness: 0, transparent: none, opacity: none ? .1 : 1 });
+    const m = new THREE.Mesh(geo, mat); m.position.y = i * STEP; m.userData = d; tower.add(m); meshes.push(m);
+    const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geo),
+      none ? new THREE.LineDashedMaterial({ dashSize: .08, gapSize: .06 }) : new THREE.LineBasicMaterial({ transparent: true, opacity: .28 }));
+    if (none) edges.computeLineDistances();
+    edges.position.copy(m.position); tower.add(edges); edgeMats.push([edges.material, d.status]);
+    d.mesh = m; d.w = w;
+    const ico = d.n === 4 ? 'i-alert' : icon[d.status];
+    d.tag = host.tag('', 'fl' + (d.n === 4 ? ' is-here' : ''));
+    d.tag.el.innerHTML = `<svg class="ico s-${d.n === 4 ? 'alert' : d.status}" aria-hidden="true"><use href="#${ico}"/></svg><b>${d.n}</b><span class="nm"></span>` + (d.n === 4 ? '<span class="here-chip">We are here</span>' : '');
+    d.tag.el.querySelector('.nm').textContent = d.name;
+  });
+  const f4 = data.find(d => d.n === 4);
+  const ringMat = new THREE.MeshBasicMaterial();
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(f4.w * 0.92, 0.022, 12, 128), ringMat);
+  ring.rotation.x = Math.PI / 2; ring.position.y = f4.mesh.position.y; tower.add(ring);
+  const ringOuter = new THREE.Mesh(new THREE.TorusGeometry(f4.w * 1.02, 0.006, 8, 128), ringMat);
+  ringOuter.rotation.x = Math.PI / 2; ringOuter.position.y = f4.mesh.position.y; tower.add(ringOuter);
+  const plate = new THREE.Mesh(new THREE.CylinderGeometry(1.75, 1.75, 0.012, 96), new THREE.MeshBasicMaterial({ transparent: true, opacity: .55 }));
+  plate.position.y = -H / 2 - 0.03; tower.add(plate);
+  const centerY = (6 * STEP) / 2;
+
+  const theme = () => {
+    const col = { ok: css('--ok-3d'), part: css('--part-3d'), none: css('--none') };
+    meshes.forEach(m => m.material.color.set(col[m.userData.status]));
+    edgeMats.forEach(([mat, s]) => mat.color.set(s === 'none' ? css('--ink-2') : css('--ink')));
+    ringMat.color.set(css('--alert'));
+    plate.material.color.set(css('--line-2')); plate.material.opacity = .45;
+  };
+  theme();
+
+  let angle = -0.62, hovered = null, pinned = null, compact = false;
+  const tip = stage.querySelector('.tip');
+  const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+  function highlight(d) {
+    meshes.forEach(m => { const u = m.userData; m.material.emissive.set(0x000000); if (u.status === 'none') m.material.opacity = u === d ? .24 : .1; });
+    list.forEach(li => li.classList.remove('hl'));
+    data.forEach(x => x.tag.el.classList.toggle('hl', x === d));
+    if (d) { if (d.status !== 'none') d.mesh.material.emissive.set(0x262626); d.li.classList.add('hl'); }
+    host.invalidate();
+  }
+  function showTip(d, x, y) {
+    if (!d) { tip.classList.remove('on'); return; }
+    tip.textContent = '';
+    const b = document.createElement('b'); b.textContent = `${d.n} · ${d.name}`;
+    const p = document.createElement('span'); p.textContent = d.plain;
+    const s = document.createElement('span'); s.className = d.stClass; s.innerHTML = d.st;
+    tip.append(b, p, s);
+    const W = host.w, Ht = host.h, tw = Math.min(280, W - 24);
+    let left = x + 16, top = y + 16;
+    if (left + tw > W - 12) left = Math.max(12, x - tw - 16);
+    if (top + 130 > Ht) top = Math.max(12, y - 140);
+    tip.style.left = left + 'px'; tip.style.top = top + 'px'; tip.classList.add('on');
+  }
+  function pick(e) {
+    const r = host.canvas.getBoundingClientRect();
+    ptr.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ptr, camera);
+    const hit = ray.intersectObjects(meshes, false)[0];
+    return { d: hit ? hit.object.userData : null, x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+  host.canvas.addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    const { d, x, y } = pick(e);
+    host.canvas.style.cursor = d ? 'pointer' : '';
+    if (d !== hovered) { hovered = d; highlight(d); }
+    showTip(d, x, y);
+  });
+  host.canvas.addEventListener('pointerleave', () => { if (pinned) return; hovered = null; highlight(null); showTip(null); });
+  host.canvas.addEventListener('pointerup', e => {
+    if (e.pointerType === 'mouse') return;
+    const { d, x, y } = pick(e); pinned = d; hovered = d; highlight(d); showTip(d, x, y);
+  });
+  document.addEventListener('pointerdown', e => { if (pinned && !stage.contains(e.target)) { pinned = null; hovered = null; highlight(null); showTip(null); } });
+  list.forEach(li => {
+    const d = data.find(x => x.li === li);
+    const on = () => { hovered = d; highlight(d); };
+    const off = () => { hovered = null; highlight(null); };
+    li.addEventListener('mouseenter', on); li.addEventListener('mouseleave', off);
+    li.addEventListener('focus', on); li.addEventListener('blur', off);
+  });
+
+  const right = new THREE.Vector3();
+  return {
+    fit(w, h) {
+      compact = w < 400;
+      data.forEach(d => d.tag.el.querySelector('.nm').hidden = compact);
+      camera.fov = 30;
+      const tanH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2));
+      const needH = 6 * STEP + 2.3;                         // tower plus air
+      const towerFrac = compact ? 0.46 : 0.44;               // share of width the tower may take
+      const needW = 2.0 * Math.SQRT2 / towerFrac;
+      const visH = Math.max(needH, needW / camera.aspect);
+      const dist = visH / 2 / tanH;
+      camera.position.set(0, dist * 0.36, dist); camera.lookAt(0, 0, 0);
+      camera.updateMatrixWorld();
+      const visW = visH * camera.aspect;
+      // shift the tower left so the labels have room on the right
+      tower.position.set(-visW * 0.2, -centerY + 0.1, 0);
+      host.invalidate();
+    },
+    theme,
+    tick(dt) {
+      if (!reduced && !hovered) angle += dt * 0.1;
+      tower.rotation.y = angle;
+      tower.updateMatrixWorld();
+      right.set(1, 0, 0).applyQuaternion(camera.quaternion);
+      data.forEach(d => {
+        d.tag.pos.set(tower.position.x, d.mesh.position.y + tower.position.y, 0).addScaledVector(right, d.w * Math.SQRT1_2 + 0.22);
+      });
+      return !reduced && !hovered;
+    }
+  };
+}
+
+/* ---------- Möbius ---------- */
+function mobiusScene(host) {
+  const { scene, camera } = host, root = host.stage.parentElement;
+  lights(scene);
+  const R = 1.5, W = 0.68;
+  const P = (t, s, out = new THREE.Vector3()) => {
+    const c = Math.cos(t / 2), r = R + s * c;
+    return out.set(r * Math.cos(t), s * Math.sin(t / 2), r * Math.sin(t));
+  };
+  const across = (t, out = new THREE.Vector3()) => out.set(Math.cos(t / 2) * Math.cos(t), Math.sin(t / 2), Math.cos(t / 2) * Math.sin(t)).normalize();
+  // strip surface
+  const NU = 240, NV = 12, pos = [], idx = [];
+  for (let i = 0; i <= NU; i++) for (let j = 0; j <= NV; j++) { const p = P(i / NU * Math.PI * 2, -W + 2 * W * j / NV); pos.push(p.x, p.y, p.z); }
+  for (let i = 0; i < NU; i++) for (let j = 0; j < NV; j++) { const a = i * (NV + 1) + j, b = a + NV + 1; idx.push(a, b, a + 1, b, b + 1, a + 1); }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeVertexNormals();
+  const surfMat = new THREE.MeshStandardMaterial({ side: THREE.DoubleSide, roughness: .8, metalness: 0, transparent: true, opacity: .86, depthWrite: false, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+  const strip = new THREE.Group(); scene.add(strip);
+  strip.add(new THREE.Mesh(geo, surfMat));
+  // boundary: one single edge that goes around twice
+  class Edge extends THREE.Curve { getPoint(u, o = new THREE.Vector3()) { return P(u * Math.PI * 4, W, o); } }
+  const edgeMat = new THREE.MeshBasicMaterial();
+  strip.add(new THREE.Mesh(new THREE.TubeGeometry(new Edge(), 400, 0.012, 6, true), edgeMat));
+  // centre path + travelled trail
+  class Mid extends THREE.Curve { getPoint(u, o = new THREE.Vector3()) { return P(u * Math.PI * 2, 0, o); } }
+  const midMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: .35 });
+  strip.add(new THREE.Mesh(new THREE.TubeGeometry(new Mid(), 240, 0.008, 6, true), midMat));
+  const SEG = 240, RS = 8;
+  const trailMat = new THREE.MeshBasicMaterial();
+  const trail = new THREE.Mesh(new THREE.TubeGeometry(new Mid(), SEG, 0.016, RS, false), trailMat); strip.add(trail);
+  // ghost arrow at the start, moving arrow
+  const ghost = makeArrow(1.2, 0.042, 0xffffff); ghost.userData.mat.transparent = true; ghost.userData.mat.opacity = .9;
+  const arrow = makeArrow(1.2, 0.048, 0xffffff);
+  strip.add(ghost, arrow);
+  const place = (obj, t) => { obj.position.copy(P(t, 0)); obj.quaternion.setFromUnitVectors(UP(), across(t)); };
+  const T0 = -0.42;               // the start marker sits just behind the start point
+  place(ghost, T0);
+  const startTag = host.tag('Start', 'left');
+
+  const theme = () => {
+    surfMat.color.set(css('--surface-3d'));
+    edgeMat.color.set(css('--ink-2')); midMat.color.set(css('--ink-2'));
+    trailMat.color.set(css('--ink-2'));
+    ghost.userData.mat.color.set(css('--ok'));
+    arrowColor();
+  };
+  const state = { p: reduced ? 1 : 0, playing: !reduced, hold: 0 };
+  const readout = root.querySelector('[data-readout]'), range = root.querySelector('[data-scrub]');
+  let lastPhase = '';
+  function arrowColor() { arrow.userData.mat.color.set(state.p > 0.985 ? css('--alert') : css('--ink')); }
+  function text() {
+    const phase = state.p < 0.02 ? 'start' : state.p > 0.985 ? 'done' : 'walk';
+    if (phase === lastPhase) return; lastPhase = phase;
+    const [ico, cls, msg, vt] = phase === 'start'
+      ? ['i-ok', 's-ok', 'Start: the arrow of time points one way.', 'Start']
+      : phase === 'walk'
+        ? ['i-flip', 's-none', 'Walking once around the loop…', 'Walking around the loop']
+        : ['i-alert', 's-alert', 'After one loop: the arrow of time is reversed.', 'One loop: arrow reversed'];
+    readout.dataset.tone = phase === 'done' ? 'alert' : '';
+    readout.innerHTML = `<svg class="ico ${cls}" aria-hidden="true"><use href="#${ico}"/></svg><span></span>`;
+    readout.querySelector('span').textContent = msg;
+    range.setAttribute('aria-valuetext', vt);
+  }
+  playControls(root, host, state, 1);
+  theme();
+  const DUR = 7.5, HOLD = 2.6;
+  return {
+    fit(w, h) {
+      const k = Math.max(1, 1.38 / (w / h));
+      camera.fov = 30;
+      camera.position.set(0, 3.0 * k, 6.3 * k); camera.lookAt(0, 0.15, 0);
+    },
+    theme,
+    tick(dt, time) {
+      if (state.playing) {
+        if (state.p < 1) state.p = Math.min(1, state.p + dt / DUR);
+        else { state.hold += dt; if (state.hold > HOLD) { state.p = 0; state.hold = 0; } }
+      }
+      const t = state.p * Math.PI * 2;
+      place(arrow, t);
+      trail.geometry.setDrawRange(0, Math.floor(state.p * SEG) * RS * 6);
+      strip.rotation.y = reduced ? 0.6 : 0.6 + Math.sin(time * 0.15) * 0.06;
+      strip.rotation.x = 0.0;
+      strip.updateMatrixWorld();
+      startTag.pos.copy(P(T0, W + 0.3)).applyMatrix4(strip.matrixWorld);
+      arrowColor(); text(); state.sync();
+      return state.playing || (!reduced && false);
+    }
+  };
+}
+
+/* ---------- Double cover ---------- */
+function coverScene(host) {
+  const { scene, camera } = host, root = host.stage.parentElement;
+  lights(scene);
+  const R = 1.5, D = 0.3, Hh = 0.62, HW = 0.14, BASE_Y = -1.55, SEAM = 1.5 * Math.PI, HALF = 0.8;
+  // Two flat sheets (A on top, B below). Ramps sit at the back (angle 3π/2):
+  // the first loop ramps A→B on the outside, the second ramps B→A on the inside.
+  const smooth = (x) => { x = Math.min(1, Math.max(0, x)); return x * x * (3 - 2 * x); };
+  const level = (t) => {
+    const u1 = (t - (SEAM - HALF)) / (2 * HALF), u2 = (t - (SEAM + 2 * Math.PI - HALF)) / (2 * HALF);
+    const y = 1 - 2 * smooth(u1) + 2 * smooth(u2);
+    const bump = (u) => (u > 0 && u < 1 ? Math.sin(Math.PI * u) : 0);
+    return { y, r: R + D * bump(u1) - D * bump(u2) };
+  };
+  const C = (t, out = new THREE.Vector3()) => { const L = level(t); return out.set(L.r * Math.cos(t), Hh * L.y, L.r * Math.sin(t)); };
+  const radial = (t, out = new THREE.Vector3()) => out.set(Math.cos(t), 0, Math.sin(t));
+  const g = new THREE.Group(); scene.add(g);
+  // ribbon with vertex colours (sheet A to sheet B)
+  const N = 480, pos = [], col = [], idx = [], mix = [];
+  const tmp = new THREE.Vector3(), rd = new THREE.Vector3();
+  for (let i = 0; i <= N; i++) {
+    const t = i / N * Math.PI * 4; C(t, tmp); radial(t, rd);
+    for (const s of [-HW, HW]) { pos.push(tmp.x + rd.x * s, tmp.y, tmp.z + rd.z * s); col.push(0, 0, 0); }
+    mix.push((1 + level(t).y) / 2);
+  }
+  for (let i = 0; i < N; i++) { const a = i * 2; idx.push(a, a + 2, a + 1, a + 1, a + 2, a + 3); }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  const colAttr = new THREE.Float32BufferAttribute(col, 3); geo.setAttribute('color', colAttr); geo.setIndex(idx); geo.computeVertexNormals();
+  const ribMat = new THREE.MeshStandardMaterial({ vertexColors: true, side: THREE.DoubleSide, roughness: .65, metalness: 0 });
+  g.add(new THREE.Mesh(geo, ribMat));
+  // ribbon edges
+  const edgeMat = new THREE.MeshBasicMaterial({ transparent: true, opacity: .5 });
+  for (const s of [-HW, HW]) {
+    class E extends THREE.Curve { getPoint(u, o = new THREE.Vector3()) { const t = u * Math.PI * 4; C(t, o); radial(t, rd); return o.addScaledVector(rd, s); } }
+    g.add(new THREE.Mesh(new THREE.TubeGeometry(new E(), 480, 0.007, 5, true), edgeMat));
+  }
+  // base loop (the loop of metrics below)
+  class B extends THREE.Curve { getPoint(u, o = new THREE.Vector3()) { const t = u * Math.PI * 2; return o.set(R * Math.cos(t), BASE_Y, R * Math.sin(t)); } }
+  const baseMat = new THREE.MeshBasicMaterial();
+  g.add(new THREE.Mesh(new THREE.TubeGeometry(new B(), 200, 0.012, 6, true), baseMat));
+  const baseDot = new THREE.Mesh(new THREE.SphereGeometry(0.07, 20, 16), baseMat); g.add(baseDot);
+  // guide from base point up to traveller
+  const guideGeo = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(), new THREE.Vector3()]);
+  const guideMat = new THREE.LineDashedMaterial({ dashSize: .06, gapSize: .05, transparent: true, opacity: .7 });
+  const guide = new THREE.Line(guideGeo, guideMat); g.add(guide);
+  // traveller + its arrow (always outward: a consistent arrow of time)
+  const dotMat = new THREE.MeshStandardMaterial({ roughness: .4 });
+  const dot = new THREE.Mesh(new THREE.SphereGeometry(0.075, 24, 18), dotMat); g.add(dot);
+  const arrow = makeArrow(0.62, 0.028, 0xffffff); g.add(arrow);
+  // trail
+  class Path extends THREE.Curve { getPoint(u, o = new THREE.Vector3()) { return C(u * Math.PI * 4, o).add(new THREE.Vector3(0, 0.012, 0)); } }
+  const SEG = 480, RS = 8, trailMat = new THREE.MeshBasicMaterial();
+  const trail = new THREE.Mesh(new THREE.TubeGeometry(new Path(), SEG, 0.016, RS, false), trailMat); g.add(trail);
+
+  const tA = host.tag('Sheet A', 'left'), tB = host.tag('Sheet B', 'left'), tL = host.tag('The loop', 'left');
+  const theme = () => {
+    const a = new THREE.Color(css('--sheet-a')), b = new THREE.Color(css('--sheet-b')), c = new THREE.Color();
+    for (let i = 0; i <= N; i++) { c.copy(b).lerp(a, mix[i]); for (let k = 0; k < 2; k++) colAttr.setXYZ(i * 2 + k, c.r, c.g, c.b); }
+    colAttr.needsUpdate = true;
+    edgeMat.color.set(css('--ink')); baseMat.color.set(css('--ink-2')); guideMat.color.set(css('--ink-2'));
+    dotMat.color.set(css('--ink')); arrow.userData.mat.color.set(css('--ink')); trailMat.color.set(css('--surface'));
+  };
+  const state = { p: reduced ? 1 : 0, playing: !reduced, hold: 0 };
+  const readout = root.querySelector('[data-readout]'), range = root.querySelector('[data-scrub]');
+  let lastPhase = '';
+  function text() {
+    const p = state.p;
+    const phase = p < 0.02 ? 'start' : (p > 0.97 && p < 1.03) ? 'one' : p > 1.98 ? 'two' : p < 1 ? 'w1' : 'w2';
+    if (phase === lastPhase) return; lastPhase = phase;
+    const M = {
+      start: ['i-ok', 's-ok', 'Start: sheet A.', 'Start, sheet A', ''],
+      w1: ['i-next', 's-none', 'First loop…', 'First loop', ''],
+      one: ['i-flip', 's-part', 'After one loop: sheet B. The arrow of time still points the same way.', 'One loop, sheet B', ''],
+      w2: ['i-next', 's-none', 'Second loop…', 'Second loop', ''],
+      two: ['i-ok', 's-ok', 'After two loops: home, on sheet A. Same arrow of time.', 'Two loops, home on sheet A', 'ok'],
+    }[phase];
+    readout.dataset.tone = M[4];
+    readout.innerHTML = `<svg class="ico ${M[1]}" aria-hidden="true"><use href="#${M[0]}"/></svg><span></span>`;
+    readout.querySelector('span').textContent = M[2];
+    range.setAttribute('aria-valuetext', M[3]);
+  }
+  playControls(root, host, state, 2);
+  theme();
+  const LOOP = 6.5, HOLD1 = 1.6, HOLD2 = 2.6;
+  const v = new THREE.Vector3(), r2 = new THREE.Vector3();
+  return {
+    fit(w, h) {
+      const k = Math.max(1, 1.42 / (w / h));               // back off on narrow stages
+      camera.fov = 30;
+      camera.position.set(-0.45, 2.5 * k, 6.9 * k); camera.lookAt(-0.45, -0.3, 0);
+    },
+    theme,
+    tick(dt, time) {
+      if (state.playing) {
+        if (state.p < 1 && state.p + dt / LOOP >= 1 && state.hold < HOLD1) { state.p = 1; state.hold += dt; }
+        else if (state.p >= 2) { state.hold += dt; if (state.hold > HOLD1 + HOLD2) { state.p = 0; state.hold = 0; } }
+        else if (state.p === 1 && state.hold < HOLD1) state.hold += dt;
+        else state.p = Math.min(2, state.p + dt / LOOP);
+      }
+      const t = state.p * Math.PI * 2;
+      C(t, v); dot.position.copy(v);
+      radial(t, r2);
+      arrow.quaternion.setFromUnitVectors(UP(), r2); arrow.position.copy(v).addScaledVector(r2, 0.36);
+      baseDot.position.set(R * Math.cos(t), BASE_Y, R * Math.sin(t));
+      const gp = guideGeo.attributes.position; gp.setXYZ(0, baseDot.position.x, BASE_Y, baseDot.position.z); gp.setXYZ(1, v.x, v.y - 0.08, v.z); gp.needsUpdate = true; guide.computeLineDistances();
+      trail.geometry.setDrawRange(0, Math.floor(state.p / 2 * SEG) * RS * 6);
+      g.rotation.y = reduced ? 0 : Math.sin(time * 0.13) * 0.05;
+      g.updateMatrixWorld();
+      tA.pos.copy(C(Math.PI)).addScaledVector(radial(Math.PI), HW + 0.12).applyMatrix4(g.matrixWorld);
+      tB.pos.copy(C(3 * Math.PI)).addScaledVector(radial(Math.PI), HW + 0.12).applyMatrix4(g.matrixWorld);
+      tL.pos.set(-R - 0.12, BASE_Y, 0).applyMatrix4(g.matrixWorld);
+      text(); state.sync();
+      return state.playing;
+    }
+  };
+}
+
+/* ---------- Boot: lazy init on scroll, pause off-screen ---------- */
+const builders = { tower: towerScene, mobius: mobiusScene, cover: coverScene };
+const hosts = new Map();
+// Without WebGL, the static figures stay; the controls go, and the readouts show the end state.
+function staticMode(stage) {
+  const root = stage.parentElement, ro = root.querySelector('[data-readout]');
+  root.querySelector('.controls')?.setAttribute('hidden', '');
+  if (!ro) return;
+  const end = stage.dataset.scene === 'mobius'
+    ? ['i-alert', 's-alert', 'After one loop: the arrow of time is reversed.', 'alert']
+    : ['i-ok', 's-ok', 'Two loops bring you home. The arrow of time stays the same.', 'ok'];
+  ro.dataset.tone = end[3];
+  ro.innerHTML = `<svg class="ico ${end[1]}" aria-hidden="true"><use href="#${end[0]}"/></svg><span></span>`;
+  ro.querySelector('span').textContent = end[2];
+}
+if (!hasWebGL()) document.querySelectorAll('[data-scene]').forEach(staticMode);
+else {
+  const io = new IntersectionObserver(entries => {
+    for (const e of entries) {
+      const stage = e.target, h = hosts.get(stage);
+      if (h) { h.setVisible(e.isIntersecting); continue; }
+      if (!e.isIntersecting || stage.dataset.loading) continue;
+      stage.dataset.loading = '1';
+      loadThree().then(() => {
+        try { const host = new Host(stage, builders[stage.dataset.scene]); hosts.set(stage, host); host.setVisible(true); }
+        catch (err) { console.warn('3D scene unavailable; showing the static figure.', err); stage.querySelector('canvas').hidden = true; staticMode(stage); }
+      }).catch(err => { console.warn('three.js failed to load; showing static figures.', err); staticMode(stage); });
+    }
+  }, { rootMargin: '200px 0px' });
+  document.querySelectorAll('[data-scene]').forEach(s => io.observe(s));
+}
+reduceMQ.addEventListener('change', () => { reduced = reduceMQ.matches; hosts.forEach(h => h.invalidate()); });
+</script>
+</body>
+</html>

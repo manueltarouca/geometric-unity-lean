@@ -164,3 +164,7 @@ import GU.Bundle.CoverSmooth
 import GU.Bundle.CoverSpinLocal
 import GU.Bundle.TwoComponent
 import GU.Library.RegularTextbook
+import GU.Bundle.O77Components
+import GU.Bundle.ParallelCover
+import GU.Bundle.DefectClass
+import GU.Bundle.SpinorCover

@@ -1,0 +1,70 @@
+# Copyright (c) 2026 Manuel Tarouca
+# SPDX-License-Identifier: Apache-2.0
+#
+# Build the Lean library and check that every audited theorem depends only on Lean's standard axioms.
+# Third-party actions are pinned to commit SHAs.
+name: Lean build and axiom audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    defaults:
+      run:
+        working-directory: lean
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install elan v4.2.4 (pinned binary, checksum verified)
+        working-directory: .
+        run: |
+          curl -sSfL https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz -o elan.tar.gz
+          echo "42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  elan.tar.gz" | sha256sum -c -
+          tar xzf elan.tar.gz
+          ./elan-init -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: Restore build cache
+        id: cache
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: lean/.lake/build
+          key: lake-build-${{ hashFiles('lean/lean-toolchain', 'lean/lake-manifest.json') }}-${{ hashFiles('lean/GU/**/*.lean', 'lean/*.lean') }}
+          restore-keys: |
+            lake-build-${{ hashFiles('lean/lean-toolchain', 'lean/lake-manifest.json') }}-
+
+      - name: Fetch the Mathlib cache
+        run: lake exe cache get
+
+      - name: Build GU
+        timeout-minutes: 320
+        run: lake build GU
+
+      - name: Save build cache
+        if: always() && steps.cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: lean/.lake/build
+          key: lake-build-${{ hashFiles('lean/lean-toolchain', 'lean/lake-manifest.json') }}-${{ hashFiles('lean/GU/**/*.lean', 'lean/*.lean') }}
+
+      - name: Axiom audit (fails on sorryAx, non-standard axioms or any error)
+        run: |
+          set -o pipefail
+          lake env lean Audit.lean 2>&1 | tee audit.txt
+          if grep -q "sorryAx" audit.txt; then echo "::error::sorryAx in the axiom audit"; exit 1; fi
+          if grep -qE "^[^ ]+:[0-9]+:[0-9]+: error" audit.txt; then echo "::error::errors in Audit.lean"; exit 1; fi
+          if grep 'depends on axioms' audit.txt | grep -vE 'axioms: \[(propext|Classical\.choice|Quot\.sound)(, (propext|Classical\.choice|Quot\.sound))*\]$'; then echo "::error::non-standard axiom"; exit 1; fi
+          echo "Audited declarations: $(grep -c 'depends on axioms' audit.txt)"
